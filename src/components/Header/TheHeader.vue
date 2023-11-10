@@ -6,11 +6,7 @@
     </router-link>
     <div class="user-info">
       <h2></h2>
-      <font-awesome-icon
-        :icon="['fas', 'circle-user']"
-        style="color: white"
-        class="user-icon"
-      />
+      <font-awesome-icon :icon="['fas', 'circle-user']" class="user-icon" />
     </div>
   </header>
 </template>
@@ -19,35 +15,58 @@
 
 <style lang="scss" scoped>
 header {
-  background-color: burlywood;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  background-color: $primary-color;
+  @include flex(row, space-between, center);
   padding: 5px 32px;
-  border-bottom: solid 1px gray;
+  border-bottom: solid 1px $light-gray-color;
 
   .logo {
-    display: flex;
-    align-items: center;
+    @include flex(row, start, center);
     gap: 5px;
     text-decoration: none;
 
     img {
       margin-bottom: 5px;
       height: 70px;
+      width: 70px;
     }
 
     h1 {
       font-size: 30px;
-      color: black;
+      color: $black-color;
       font-weight: 600;
       margin: 0;
+    }
+
+    img:hover {
+      animation: Shake 0.5s linear infinite;
+    }
+
+    @keyframes Shake {
+      0% {
+        transform: rotate(5deg);
+      }
+
+      25% {
+        transform: rotate(-6deg);
+      }
+
+      50% {
+        transform: rotate(5deg);
+      }
+
+      75% {
+        transform: rotate(-6deg);
+      }
+
+      100% {
+        transform: rotate(5deg);
+      }
     }
   }
 
   .user-info {
-    display: flex;
-    align-items: center;
+    @include flex(row, start, center);
     gap: 16px;
 
     h2 {
@@ -59,6 +78,11 @@ header {
     .user-icon {
       height: 45px;
       cursor: pointer;
+      color: $white-color;
+
+      :hover {
+        color: $white-hover-color;
+      }
     }
   }
 }
