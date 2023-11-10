@@ -46,7 +46,7 @@
       "id": "7",
       "name": "Misty",
       "age": "9",
-      "color": "white/black",
+      "color": "bi-color",
       "picture": "https://images.pexels.com/photos/9484162/pexels-photo-9484162.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
     },
     {
@@ -214,7 +214,7 @@
       "id": "31",
       "name": "Tom",
       "age": "2",
-      "color": "white/black",
+      "color": "bi-color",
       "picture": "https://images.pexels.com/photos/736535/pexels-photo-736535.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
     },
     {
@@ -249,7 +249,7 @@
       "id": "36",
       "name": "Oreo",
       "age": "8",
-      "color": "white/black",
+      "color": "bi-color",
       "picture": "https://images.pexels.com/photos/1605481/pexels-photo-1605481.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
     },
     {
