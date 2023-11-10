@@ -5,7 +5,8 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faAngleDown,
   faAngleUp,
-  faSearch
+  faSearch,
+  faCircleUser
 } from "@fortawesome/free-solid-svg-icons";
 
 import router from "@/router";
@@ -15,6 +16,7 @@ import App from './App.vue'
 library.add(faSearch);
 library.add(faAngleDown);
 library.add(faAngleUp);
+library.add(faCircleUser);
 
 const pinia = createPinia();
 

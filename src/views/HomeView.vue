@@ -1,11 +1,9 @@
-<template lang="">
-  <h1>Home Page</h1>
+<template>
+  <the-header />
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import TheHeader from "@/components/Header/TheHeader.vue";
+</script>
 
-<style lang="scss">
-h1 {
-  font-size: 40px;
-}
-</style>
+<style lang="scss" scoped></style>
