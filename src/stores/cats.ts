@@ -9,7 +9,7 @@ export const useCatsStore = defineStore("cats", () => {
 
   const FETCH_CATS = async () => {
     const receiveCats = await getCats();
-    cats.value = receiveCats;
+    cats.value = receiveCats.sort((a, b) => a.age - b.age);
   };
 
   return {

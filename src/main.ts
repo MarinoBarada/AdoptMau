@@ -5,6 +5,8 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faAngleDown,
   faAngleUp,
+  faAngleLeft,
+  faAngleRight,
   faSearch,
   faCircleUser
 } from "@fortawesome/free-solid-svg-icons";
@@ -15,6 +17,8 @@ import App from './App.vue'
 
 library.add(faSearch);
 library.add(faAngleDown);
+library.add(faAngleLeft);
+library.add(faAngleRight);
 library.add(faAngleUp);
 library.add(faCircleUser);
 
