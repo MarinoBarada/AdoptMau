@@ -1,12 +1,14 @@
 <template>
   <header>
-    <router-link :to="{ name: 'home' }" class="logo">
-      <img src="cat.ico" alt="cat" />
-      <h1>AdoptMau</h1>
-    </router-link>
-    <div class="user-info">
-      <h2></h2>
-      <font-awesome-icon :icon="['fas', 'circle-user']" class="user-icon" />
+    <div class="wrapper">
+      <router-link :to="{ name: 'home' }" class="logo">
+        <img src="cat.ico" alt="cat" />
+        <h1>AdoptMau</h1>
+      </router-link>
+      <div class="user-info">
+        <h2></h2>
+        <font-awesome-icon :icon="['fas', 'circle-user']" class="user-icon" />
+      </div>
     </div>
   </header>
 </template>
@@ -16,14 +18,34 @@
 <style lang="scss" scoped>
 header {
   background-color: $primary-color;
-  @include flex(row, space-between, center);
-  padding: 5px 32px;
   border-bottom: solid 1px $light-gray-color;
+
+  .wrapper {
+    @include flex(row, space-between, center);
+    max-width: 1900px;
+    margin: 0 auto;
+
+    @media (max-width: $computer-max-size) {
+      padding: 5px 32px;
+    }
+
+    @media (max-width: $tablet-max-size) {
+      padding: 5px 16px;
+    }
+
+    @media (max-width: $mobile-max-size) {
+      padding: 5px 7px;
+    }
+  }
 
   .logo {
     @include flex(row, start, center);
     gap: 5px;
     text-decoration: none;
+
+    @media (max-width: $mobile-max-size) {
+      gap: 0px;
+    }
 
     img {
       margin-bottom: 5px;
@@ -36,6 +58,10 @@ header {
       color: $black-color;
       font-weight: 600;
       margin: 0;
+
+      @media (max-width: $mobile-max-size) {
+        font-size: 28px;
+      }
     }
 
     img:hover {

@@ -1,14 +1,16 @@
 <template>
-  <div class="wrapper" ref="wrapper">
+  <div class="wrapper-carousel" ref="wrapper">
     <font-awesome-icon
       :icon="['fas', 'angle-left']"
       class="commands left"
       @click="leftButton"
+      @mouseover="pause"
     />
     <font-awesome-icon
       :icon="['fas', 'angle-right']"
       class="commands right"
       @click="rightButton"
+      @mouseover="pause"
     />
     <ul class="carousel" ref="carousel">
       <carousel-card
@@ -16,7 +18,7 @@
         :key="index"
         :cat="item"
         :blurred="index == firstIndex || index == lastIndex - 1"
-        @mouseover="pause(index)"
+        @mouseover="pauseSlider(index)"
         @mouseleave="moveSlider"
       />
     </ul>
@@ -40,28 +42,40 @@ const carousel = ref<HTMLDivElement | null>(null);
 const wrapper = ref<HTMLDivElement | null>(null);
 const interval = ref<ReturnType<typeof setInterval>>();
 
-const leftButton = () => {
+const scrollCarousel = (direction: string) => {
   if (carousel.value != null && wrapper.value != null) {
-    carousel.value.scrollLeft -= wrapper.value.clientWidth / 3 + 16;
-    if (firstIndex.value === 0) {
-      const lastCat = displaysCats.value[lastIndex.value];
-      if (lastCat != undefined) displaysCats.value.unshift(lastCat);
-      firstIndex.value++;
-      lastIndex.value++;
+    if (wrapper.value.clientWidth < 768) {
+      if (direction == "left")
+        carousel.value.scrollLeft -= wrapper.value.clientWidth;
+      else {
+        carousel.value.scrollLeft += wrapper.value.clientWidth;
+      }
+    } else {
+      if (direction == "left")
+        carousel.value.scrollLeft -= wrapper.value.clientWidth / 3 + 16;
+      else carousel.value.scrollLeft += wrapper.value.clientWidth / 3 + 16;
     }
-    firstIndex.value--;
-    lastIndex.value--;
   }
 };
 
-const rightButton = () => {
-  if (carousel.value != null && wrapper.value != null) {
-    carousel.value.scrollLeft += wrapper.value.clientWidth / 3 + 16;
-    const firstCat = displaysCats.value[firstIndex.value];
-    if (firstCat != undefined) displaysCats.value.push(firstCat);
+const leftButton = () => {
+  scrollCarousel("left");
+  if (firstIndex.value === 0) {
+    const lastCat = displaysCats.value[lastIndex.value];
+    if (lastCat != undefined) displaysCats.value.unshift(lastCat);
     firstIndex.value++;
     lastIndex.value++;
   }
+  firstIndex.value--;
+  lastIndex.value--;
+};
+
+const rightButton = () => {
+  scrollCarousel("right");
+  const firstCat = displaysCats.value[firstIndex.value];
+  if (firstCat != undefined) displaysCats.value.push(firstCat);
+  firstIndex.value++;
+  lastIndex.value++;
 };
 
 const moveSlider = () => {
@@ -71,19 +85,31 @@ const moveSlider = () => {
   }, 2000);
 };
 
+const mobileScroll = () => {
+  if (wrapper.value != null)
+    if (wrapper.value.clientWidth < 768) {
+      firstIndex.value += 2;
+    }
+};
+
 onMounted(moveSlider);
+onMounted(mobileScroll);
 
 onBeforeUnmount(() => clearInterval(interval.value));
 
-const pause = (index: number) => {
-  if (index == firstIndex.value + 1) clearInterval(interval.value);
+const pauseSlider = (index: number) => {
+  if (index == firstIndex.value + 1) pause();
+};
+
+const pause = () => {
+  clearInterval(interval.value);
 };
 </script>
 
 <style lang="scss" scoped>
-.wrapper {
+.wrapper-carousel {
   padding-top: 30px;
-  max-width: 1900px;
+  max-width: $computer-max-size;
   margin: 0 auto;
   position: relative;
 
@@ -109,23 +135,36 @@ const pause = (index: number) => {
 
     &.right {
       right: calc((100% / 3) - 25px);
+      @media (max-width: $mobile-max-size) {
+        right: 5px;
+      }
     }
 
     &.left {
       left: calc((100% / 3) - 25px);
+
+      @media (max-width: $mobile-max-size) {
+        left: 5px;
+      }
     }
   }
 
   .carousel {
     display: grid;
     grid-auto-flow: column;
-    grid-auto-columns: calc((100% / 3) - 12px);
+    grid-auto-columns: calc((100% / 3) - 10px);
     gap: 16px;
     overflow: hidden;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     scrollbar-width: 0;
+
+    @media (max-width: $mobile-max-size) {
+      margin-left: 1px;
+      grid-auto-columns: 100%;
+      gap: 1px;
+    }
 
     &::-webkit-scrollbar {
       display: none;
