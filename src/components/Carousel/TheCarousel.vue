@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper-carousel" ref="wrapper">
+  <div class="wrapper-carousel" ref="wrapperCarousel">
     <font-awesome-icon
       :icon="['fas', 'angle-left']"
       class="commands left"
@@ -17,7 +17,7 @@
         v-for="(item, index) in displaysCats"
         :key="index"
         :cat="item"
-        :blurred="index == firstIndex || index == lastIndex - 1"
+        :blurred="index == activeIndex - 1 || index == activeIndex + 1"
         @mouseover="pauseSlider(index)"
         @mouseleave="moveSlider"
       />
@@ -34,49 +34,86 @@ import { useCatsStore } from "@/stores/cats";
 const catsStore = useCatsStore();
 onMounted(catsStore.FETCH_CATS);
 
-const displaysCats = computed(() => catsStore.cats.slice(0, 4));
+const displaysCats = computed(() => [
+  ...catsStore.cats.slice(0, 4),
+  ...catsStore.cats.slice(0, 4)
+]);
 
-const firstIndex = ref(0);
-const lastIndex = ref(3);
+const activeIndex = ref(1);
 const carousel = ref<HTMLDivElement | null>(null);
-const wrapper = ref<HTMLDivElement | null>(null);
+const wrapperCarousel = ref<HTMLDivElement | null>(null);
 const interval = ref<ReturnType<typeof setInterval>>();
 
 const scrollCarousel = (direction: string) => {
-  if (carousel.value != null && wrapper.value != null) {
-    if (wrapper.value.clientWidth < 768) {
+  if (carousel.value != null && wrapperCarousel.value != null) {
+    if (wrapperCarousel.value.clientWidth < 768) {
       if (direction == "left")
-        carousel.value.scrollLeft -= wrapper.value.clientWidth;
+        carousel.value.scrollLeft -= wrapperCarousel.value.clientWidth + 7;
       else {
-        carousel.value.scrollLeft += wrapper.value.clientWidth;
+        carousel.value.scrollLeft += wrapperCarousel.value.clientWidth + 7;
       }
     } else {
       if (direction == "left")
-        carousel.value.scrollLeft -= wrapper.value.clientWidth / 3 + 16;
-      else carousel.value.scrollLeft += wrapper.value.clientWidth / 3 + 16;
+        carousel.value.scrollLeft -= wrapperCarousel.value.clientWidth / 3 + 16;
+      else
+        carousel.value.scrollLeft += wrapperCarousel.value.clientWidth / 3 + 16;
     }
   }
 };
 
-const leftButton = () => {
-  scrollCarousel("left");
-  if (firstIndex.value === 0) {
-    const lastCat = displaysCats.value[lastIndex.value];
-    if (lastCat != undefined) displaysCats.value.unshift(lastCat);
-    firstIndex.value++;
-    lastIndex.value++;
+const rightButton = () => {
+  if (carousel.value != null && wrapperCarousel.value != null) {
+    scrollCarousel("right");
+    if (wrapperCarousel.value.clientWidth > 768) {
+      if (activeIndex.value == 6) {
+        carousel.value.classList.add("no-transition");
+        carousel.value.scrollLeft =
+          carousel.value.scrollWidth - 2 * carousel.value.offsetWidth - 88;
+        carousel.value.classList.remove("no-transition");
+        activeIndex.value = 2;
+      }
+    } else if (activeIndex.value == 7) {
+      carousel.value.classList.add("no-transition");
+      carousel.value.scrollLeft = 0;
+      activeIndex.value = -1;
+      carousel.value.classList.remove("no-transition");
+    }
+    activeIndex.value++;
   }
-  firstIndex.value--;
-  lastIndex.value--;
 };
 
-const rightButton = () => {
-  scrollCarousel("right");
-  const firstCat = displaysCats.value[firstIndex.value];
-  if (firstCat != undefined) displaysCats.value.push(firstCat);
-  firstIndex.value++;
-  lastIndex.value++;
+const leftButton = () => {
+  if (carousel.value != null && wrapperCarousel.value != null) {
+    scrollCarousel("left");
+    // carousel.value.scrollLeft -= wrapperCarousel.value.clientWidth / 3 + 16;
+    activeIndex.value--;
+    if (wrapperCarousel.value.clientWidth > 768) {
+      if (activeIndex.value == 0) {
+        carousel.value.classList.add("no-transition");
+        carousel.value.scrollLeft =
+          carousel.value.scrollWidth / 2 - carousel.value.offsetWidth / 3 - 12;
+        carousel.value.classList.remove("no-transition");
+        activeIndex.value = 4;
+      }
+    } else if (activeIndex.value == -1) {
+      carousel.value.classList.add("no-transition");
+      carousel.value.scrollLeft =
+        carousel.value.scrollWidth - carousel.value.offsetWidth - 10;
+      activeIndex.value = 7;
+      carousel.value.classList.remove("no-transition");
+    }
+  }
 };
+
+const mobileSlider = () => {
+  if (carousel.value != null && wrapperCarousel.value != null) {
+    if (wrapperCarousel.value.clientWidth < 768) {
+      activeIndex.value = 0;
+    }
+  }
+};
+
+onMounted(mobileSlider);
 
 const moveSlider = () => {
   clearInterval(interval.value);
@@ -84,21 +121,12 @@ const moveSlider = () => {
     rightButton();
   }, 2000);
 };
-
-const mobileScroll = () => {
-  if (wrapper.value != null)
-    if (wrapper.value.clientWidth < 768) {
-      firstIndex.value += 2;
-    }
-};
-
-onMounted(moveSlider);
-onMounted(mobileScroll);
-
 onBeforeUnmount(() => clearInterval(interval.value));
 
+onMounted(moveSlider);
+
 const pauseSlider = (index: number) => {
-  if (index == firstIndex.value + 1) pause();
+  if (index == activeIndex.value) pause();
 };
 
 const pause = () => {
@@ -125,7 +153,7 @@ const pause = () => {
     cursor: pointer;
     position: absolute;
     top: 50%;
-    z-index: 10;
+    z-index: 1000;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.23);
 
     &:hover {
@@ -134,36 +162,36 @@ const pause = () => {
     }
 
     &.right {
-      right: calc((100% / 3) - 25px);
+      right: 29.5%;
       @media (max-width: $mobile-max-size) {
-        right: 5px;
+        right: 3%;
       }
     }
 
     &.left {
-      left: calc((100% / 3) - 25px);
-
+      left: 31.5%;
       @media (max-width: $mobile-max-size) {
-        left: 5px;
+        left: 3%;
       }
     }
   }
 
   .carousel {
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: calc((100% / 3) - 10px);
+    @include flex(row, start, start);
+    transition: transform 0.5s ease;
     gap: 16px;
-    overflow: hidden;
     overflow-x: auto;
+    padding: 20px 0;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     scrollbar-width: 0;
 
     @media (max-width: $mobile-max-size) {
-      margin-left: 1px;
-      grid-auto-columns: 100%;
-      gap: 1px;
+      gap: 5px;
+    }
+
+    &.no-transition {
+      scroll-behavior: auto;
     }
 
     &::-webkit-scrollbar {

@@ -28,12 +28,23 @@ defineProps({
 
 <style lang="scss" scoped>
 .card {
-  cursor: pointer;
+  width: calc(100% / 3);
+  flex: 0 0 auto;
   height: 400px;
-  list-style: none;
-  background: white;
-  border-radius: 8px;
+  transition: transform 0.3s ease;
+  @include flex(row, center, center);
+  font-size: 50px;
   position: relative;
+  z-index: 100;
+  cursor: pointer;
+
+  @media (max-width: $mobile-max-size) {
+    width: calc(100% + 2px);
+  }
+
+  &:not(:has(.glass)):hover {
+    transform: scale(1.05);
+  }
 
   .name {
     width: calc(100% - 10px);
@@ -41,10 +52,10 @@ defineProps({
     bottom: 0;
     left: 0;
     padding-bottom: 20px;
-    padding-left: 10px;
+    padding-left: 20px;
     padding-top: 10px;
     z-index: 10;
-    font-size: 20px;
+    font-size: 30px;
     background-image: linear-gradient(
       to bottom,
       rgba(255, 255, 255, 0),
@@ -52,6 +63,22 @@ defineProps({
       rgba(255, 255, 255, 0.8),
       rgba(255, 255, 255, 1)
     );
+
+    @media (max-width: $tablet-max-size) {
+      font-size: 25px;
+    }
+  }
+
+  .img {
+    height: 100%;
+    width: 100%;
+    border-radius: 8px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
 
   .glass {
@@ -62,24 +89,7 @@ defineProps({
     &.active {
       width: 100%;
       height: 100%;
-      z-index: 100;
-    }
-  }
-
-  .img {
-    height: 100%;
-    width: 100%;
-    border-radius: 8px;
-    overflow: hidden;
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-
-      &:hover {
-        scale: 1.1;
-      }
+      z-index: 90;
     }
   }
 }
