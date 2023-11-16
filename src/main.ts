@@ -8,7 +8,8 @@ import {
   faAngleLeft,
   faAngleRight,
   faSearch,
-  faCircleUser
+  faCircleUser,
+  faXmark
 } from "@fortawesome/free-solid-svg-icons";
 
 import router from "@/router";
@@ -21,6 +22,7 @@ library.add(faAngleLeft);
 library.add(faAngleRight);
 library.add(faAngleUp);
 library.add(faCircleUser);
+library.add(faXmark);
 
 const pinia = createPinia();
 

@@ -1,0 +1,172 @@
+<template>
+  <div class="overlay" v-if="showModal" @click="closeModal">
+    <div class="modal">
+      <div class="img">
+        <img :src="catInfo.picture" :alt="catInfo.name" />
+      </div>
+      <div class="info">
+        <div class="close">
+          <font-awesome-icon
+            :icon="['fas', 'xmark']"
+            class="x-icon"
+            @click="closeModal"
+          />
+        </div>
+        <div class="cat-info">
+          <h1>{{ catInfo.name }}</h1>
+          <p><span>Age:</span> {{ catInfo.age }} months</p>
+          <p><span>Color:</span> {{ catInfo.color }}</p>
+        </div>
+        <button class="adopt">ADOPT</button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script lang="ts" setup>
+defineProps({
+  catInfo: {
+    type: Object,
+    required: true
+  },
+  showModal: {
+    type: Boolean,
+    required: true
+  }
+});
+
+const emit = defineEmits(["closeModal"]);
+
+const closeModal = () => {
+  emit("closeModal");
+};
+</script>
+
+<style lang="scss">
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  @include flex(row, center, center);
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+
+  .modal {
+    width: 70%;
+    height: 90%;
+    background-color: white;
+    border-radius: 15px;
+    @include flex(row, start, start);
+    overflow: hidden;
+
+    @media (max-width: $tablet-max-size) {
+      width: 90%;
+      position: relative;
+    }
+
+    @media (max-width: $mobile-max-size) {
+      width: 100%;
+      height: 100%;
+      border-radius: 0;
+      @include flex(column, start, stretch);
+    }
+
+    .img {
+      height: 100%;
+      width: 50%;
+
+      @media (max-width: $mobile-max-size) {
+        width: 100%;
+      }
+
+      img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .info {
+      height: 100%;
+      width: 50%;
+      @include flex(column, start, stretch);
+      padding: 30px;
+
+      @media (max-width: $mobile-max-size) {
+        width: 100%;
+        padding: 0;
+      }
+
+      .close {
+        align-self: end;
+        cursor: pointer;
+        border-radius: 50%;
+        @include flex(row, center, center);
+
+        @media (max-width: $mobile-max-size) {
+          position: absolute;
+          z-index: 100;
+          top: 20px;
+          right: 20px;
+        }
+
+        &:hover {
+          background-color: $secondary-color;
+
+          .x-icon {
+            color: $white-color;
+          }
+        }
+
+        .x-icon {
+          width: 40px;
+          height: 40px;
+          padding: 7px;
+          color: $secondary-color;
+        }
+      }
+
+      .cat-info {
+        @include flex(column, center, start);
+        height: 50%;
+
+        @media (max-width: $mobile-max-size) {
+          padding: 20px;
+        }
+
+        h1 {
+          font-size: 70px;
+        }
+
+        p {
+          font-size: 20px;
+
+          span {
+            font-weight: 600;
+          }
+        }
+      }
+
+      .adopt {
+        background-color: $primary-color;
+        cursor: pointer;
+        font-size: 20px;
+        padding: 10px;
+        font-weight: 700;
+        border: none;
+        color: $white-color;
+
+        @media (max-width: $mobile-max-size) {
+          margin: 20px;
+        }
+
+        &:hover {
+          background-color: rgb(194, 150, 94);
+        }
+      }
+    }
+  }
+}
+</style>

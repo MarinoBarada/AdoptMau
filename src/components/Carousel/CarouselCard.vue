@@ -85,6 +85,7 @@ defineProps({
     position: absolute;
     background-color: rgba(218, 213, 213, 0.75);
     transition: 0.5s;
+    cursor: auto;
 
     &.active {
       width: 100%;

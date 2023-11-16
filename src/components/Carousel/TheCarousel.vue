@@ -20,16 +20,26 @@
         :blurred="index == activeIndex - 1 || index == activeIndex + 1"
         @mouseover="pauseSlider(index)"
         @mouseleave="moveSlider"
+        @click="openModal(item, index)"
       />
     </ul>
   </div>
+
+  <modal-cat
+    :cat-info="catInfo"
+    :show-modal="showModal"
+    @close-modal="closeModal"
+  />
 </template>
 
 <script lang="ts" setup>
 import { ref, onMounted, computed, onBeforeUnmount } from "vue";
 
+import ModalCat from "@/components/Modal/ModalCat.vue";
+
 import CarouselCard from "@/components/Carousel/CarouselCard.vue";
 import { useCatsStore } from "@/stores/cats";
+import type { Cat } from "@/api/types";
 
 const catsStore = useCatsStore();
 onMounted(catsStore.FETCH_CATS);
@@ -38,6 +48,23 @@ const displaysCats = computed(() => [
   ...catsStore.cats.slice(0, 4),
   ...catsStore.cats.slice(0, 4)
 ]);
+
+// Modal
+const showModal = ref(false);
+const catInfo = ref({});
+
+const openModal = (cat: Cat, index: number) => {
+  if (index == activeIndex.value) {
+    catInfo.value = cat;
+    showModal.value = true;
+  }
+};
+
+const closeModal = () => {
+  catInfo.value = {};
+  showModal.value = false;
+};
+// End of modal
 
 const activeIndex = ref(1);
 const carousel = ref<HTMLDivElement | null>(null);
