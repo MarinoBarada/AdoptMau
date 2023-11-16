@@ -12,7 +12,7 @@
       @click="rightButton"
       @mouseover="pause"
     />
-    <ul class="carousel" ref="carousel">
+    <ul class="carousel" ref="carousel" @scroll="infiniteScroll">
       <carousel-card
         v-for="(item, index) in displaysCats"
         :key="index"
@@ -43,6 +43,7 @@ const activeIndex = ref(1);
 const carousel = ref<HTMLDivElement | null>(null);
 const wrapperCarousel = ref<HTMLDivElement | null>(null);
 const interval = ref<ReturnType<typeof setInterval>>();
+const direction = ref<"right" | "left">("right");
 
 const scrollCarousel = (direction: string) => {
   if (carousel.value != null && wrapperCarousel.value != null) {
@@ -54,52 +55,80 @@ const scrollCarousel = (direction: string) => {
       }
     } else {
       if (direction == "left")
-        carousel.value.scrollLeft -= wrapperCarousel.value.clientWidth / 3 + 16;
+        carousel.value.scrollLeft -= wrapperCarousel.value.clientWidth / 3 + 6;
       else
-        carousel.value.scrollLeft += wrapperCarousel.value.clientWidth / 3 + 16;
+        carousel.value.scrollLeft += wrapperCarousel.value.clientWidth / 3 + 6;
     }
   }
 };
 
 const rightButton = () => {
-  if (carousel.value != null && wrapperCarousel.value != null) {
-    scrollCarousel("right");
-    if (wrapperCarousel.value.clientWidth > 768) {
-      if (activeIndex.value == 6) {
-        carousel.value.classList.add("no-transition");
-        carousel.value.scrollLeft =
-          carousel.value.scrollWidth - 2 * carousel.value.offsetWidth - 88;
-        carousel.value.classList.remove("no-transition");
-        activeIndex.value = 2;
-      }
-    } else if (activeIndex.value == 7) {
-      carousel.value.classList.add("no-transition");
-      carousel.value.scrollLeft = 0;
-      activeIndex.value = -1;
-      carousel.value.classList.remove("no-transition");
-    }
+  scrollCarousel("right");
+  direction.value = "right";
+  activeIndex.value++;
+};
+
+const leftButton = () => {
+  scrollCarousel("left");
+  direction.value = "left";
+  activeIndex.value--;
+};
+
+const moveLeftRight = (direction: string) => {
+  scrollCarousel(direction);
+  if (direction == "left") {
+    activeIndex.value--;
+  } else {
     activeIndex.value++;
   }
 };
 
-const leftButton = () => {
+const moveSlider = () => {
+  clearInterval(interval.value);
+  interval.value = setInterval(() => {
+    moveLeftRight(direction.value);
+  }, 2000);
+};
+
+onBeforeUnmount(() => clearInterval(interval.value));
+
+const pauseSlider = (index: number) => {
+  if (index == activeIndex.value) pause();
+};
+
+const pause = () => {
+  clearInterval(interval.value);
+};
+
+onMounted(moveSlider);
+
+const infiniteScroll = () => {
   if (carousel.value != null && wrapperCarousel.value != null) {
-    scrollCarousel("left");
-    // carousel.value.scrollLeft -= wrapperCarousel.value.clientWidth / 3 + 16;
-    activeIndex.value--;
     if (wrapperCarousel.value.clientWidth > 768) {
-      if (activeIndex.value == 0) {
+      if (carousel.value.scrollLeft === 0) {
+        carousel.value.classList.add("no-transition");
+        carousel.value.scrollLeft = carousel.value.scrollWidth / 2;
+        carousel.value.classList.remove("no-transition");
+        activeIndex.value = 5;
+      } else if (
+        Math.ceil(carousel.value.scrollLeft) ===
+        carousel.value.scrollWidth - carousel.value.offsetWidth
+      ) {
         carousel.value.classList.add("no-transition");
         carousel.value.scrollLeft =
-          carousel.value.scrollWidth / 2 - carousel.value.offsetWidth / 3 - 12;
+          carousel.value.scrollWidth - 2 * carousel.value.offsetWidth - 28;
         carousel.value.classList.remove("no-transition");
-        activeIndex.value = 4;
+        activeIndex.value = 3;
       }
-    } else if (activeIndex.value == -1) {
+    } else if (activeIndex.value == 0) {
       carousel.value.classList.add("no-transition");
-      carousel.value.scrollLeft =
-        carousel.value.scrollWidth - carousel.value.offsetWidth - 10;
-      activeIndex.value = 7;
+      carousel.value.scrollLeft = carousel.value.scrollWidth / 2;
+      activeIndex.value = 4;
+      carousel.value.classList.remove("no-transition");
+    } else if (activeIndex.value == 8) {
+      carousel.value.classList.add("no-transition");
+      carousel.value.scrollLeft = 0;
+      activeIndex.value = 0;
       carousel.value.classList.remove("no-transition");
     }
   }
@@ -114,29 +143,11 @@ const mobileSlider = () => {
 };
 
 onMounted(mobileSlider);
-
-const moveSlider = () => {
-  clearInterval(interval.value);
-  interval.value = setInterval(() => {
-    rightButton();
-  }, 2000);
-};
-onBeforeUnmount(() => clearInterval(interval.value));
-
-onMounted(moveSlider);
-
-const pauseSlider = (index: number) => {
-  if (index == activeIndex.value) pause();
-};
-
-const pause = () => {
-  clearInterval(interval.value);
-};
 </script>
 
 <style lang="scss" scoped>
 .wrapper-carousel {
-  padding-top: 30px;
+  padding-top: 10px;
   max-width: $computer-max-size;
   margin: 0 auto;
   position: relative;
@@ -162,14 +173,14 @@ const pause = () => {
     }
 
     &.right {
-      right: 29.5%;
+      right: 32%;
       @media (max-width: $mobile-max-size) {
         right: 3%;
       }
     }
 
     &.left {
-      left: 31.5%;
+      left: 32%;
       @media (max-width: $mobile-max-size) {
         left: 3%;
       }

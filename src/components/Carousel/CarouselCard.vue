@@ -28,7 +28,7 @@ defineProps({
 
 <style lang="scss" scoped>
 .card {
-  width: calc(100% / 3);
+  width: calc(100% / 3 - 10px);
   flex: 0 0 auto;
   height: 400px;
   transition: transform 0.3s ease;
