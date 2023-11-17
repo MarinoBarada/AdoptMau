@@ -5,3 +5,8 @@ export interface Cat {
   color: string;
   picture: string;
 }
+
+export interface SortBy {
+  name: string;
+  value: "true" | "false";
+}
