@@ -2,7 +2,7 @@
   <li class="card">
     <div class="glass active" v-if="blurred"></div>
     <div class="img">
-      <img :src="cat.picture" :alt="cat.name" />
+      <img :src="cat.picture" :alt="cat.name" draggable="false"/>
     </div>
     <div class="name">
       <h1>{{ cat.name }}</h1>
@@ -28,6 +28,7 @@ defineProps({
 
 <style lang="scss" scoped>
 .card {
+  scroll-snap-align: start;
   width: calc(100% / 3 - 10px);
   flex: 0 0 auto;
   height: 400px;
@@ -39,7 +40,7 @@ defineProps({
   cursor: pointer;
 
   @media (max-width: $mobile-max-size) {
-    width: calc(100% + 2px);
+    width: calc(100%);
   }
 
   &:not(:has(.glass)):hover {
