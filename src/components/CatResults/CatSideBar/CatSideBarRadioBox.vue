@@ -46,8 +46,7 @@ ul {
   gap: 3px;
 
   li {
-    @include flex(row, start, center);
-    gap: 5px;
+    @include radio-check-box("type='radio'", 100%);
   }
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="cat-filters-sidebar">
-    <cat-side-bar-filter-names />
+    <cat-side-bar-search-names />
     <side-bar-fieldset header="Sort By:">
       <cat-side-bar-radio-box
         :sorts="sortBy"
@@ -26,7 +26,7 @@ import { computed } from "vue";
 import SideBarFieldset from "@/components/Shared/SideBarFieldset.vue";
 import CatSideBarRadioBox from "@/components/CatResults/CatSideBar/CatSideBarRadioBox.vue";
 import CatSideBarCheckBox from "@/components/CatResults/CatSideBar/CatSideBarCheckBox.vue";
-import CatSideBarFilterNames from "@/components/CatResults/CatSideBar/CatSideBarFilterNames.vue";
+import CatSideBarSearchNames from "@/components/CatResults/CatSideBar/CatSideBarSearchNames.vue";
 
 import { useUserStore } from "@/stores/user";
 
@@ -49,7 +49,9 @@ const HANDLE_FILTERS = computed(() => userStore.HANDLE_FILTERS);
   width: 300px;
   min-height: 500px;
   margin-top: 10px;
-  padding: 16px;
+  padding: 0 16px;
+  @include flex(column, start, start);
+  gap: 16px;
 
   @media (max-width: $mobile-max-size) {
     position: absolute;

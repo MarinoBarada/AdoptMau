@@ -20,6 +20,7 @@ defineProps({
 
 <style lang="scss" scoped>
 .fieldset {
+  width: 100%;
   .header {
     padding: 5px 0;
     border-bottom: solid 1px gray;

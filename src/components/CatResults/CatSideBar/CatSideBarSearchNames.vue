@@ -28,8 +28,15 @@ const nameSearchTerm = computed({
 
 <style lang="scss">
 .name-filter {
+  h3 {
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 600;
+    padding-bottom: 5px;
+  }
+
   .name-filter-input {
-    width: calc(100% - 24px);
+    width: 100%;
     padding: 10px;
     border: solid 1 px gray;
     font-size: 16px;
