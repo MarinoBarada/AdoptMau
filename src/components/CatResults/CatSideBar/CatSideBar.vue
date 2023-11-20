@@ -1,5 +1,6 @@
 <template>
   <div class="cat-filters-sidebar">
+    <cat-side-bar-filter-names />
     <side-bar-fieldset header="Sort By:">
       <cat-side-bar-radio-box
         :sorts="sortBy"
@@ -25,6 +26,7 @@ import { computed } from "vue";
 import SideBarFieldset from "@/components/Shared/SideBarFieldset.vue";
 import CatSideBarRadioBox from "@/components/CatResults/CatSideBar/CatSideBarRadioBox.vue";
 import CatSideBarCheckBox from "@/components/CatResults/CatSideBar/CatSideBarCheckBox.vue";
+import CatSideBarFilterNames from "@/components/CatResults/CatSideBar/CatSideBarFilterNames.vue";
 
 import { useUserStore } from "@/stores/user";
 

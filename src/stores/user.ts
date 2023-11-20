@@ -22,6 +22,8 @@ export const useUserStore = defineStore("user", () => {
     { name: "Black for color", value: false }
   ]);
 
+  const nameSearch = ref("");
+
   const HANDLE_CHANGE_SORTBY = (selectedValue: string) => {
     sortBy.value.forEach((obj) => {
       if (obj.name === selectedValue) obj.value = true;
@@ -42,12 +44,18 @@ export const useUserStore = defineStore("user", () => {
     })
   };
 
+  const UPDATE_NAME_SEARCH = (name: string) => {
+    nameSearch.value = name;
+  }
+
   return {
     sortBy,
     sortByType,
     filterCats,
+    nameSearch,
     HANDLE_CHANGE_SORTBY,
     HANDLE_CHANGE_SORTBY_TYPE,
-    HANDLE_FILTERS
+    HANDLE_FILTERS,
+    UPDATE_NAME_SEARCH
   }
 });

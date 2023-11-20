@@ -14,6 +14,21 @@ export const useCatsStore = defineStore("cats", () => {
     cats.value = receiveCats.sort((a, b) => a.age - b.age);
   };
 
+  const SORTED_CATS = computed(() => {
+    const userStore = useUserStore();
+    if (userStore.sortBy[0].value) {
+      if (userStore.sortByType[0].value)
+        return cats.value.sort((a, b) => a.age - b.age);
+      else
+        return cats.value.sort((a, b) => b.age - a.age);
+    } else {
+      if (userStore.sortByType[0].value)
+        return cats.value.sort((a, b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1);
+      else
+        return cats.value.sort((a, b) => a.name.toLowerCase() < b.name.toLowerCase() ? 1 : -1);
+    }
+  });
+
   const INCLUDE_CATS_YOUNGER_THEN_6 = (cat: Cat) => {
     const userStore = useUserStore();
 
@@ -35,27 +50,17 @@ export const useCatsStore = defineStore("cats", () => {
     return true;
   }
 
+  const INCLUDE_CATS_BY_NAME = (cat: Cat) => {
+    const userStore = useUserStore();
+    return cat.name.toLowerCase().includes(userStore.nameSearch.toLowerCase());
+  }
+
   const FILTERED_CATS = computed(() => {
     return SORTED_CATS.value
       .filter((cat) => INCLUDE_CATS_YOUNGER_THEN_12(cat))
       .filter((cat) => INCLUDE_CATS_YOUNGER_THEN_6(cat))
-      .filter((cat) => INCLUDE_CATS_COLOR_BLACK(cat));
-  }
-  );
-
-  const SORTED_CATS = computed(() => {
-    const userStore = useUserStore();
-    if (userStore.sortBy[0].value) {
-      if (userStore.sortByType[0].value)
-        return cats.value.sort((a, b) => a.age - b.age);
-      else
-        return cats.value.sort((a, b) => b.age - a.age);
-    } else {
-      if (userStore.sortByType[0].value)
-        return cats.value.sort((a, b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1);
-      else
-        return cats.value.sort((a, b) => a.name.toLowerCase() < b.name.toLowerCase() ? 1 : -1);
-    }
+      .filter((cat) => INCLUDE_CATS_COLOR_BLACK(cat))
+      .filter((cat) => INCLUDE_CATS_BY_NAME(cat));
   });
 
   return {
