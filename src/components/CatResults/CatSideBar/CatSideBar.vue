@@ -1,14 +1,38 @@
 <template>
   <div class="cat-filters-sidebar">
     <side-bar-fieldset header="Sort By:">
-      <cat-side-bar-sort-by />
+      <cat-side-bar-radio-box
+        :sorts="sortBy"
+        :action="HANDLE_CHANGE_SORTBY"
+        name="sortBy"
+      />
+    </side-bar-fieldset>
+    <side-bar-fieldset header="Sort By Type:">
+      <cat-side-bar-radio-box
+        :sorts="sortByType"
+        :action="HANDLE_CHANGE_SORTBY_TYPE"
+        name="sortByType"
+      />
     </side-bar-fieldset>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { computed } from "vue";
 import SideBarFieldset from "@/components/Shared/SideBarFieldset.vue";
-import CatSideBarSortBy from "@/components/CatResults/CatSideBar/CatSideBarSortBy.vue";
+import CatSideBarRadioBox from "@/components/CatResults/CatSideBar/CatSideBarRadioBox.vue";
+
+import { useUserStore } from "@/stores/user";
+
+const userStore = useUserStore();
+
+const sortBy = computed(() => userStore.sortBy);
+const HANDLE_CHANGE_SORTBY = computed(() => userStore.HANDLE_CHANGE_SORTBY);
+
+const sortByType = computed(() => userStore.sortByType);
+const HANDLE_CHANGE_SORTBY_TYPE = computed(
+  () => userStore.HANDLE_CHANGE_SORTBY_TYPE
+);
 </script>
 
 <style lang="scss" scoped>

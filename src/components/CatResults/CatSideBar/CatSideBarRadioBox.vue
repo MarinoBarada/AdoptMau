@@ -3,10 +3,11 @@
     <li v-for="sort in sorts" :key="sort.name">
       <input
         type="radio"
-        name="SortBy"
+        :name="name"
         :checked="sort.value"
+        :value="sort.name"
         :id="sort.name"
-        @change="action"
+        @change="triggerEvent"
       />
       <label :for="sort.name">{{ sort.name }}</label>
     </li>
@@ -16,9 +17,13 @@
 <script lang="ts" setup>
 import type { SortBy } from "@/api/types";
 
-defineProps({
+const props = defineProps({
   sorts: {
     type: Array<SortBy>,
+    required: true
+  },
+  name: {
+    type: String,
     required: true
   },
   action: {
@@ -26,6 +31,11 @@ defineProps({
     required: true
   }
 });
+
+const triggerEvent = ($event: Event) => {
+  const selectedValue = ($event.target as HTMLInputElement).value;
+  props.action(selectedValue);
+};
 </script>
 
 <style lang="scss" scoped>

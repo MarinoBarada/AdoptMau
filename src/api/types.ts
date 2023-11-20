@@ -8,5 +8,5 @@ export interface Cat {
 
 export interface SortBy {
   name: string;
-  value: "true" | "false";
+  value: true | false;
 }

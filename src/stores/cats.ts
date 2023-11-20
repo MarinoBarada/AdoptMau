@@ -19,9 +19,16 @@ export const useCatsStore = defineStore("cats", () => {
   const SORTED_CATS = computed(() => {
     const userStore = useUserStore();
     if (userStore.sortBy[0].value) {
-      return cats.value.sort((a, b) => a.age - b.age);
+      if (userStore.sortByType[0].value)
+        return cats.value.sort((a, b) => a.age - b.age);
+      else
+        return cats.value.sort((a, b) => b.age - a.age);
     } else {
-      return cats.value.sort((a, b) => b.age - a.age);
+      if (userStore.sortByType[0].value)
+        return cats.value.sort((a, b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1);
+      else
+        return cats.value.sort((a, b) => a.name.toLowerCase() < b.name.toLowerCase() ? 1 : -1);
+
     }
   })
 
