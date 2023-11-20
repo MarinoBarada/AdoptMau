@@ -14,6 +14,9 @@
         name="sortByType"
       />
     </side-bar-fieldset>
+    <side-bar-fieldset header="Filters:">
+      <cat-side-bar-check-box :sorts="filterCats" :action="HANDLE_FILTERS" />
+    </side-bar-fieldset>
   </div>
 </template>
 
@@ -21,6 +24,7 @@
 import { computed } from "vue";
 import SideBarFieldset from "@/components/Shared/SideBarFieldset.vue";
 import CatSideBarRadioBox from "@/components/CatResults/CatSideBar/CatSideBarRadioBox.vue";
+import CatSideBarCheckBox from "@/components/CatResults/CatSideBar/CatSideBarCheckBox.vue";
 
 import { useUserStore } from "@/stores/user";
 
@@ -33,6 +37,9 @@ const sortByType = computed(() => userStore.sortByType);
 const HANDLE_CHANGE_SORTBY_TYPE = computed(
   () => userStore.HANDLE_CHANGE_SORTBY_TYPE
 );
+
+const filterCats = computed(() => userStore.filterCats);
+const HANDLE_FILTERS = computed(() => userStore.HANDLE_FILTERS);
 </script>
 
 <style lang="scss" scoped>
