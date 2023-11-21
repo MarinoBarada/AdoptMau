@@ -70,6 +70,10 @@ export const useCatsStore = defineStore("cats", () => {
     carouselCats,
     FETCH_CATS,
     SORTED_CATS,
-    FILTERED_CATS
+    FILTERED_CATS,
+    INCLUDE_CATS_YOUNGER_THEN_6,
+    INCLUDE_CATS_YOUNGER_THEN_12,
+    INCLUDE_CATS_COLOR_BLACK,
+    INCLUDE_CATS_BY_NAME
   }
 });
