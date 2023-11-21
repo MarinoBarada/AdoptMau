@@ -8,10 +8,12 @@ import { useUserStore } from "@/stores/user";
 
 export const useCatsStore = defineStore("cats", () => {
   const cats = ref<Cat[]>([]);
+  const carouselCats = ref<Cat[]>([]);
 
   const FETCH_CATS = async () => {
     const receiveCats = await getCats();
     cats.value = receiveCats.sort((a, b) => a.age - b.age);
+    carouselCats.value = [...cats.value.slice(0, 4), ...cats.value.slice(0, 4),];
   };
 
   const SORTED_CATS = computed(() => {
@@ -65,6 +67,7 @@ export const useCatsStore = defineStore("cats", () => {
 
   return {
     cats,
+    carouselCats,
     FETCH_CATS,
     SORTED_CATS,
     FILTERED_CATS

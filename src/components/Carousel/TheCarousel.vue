@@ -42,12 +42,8 @@ import { useCatsStore } from "@/stores/cats";
 import type { Cat } from "@/api/types";
 
 const catsStore = useCatsStore();
-onMounted(catsStore.FETCH_CATS);
 
-const displaysCats = computed(() => [
-  ...catsStore.cats.slice(0, 4),
-  ...catsStore.cats.slice(0, 4)
-]);
+const displaysCats = computed(() => [...catsStore.carouselCats]);
 
 // Modal
 const showModal = ref(false);
@@ -77,13 +73,12 @@ const scrollCarousel = (direction: string) => {
       if (direction == "left")
         carousel.value.scrollLeft -= carousel.value.offsetWidth;
       else {
-        carousel.value.scrollLeft +=  carousel.value.offsetWidth;
+        carousel.value.scrollLeft += carousel.value.offsetWidth;
       }
     } else {
       if (direction == "left")
         carousel.value.scrollLeft -= carousel.value.offsetWidth / 3;
-      else
-        carousel.value.scrollLeft +=  carousel.value.offsetWidth / 3;
+      else carousel.value.scrollLeft += carousel.value.offsetWidth / 3;
     }
   }
 };
@@ -129,28 +124,32 @@ const pause = () => {
 onMounted(moveSlider);
 
 const infiniteScroll = () => {
-  if (carousel.value != null ) {
+  if (carousel.value != null) {
     if (carousel.value.offsetWidth > 768) {
-      if(carousel.value.scrollLeft >= carousel.value.scrollWidth / 2 + carousel.value.offsetWidth / 3)
-      {
+      if (
+        carousel.value.scrollLeft >=
+        carousel.value.scrollWidth / 2 + carousel.value.offsetWidth / 3
+      ) {
         carousel.value.classList.add("no-transition");
-        carousel.value.scrollLeft = (carousel.value.offsetWidth / 3); // 370.39999
+        carousel.value.scrollLeft = carousel.value.offsetWidth / 3; // 370.39999
         carousel.value.classList.remove("no-transition");
         activeIndex.value = 2;
-      }else if (carousel.value.scrollLeft <= 0) {
+      } else if (carousel.value.scrollLeft <= 0) {
         carousel.value.classList.add("no-transition");
-        carousel.value.scrollLeft = carousel.value.scrollWidth / 2
+        carousel.value.scrollLeft = carousel.value.scrollWidth / 2;
         carousel.value.classList.remove("no-transition");
         activeIndex.value = 5;
       }
     } else {
-      if(carousel.value.scrollLeft >= carousel.value.scrollWidth - carousel.value.offsetWidth)
-      {
+      if (
+        carousel.value.scrollLeft >=
+        carousel.value.scrollWidth - carousel.value.offsetWidth
+      ) {
         carousel.value.classList.add("no-transition");
         carousel.value.scrollLeft = carousel.value.offsetWidth * 3;
         carousel.value.classList.remove("no-transition");
         activeIndex.value = 3;
-      }else if (carousel.value.scrollLeft <= 0) {
+      } else if (carousel.value.scrollLeft <= 0) {
         carousel.value.classList.add("no-transition");
         carousel.value.scrollLeft = carousel.value.offsetWidth * 4;
         carousel.value.classList.remove("no-transition");
@@ -161,7 +160,7 @@ const infiniteScroll = () => {
 };
 
 const mobileSlider = () => {
-  if (carousel.value != null ) {
+  if (carousel.value != null) {
     if (carousel.value.offsetWidth < 768) {
       activeIndex.value = 0;
     }
