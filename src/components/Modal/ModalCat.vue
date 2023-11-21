@@ -5,12 +5,8 @@
         <img :src="catInfo.picture" :alt="catInfo.name" />
       </div>
       <div class="info">
-        <div class="close">
-          <font-awesome-icon
-            :icon="['fas', 'xmark']"
-            class="x-icon"
-            @click="closeModal"
-          />
+        <div class="close" @click="closeModal">
+          <font-awesome-icon :icon="['fas', 'xmark']" class="x-icon" />
         </div>
         <div class="cat-info">
           <h1>{{ catInfo.name }}</h1>
@@ -44,19 +40,21 @@ const closeModal = () => {
 
 <style lang="scss">
 .overlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
+  height: 100%;
   @include flex(row, center, center);
   background-color: rgba(0, 0, 0, 0.6);
   z-index: 1000;
 
   .modal {
+    max-width: $tablet-max-size;
+    max-height: $mobile-max-size;
     width: 70%;
     height: 90%;
-    background-color: white;
+    background-color: $white-color;
     border-radius: 15px;
     @include flex(row, start, start);
     overflow: hidden;
@@ -69,7 +67,6 @@ const closeModal = () => {
     @media (max-width: $mobile-max-size) {
       width: 100%;
       height: 100%;
-      border-radius: 0;
       @include flex(column, start, stretch);
     }
 
@@ -110,6 +107,11 @@ const closeModal = () => {
           z-index: 100;
           top: 20px;
           right: 20px;
+          background-color: $white-color;
+
+          .x-icon {
+            color: $secondary-color;
+          }
         }
 
         &:hover {
@@ -163,7 +165,7 @@ const closeModal = () => {
         }
 
         &:hover {
-          background-color: rgb(194, 150, 94);
+          background-color: $primary-color-hover;
         }
       }
     }

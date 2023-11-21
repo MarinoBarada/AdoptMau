@@ -143,12 +143,12 @@ const infiniteScroll = () => {
     } else {
       if (
         carousel.value.scrollLeft >=
-        carousel.value.scrollWidth - carousel.value.offsetWidth
+        carousel.value.scrollWidth - carousel.value.offsetWidth * 2.1
       ) {
         carousel.value.classList.add("no-transition");
-        carousel.value.scrollLeft = carousel.value.offsetWidth * 3;
+        carousel.value.scrollLeft = carousel.value.offsetWidth * 2;
         carousel.value.classList.remove("no-transition");
-        activeIndex.value = 3;
+        activeIndex.value = 2;
       } else if (carousel.value.scrollLeft <= 0) {
         carousel.value.classList.add("no-transition");
         carousel.value.scrollLeft = carousel.value.offsetWidth * 4;
@@ -172,7 +172,7 @@ onMounted(mobileSlider);
 
 <style lang="scss" scoped>
 .wrapper-carousel {
-  padding-top: 10px;
+  padding-top: 5px;
   max-width: $computer-max-size;
   margin: 0 auto;
   position: relative;
@@ -180,12 +180,11 @@ onMounted(mobileSlider);
   .commands {
     color: $secondary-color;
     height: 35px;
-    background-color: $white-color;
     width: 35px;
+    background-color: $white-color;
     border-radius: 50%;
     padding: 5px;
     text-align: center;
-    border-radius: 50%;
     cursor: pointer;
     position: absolute;
     top: 50%;

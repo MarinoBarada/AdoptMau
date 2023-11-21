@@ -27,8 +27,8 @@ defineProps({
 <style lang="scss" scoped>
 .card {
   background-color: $light-gray-color;
-  width: calc(19% - 20px);
-  margin: 8px;
+  width: calc(20% - 20px);
+  margin: 10px;
   min-height: 300px;
   box-sizing: border-box;
   border-radius: 8px;
@@ -86,7 +86,7 @@ defineProps({
     border-radius: 8px;
 
     &:hover {
-      background-color: rgb(194, 150, 94);
+      background-color: $primary-color-hover;
     }
   }
 }

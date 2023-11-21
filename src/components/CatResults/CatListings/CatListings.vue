@@ -9,8 +9,8 @@
     </ul>
     <button
       class="see-more"
-      v-if="FILTERED_CATS.length > clickSeeMore * maxDisplayedCats"
-      @click="seeMore"
+      v-if="FILTERED_CATS.length > seeMore * maxDisplayedCats"
+      @click="CLICK_SEE_MORE"
     >
       SEE MORE
     </button>
@@ -22,22 +22,19 @@ import { ref, computed } from "vue";
 import CatListingsCard from "@/components/CatResults/CatListings/CatListingsCard.vue";
 
 import { useCatsStore } from "@/stores/cats";
+import { useUserStore } from "@/stores/user";
 
 const catsStore = useCatsStore();
 const FILTERED_CATS = computed(() => catsStore.FILTERED_CATS);
-const clickSeeMore = ref(1);
+
+const userStore = useUserStore();
+const seeMore = computed(() => userStore.seeMore);
+const CLICK_SEE_MORE = computed(() => userStore.CLICK_SEE_MORE);
 const maxDisplayedCats = ref(20);
 
 const displayedCats = computed(() => {
-  return FILTERED_CATS.value.slice(
-    0,
-    clickSeeMore.value * maxDisplayedCats.value
-  );
+  return FILTERED_CATS.value.slice(0, seeMore.value * maxDisplayedCats.value);
 });
-
-const seeMore = () => {
-  clickSeeMore.value++;
-};
 </script>
 
 <style lang="scss" scoped>

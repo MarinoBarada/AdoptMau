@@ -24,6 +24,14 @@ export const useUserStore = defineStore("user", () => {
 
   const nameSearch = ref("");
 
+  const seeMore = ref(1);
+
+  const CLICK_SEE_MORE = () => {
+    HANDLE_CHANGE_SORTBY("Age");
+    HANDLE_CHANGE_SORTBY_TYPE("Ascending");
+    seeMore.value++;
+  }
+
   const HANDLE_CHANGE_SORTBY = (selectedValue: string) => {
     sortBy.value.forEach((obj) => {
       if (obj.name === selectedValue) obj.value = true;
@@ -53,6 +61,8 @@ export const useUserStore = defineStore("user", () => {
     sortByType,
     filterCats,
     nameSearch,
+    seeMore,
+    CLICK_SEE_MORE,
     HANDLE_CHANGE_SORTBY,
     HANDLE_CHANGE_SORTBY_TYPE,
     HANDLE_FILTERS,

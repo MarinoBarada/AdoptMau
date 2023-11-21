@@ -22,19 +22,19 @@ header {
 
   .wrapper {
     @include flex(row, space-between, center);
-    max-width: 1900px;
+    max-width: $computer-max-size;
     margin: 0 auto;
 
     @media (max-width: $computer-max-size) {
-      padding: 5px 32px;
+      padding: 3px 32px;
     }
 
     @media (max-width: $tablet-max-size) {
-      padding: 5px 16px;
+      padding: 3px 16px;
     }
 
     @media (max-width: $mobile-max-size) {
-      padding: 5px 7px;
+      padding: 3px 7px;
     }
   }
 
