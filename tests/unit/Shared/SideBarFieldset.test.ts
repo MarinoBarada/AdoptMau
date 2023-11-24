@@ -5,11 +5,6 @@ import SideBarFieldset from "@/components/Shared/SideBarFieldset.vue";
 describe("SideBarFieldset", () => {
   const renderSideBarFieldset = (config = {}) => {
     render(SideBarFieldset, {
-      global: {
-        stubs: {
-          FontAwesomeIcon: true
-        }
-      },
       props: {
         header: "My Sort By"
       },
@@ -20,7 +15,7 @@ describe("SideBarFieldset", () => {
     });
   };
 
-  it("renders child content", async () => {
+  it("renders child content", () => {
     const props = {
       header: "My Sort By"
     };
@@ -35,7 +30,7 @@ describe("SideBarFieldset", () => {
   });
 
   describe("when parent does not provide custom child content", () => {
-    it("renders default content", async () => {
+    it("renders default content", () => {
       const props = {
         header: "My Sort By"
       };

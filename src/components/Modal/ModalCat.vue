@@ -1,5 +1,5 @@
 <template>
-  <div class="overlay" v-if="showModal" @click="closeModal">
+  <div class="overlay" v-if="showModal" @click="closeModal" role="modal">
     <div class="modal">
       <div class="img">
         <img :src="catInfo.picture" :alt="catInfo.name" />
