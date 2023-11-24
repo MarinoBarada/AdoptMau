@@ -52,13 +52,13 @@ describe("CatSideBarRadioBox", () => {
     });
     renderCatSideBarRadioBox(props);
 
-    const jobTypesListItems = screen.getAllByRole("listitem");
-    const jobTypes = jobTypesListItems.map((node) => {
+    const sortListItems = screen.getAllByRole("listitem");
+    const sortTypes = sortListItems.map((node) => {
       if (node.textContent != null)
         return node.textContent.trim()
     });
 
-    expect(jobTypes).toEqual(["Age", "Name"]);
+    expect(sortTypes).toEqual(["Age", "Name"]);
   });
 
   describe("when user click radio box", () => {
