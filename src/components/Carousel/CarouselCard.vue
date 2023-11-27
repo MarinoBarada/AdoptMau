@@ -5,7 +5,7 @@
       <img :src="cat.picture" :alt="cat.name" draggable="false" />
     </div>
     <div class="name">
-      <h1>{{ cat.name }}</h1>
+      <h1 role="heading">{{ cat.name }}</h1>
     </div>
   </li>
 </template>
