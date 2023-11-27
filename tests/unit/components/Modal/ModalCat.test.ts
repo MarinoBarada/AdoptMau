@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/vue";
 
-import ModalCatVue from "@/components/Modal/ModalCat.vue";
+import ModalCat from "@/components/Modal/ModalCat.vue";
 
-describe("ModalCatVue", () => {
-  const renderModalCatVue = (config = {}) => {
-    render(ModalCatVue, {
+describe("ModalCat", () => {
+  const renderModalCat = (config = {}) => {
+    render(ModalCat, {
       global: {
         stubs: {
           FontAwesomeIcon: true
@@ -34,7 +34,7 @@ describe("ModalCatVue", () => {
       showModal: false
     };
     const config = { props };
-    renderModalCatVue(config);
+    renderModalCat(config);
 
     const cardModal = screen.queryByRole("modal");
     expect(cardModal).not.toBeInTheDocument();
@@ -51,7 +51,7 @@ describe("ModalCatVue", () => {
       showModal: true
     };
     const config = { props };
-    renderModalCatVue(config);
+    renderModalCat(config);
 
     const cardModal = screen.queryByRole("modal");
     expect(cardModal).toBeInTheDocument();
