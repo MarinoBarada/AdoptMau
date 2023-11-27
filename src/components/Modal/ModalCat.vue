@@ -47,7 +47,7 @@ const closeModal = () => {
   height: 100%;
   @include flex(row, center, center);
   background-color: rgba(0, 0, 0, 0.6);
-  z-index: 1000;
+  z-index: 1010;
 
   .modal {
     max-width: $tablet-max-size;

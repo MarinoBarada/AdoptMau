@@ -17,10 +17,11 @@
         v-for="(item, index) in displaysCats"
         :key="index"
         :cat="item"
-        :blurred="index == activeIndex - 1 || index == activeIndex + 1"
+        :blurred="index <= activeIndex - 1 || index >= activeIndex + 1"
         @mouseover="pauseSlider(index)"
         @mouseleave="moveSlider"
         @click="openModal(item, index)"
+        :class="{ activeCat: index === activeIndex }"
       />
     </ul>
   </div>
@@ -118,7 +119,11 @@ const pauseSlider = (index: number) => {
 };
 
 const pause = () => {
-  clearInterval(interval.value);
+  if (carousel.value != null) {
+    if (carousel.value.offsetWidth > 768) {
+      clearInterval(interval.value);
+    }
+  }
 };
 
 onMounted(moveSlider);
@@ -220,6 +225,11 @@ onMounted(mobileSlider);
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     scrollbar-width: 0;
+    touch-action: none;
+
+    &.hoverEffect {
+      pointer-events: none;
+    }
 
     @media (max-width: $mobile-max-size) {
       gap: 5px;

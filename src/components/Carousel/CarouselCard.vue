@@ -2,7 +2,7 @@
   <li class="card">
     <div class="glass active" v-if="blurred"></div>
     <div class="img">
-      <img :src="cat.picture" :alt="cat.name" draggable="false"/>
+      <img :src="cat.picture" :alt="cat.name" draggable="false" />
     </div>
     <div class="name">
       <h1>{{ cat.name }}</h1>
@@ -32,7 +32,7 @@ defineProps({
   width: calc(100% / 3 - 10px);
   flex: 0 0 auto;
   height: 400px;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s 0.4s ease;
   @include flex(row, center, center);
   font-size: 50px;
   position: relative;
@@ -43,7 +43,7 @@ defineProps({
     width: calc(100%);
   }
 
-  &:not(:has(.glass)):hover {
+  &.activeCat:hover {
     transform: scale(1.05);
   }
 
@@ -84,7 +84,8 @@ defineProps({
 
   .glass {
     position: absolute;
-    background-color: rgba(218, 213, 213, 0.75);
+    backdrop-filter: blur(4px);
+    background-color: rgba(218, 213, 213, 0.3);
     transition: 0.5s;
     cursor: auto;
 
