@@ -2,6 +2,7 @@ import { ref, computed } from "vue";
 import { defineStore } from "pinia";
 
 import getCats from "@/api/getCats";
+import adoptCat from "@/api/adoptCat";
 import type { Cat } from "@/api/types";
 import { useUserStore } from "@/stores/user";
 
@@ -13,7 +14,7 @@ export const useCatsStore = defineStore("cats", () => {
   const FETCH_CATS = async () => {
     const receiveCats = await getCats();
     cats.value = receiveCats.sort((a, b) => a.age - b.age);
-    carouselCats.value = [...cats.value.slice(0, 4), ...cats.value.slice(0, 4),];
+    carouselCats.value = [...cats.value.filter((cat) => cat.adopted == false).slice(0, 4), ...cats.value.filter((cat) => cat.adopted == false).slice(0, 4)];
   };
 
   const SORTED_CATS = computed(() => {
@@ -65,6 +66,11 @@ export const useCatsStore = defineStore("cats", () => {
       .filter((cat) => INCLUDE_CATS_BY_NAME(cat));
   });
 
+  const ADOPT_CAT = async (id: number) => {
+    await adoptCat(id);
+    FETCH_CATS();
+  }
+
   return {
     cats,
     carouselCats,
@@ -74,6 +80,7 @@ export const useCatsStore = defineStore("cats", () => {
     INCLUDE_CATS_YOUNGER_THEN_6,
     INCLUDE_CATS_YOUNGER_THEN_12,
     INCLUDE_CATS_COLOR_BLACK,
-    INCLUDE_CATS_BY_NAME
+    INCLUDE_CATS_BY_NAME,
+    ADOPT_CAT
   }
 });

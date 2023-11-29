@@ -31,6 +31,12 @@
     :show-modal="showModal"
     @close-modal="closeModal"
   />
+
+  <modal-for-confirmation
+    :cat-info="catInfo"
+    :show-modal="showModal"
+    @close-modal="closeModal"
+  />
 </template>
 
 <script lang="ts" setup>

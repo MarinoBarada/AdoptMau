@@ -20,7 +20,7 @@
       <p v-else>{{ catInfo.name }} was adopted.</p>
 
       <div class="control" v-if="!confirmation">
-        <button class="yes" @click="adoptCat">Yes, adopt!</button>
+        <button class="yes" @click="adoptCat(catInfo.id)">Yes, adopt!</button>
         <button class="cancel" @click="closeModal">Cancel</button>
       </div>
 
@@ -31,6 +31,7 @@
 
 <script lang="ts" setup>
 import { ref } from "vue";
+import { useCatsStore } from "@/stores/cats";
 
 const props = defineProps({
   catInfo: {
@@ -43,10 +44,13 @@ const props = defineProps({
   }
 });
 
+const catsStore = useCatsStore();
+
 const confirmation = ref(false);
 
-const adoptCat = () => {
+const adoptCat = (id: number) => {
   confirmation.value = true;
+  catsStore.ADOPT_CAT(id);
 };
 
 const emit = defineEmits(["closeModal"]);

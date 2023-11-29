@@ -13,13 +13,22 @@
           <p><span>Age:</span> {{ catInfo.age }} months</p>
           <p><span>Color:</span> {{ catInfo.color }}</p>
         </div>
-        <button class="adopt">ADOPT</button>
+        <button class="adopt" @click="openModalConfirmation">ADOPT</button>
       </div>
     </div>
   </div>
+
+  <modal-for-confirmation
+    :cat-info="catInfo"
+    :show-modal="showModalConfirmation"
+    @close-modal="closeModalConfirmation"
+  />
 </template>
 
 <script lang="ts" setup>
+import { ref } from "vue";
+import ModalForConfirmation from "@/components/Modals/ModalForConfirmation.vue";
+
 defineProps({
   catInfo: {
     type: Object,
@@ -30,6 +39,17 @@ defineProps({
     required: true
   }
 });
+
+const showModalConfirmation = ref(false);
+
+const openModalConfirmation = () => {
+  showModalConfirmation.value = true;
+};
+
+const closeModalConfirmation = () => {
+  showModalConfirmation.value = false;
+  closeModal();
+};
 
 const emit = defineEmits(["closeModal"]);
 

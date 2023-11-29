@@ -47,7 +47,9 @@ const closeModal = () => {
 };
 
 const catsStore = useCatsStore();
-const FILTERED_CATS = computed(() => catsStore.FILTERED_CATS);
+const FILTERED_CATS = computed(() =>
+  catsStore.FILTERED_CATS.filter((cat) => cat.adopted == false)
+);
 
 const userStore = useUserStore();
 const seeMore = computed(() => userStore.seeMore);
