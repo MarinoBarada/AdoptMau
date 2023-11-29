@@ -19,7 +19,7 @@
         <button class="cancel" @click="closeModal">Cancel</button>
       </div>
 
-      <button v-else class="yes" @click="closeBothModals">OK</button>
+      <button v-else class="yes" @click="closeModal">OK</button>
     </div>
   </div>
 </template>
@@ -53,11 +53,6 @@ const emit = defineEmits(["closeModal", "closeBothModals"]);
 const closeModal = () => {
   confirmation.value = false;
   emit("closeModal");
-};
-
-const closeBothModals = () => {
-  confirmation.value = false;
-  emit("closeBothModals");
 };
 </script>
 

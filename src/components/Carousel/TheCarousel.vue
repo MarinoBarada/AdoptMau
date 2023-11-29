@@ -37,7 +37,6 @@
     :cat-info="catInfo"
     :show-modal="showModalConfirmation"
     @close-modal="closeModalConfirmation"
-    @close-both-modals="closeBothModals"
   />
 </template>
 
@@ -81,10 +80,6 @@ const closeModalConfirmation = () => {
   showModalConfirmation.value = false;
 };
 
-const closeBothModals = () => {
-  closeModalConfirmation();
-  closeModal();
-};
 // End of modal
 
 const activeIndex = ref(1);
