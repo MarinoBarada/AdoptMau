@@ -6,6 +6,6 @@ export const createCat = (cat: Partial<Cat> = {}): Cat => ({
   age: 3,
   color: "gray",
   picture: "https://cat-image",
-  adopted: false
+  adopted: false,
   ...cat,
 })

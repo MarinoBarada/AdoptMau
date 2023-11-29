@@ -30,12 +30,14 @@
     :cat-info="catInfo"
     :show-modal="showModal"
     @close-modal="closeModal"
+    @open-modal-confirmation="openModalConfirmation"
   />
 
   <modal-for-confirmation
     :cat-info="catInfo"
-    :show-modal="showModal"
-    @close-modal="closeModal"
+    :show-modal="showModalConfirmation"
+    @close-modal="closeModalConfirmation"
+    @close-both-modals="closeBothModals"
   />
 </template>
 
@@ -43,6 +45,7 @@
 import { ref, onMounted, computed, onBeforeUnmount } from "vue";
 
 import ModalCat from "@/components/Modals/ModalCat.vue";
+import ModalForConfirmation from "@/components/Modals/ModalForConfirmation.vue";
 
 import CarouselCard from "@/components/Carousel/CarouselCard.vue";
 import { useCatsStore } from "@/stores/cats";
@@ -52,7 +55,7 @@ const catsStore = useCatsStore();
 
 const displaysCats = computed(() => [...catsStore.carouselCats]);
 
-// Modal
+// Modals
 const showModal = ref(false);
 const catInfo = ref({});
 
@@ -66,6 +69,21 @@ const openModal = (cat: Cat, index: number) => {
 const closeModal = () => {
   catInfo.value = {};
   showModal.value = false;
+};
+
+const showModalConfirmation = ref(false);
+
+const openModalConfirmation = () => {
+  showModalConfirmation.value = true;
+};
+
+const closeModalConfirmation = () => {
+  showModalConfirmation.value = false;
+};
+
+const closeBothModals = () => {
+  closeModalConfirmation();
+  closeModal();
 };
 // End of modal
 

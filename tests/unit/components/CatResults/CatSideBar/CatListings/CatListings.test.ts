@@ -16,6 +16,9 @@ describe("CatListings", () => {
 
     render(CatListings, {
       global: {
+        stubs: {
+          FontAwesomeIcon: true
+        },
         plugins: [pinia],
       }
     });

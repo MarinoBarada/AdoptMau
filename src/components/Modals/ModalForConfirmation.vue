@@ -1,10 +1,5 @@
 <template>
-  <div
-    class="overlay-modal"
-    v-if="props.showModal"
-    role="modal"
-    @click.self="closeModal"
-  >
+  <div class="overlay-modal" v-if="props.showModal" @click.self="closeModal">
     <div class="modal-alert">
       <font-awesome-icon
         v-if="!confirmation"
@@ -24,7 +19,7 @@
         <button class="cancel" @click="closeModal">Cancel</button>
       </div>
 
-      <button v-else class="yes" @click="closeModal">OK</button>
+      <button v-else class="yes" @click="closeBothModals">OK</button>
     </div>
   </div>
 </template>
@@ -53,11 +48,16 @@ const adoptCat = (id: number) => {
   catsStore.ADOPT_CAT(id);
 };
 
-const emit = defineEmits(["closeModal"]);
+const emit = defineEmits(["closeModal", "closeBothModals"]);
 
 const closeModal = () => {
   confirmation.value = false;
   emit("closeModal");
+};
+
+const closeBothModals = () => {
+  confirmation.value = false;
+  emit("closeBothModals");
 };
 </script>
 

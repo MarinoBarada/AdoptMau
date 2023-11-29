@@ -23,7 +23,7 @@ describe("ModalCat", () => {
     });
   };
 
-  it("not displays modal when showModal is false", () => {
+  it("not displays modal when showModal is false", async () => {
     const props = {
       catInfo: {
         name: "Fluffy",
@@ -36,7 +36,7 @@ describe("ModalCat", () => {
     const config = { props };
     renderModalCat(config);
 
-    const cardModal = screen.queryByRole("modal");
+    const cardModal = screen.queryByTitle("cardModal");
     expect(cardModal).not.toBeInTheDocument();
   });
 

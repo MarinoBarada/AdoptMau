@@ -63,7 +63,8 @@ export const useCatsStore = defineStore("cats", () => {
       .filter((cat) => INCLUDE_CATS_YOUNGER_THEN_12(cat))
       .filter((cat) => INCLUDE_CATS_YOUNGER_THEN_6(cat))
       .filter((cat) => INCLUDE_CATS_COLOR_BLACK(cat))
-      .filter((cat) => INCLUDE_CATS_BY_NAME(cat));
+      .filter((cat) => INCLUDE_CATS_BY_NAME(cat))
+      .filter((cat) => cat.adopted == false);
   });
 
   const ADOPT_CAT = async (id: number) => {

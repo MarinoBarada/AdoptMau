@@ -1,5 +1,11 @@
 <template>
-  <div class="overlay" v-if="showModal" @click.self="closeModal" role="modal">
+  <div
+    class="overlay"
+    v-if="showModal"
+    @click.self="closeModal"
+    role="modal"
+    title="cardModal"
+  >
     <div class="modal">
       <div class="img">
         <img :src="catInfo.picture" :alt="catInfo.name" />
@@ -17,18 +23,9 @@
       </div>
     </div>
   </div>
-
-  <modal-for-confirmation
-    :cat-info="catInfo"
-    :show-modal="showModalConfirmation"
-    @close-modal="closeModalConfirmation"
-  />
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
-import ModalForConfirmation from "@/components/Modals/ModalForConfirmation.vue";
-
 defineProps({
   catInfo: {
     type: Object,
@@ -40,21 +37,14 @@ defineProps({
   }
 });
 
-const showModalConfirmation = ref(false);
-
-const openModalConfirmation = () => {
-  showModalConfirmation.value = true;
-};
-
-const closeModalConfirmation = () => {
-  showModalConfirmation.value = false;
-  closeModal();
-};
-
-const emit = defineEmits(["closeModal"]);
+const emit = defineEmits(["closeModal", "openModalConfirmation"]);
 
 const closeModal = () => {
   emit("closeModal");
+};
+
+const openModalConfirmation = () => {
+  emit("openModalConfirmation");
 };
 </script>
 
