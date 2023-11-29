@@ -1,5 +1,5 @@
 <template>
-  <div class="overlay" v-if="showModal" @click="closeModal" role="modal">
+  <div class="overlay" v-if="showModal" @click.self="closeModal" role="modal">
     <div class="modal">
       <div class="img">
         <img :src="catInfo.picture" :alt="catInfo.name" />
@@ -79,9 +79,7 @@ const closeModal = () => {
       }
 
       img {
-        height: 100%;
-        width: 100%;
-        object-fit: cover;
+        @include image;
       }
     }
 
@@ -153,12 +151,7 @@ const closeModal = () => {
 
       .adopt {
         background-color: $primary-color;
-        cursor: pointer;
-        font-size: 20px;
-        padding: 10px;
-        font-weight: 700;
-        border: none;
-        color: $white-color;
+        @include primary-button;
 
         @media (max-width: $mobile-max-size) {
           margin: 20px;

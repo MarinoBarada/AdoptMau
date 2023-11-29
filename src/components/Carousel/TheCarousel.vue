@@ -36,7 +36,7 @@
 <script lang="ts" setup>
 import { ref, onMounted, computed, onBeforeUnmount } from "vue";
 
-import ModalCat from "@/components/Modal/ModalCat.vue";
+import ModalCat from "@/components/Modals/ModalCat.vue";
 
 import CarouselCard from "@/components/Carousel/CarouselCard.vue";
 import { useCatsStore } from "@/stores/cats";

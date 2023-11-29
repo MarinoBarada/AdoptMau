@@ -4,6 +4,7 @@ export interface Cat {
   age: number;
   color: string;
   picture: string;
+  adopted: boolean
 }
 
 export interface SortBy {

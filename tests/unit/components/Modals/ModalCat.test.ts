@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/vue";
 
-import ModalCat from "@/components/Modal/ModalCat.vue";
+import ModalCat from "@/components/Modals/ModalCat.vue";
 
 describe("ModalCat", () => {
   const renderModalCat = (config = {}) => {

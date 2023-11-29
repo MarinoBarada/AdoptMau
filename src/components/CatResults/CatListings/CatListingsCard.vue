@@ -8,7 +8,7 @@
       <p><span>Age:</span> {{ cat.age }} months</p>
       <p><span>Color:</span> {{ cat.color }}</p>
     </div>
-    <button class="adopt">ADOPT</button>
+    <button class="adopt" @click="openModal">ADOPT</button>
   </li>
 </template>
 
@@ -22,6 +22,12 @@ defineProps({
     required: true
   }
 });
+
+const emit = defineEmits(["openModal"]);
+
+const openModal = () => {
+  emit("openModal");
+};
 </script>
 
 <style lang="scss" scoped>
@@ -52,9 +58,7 @@ defineProps({
     height: 300px;
 
     img {
-      height: 100%;
-      width: 100%;
-      object-fit: cover;
+      @include image;
     }
   }
 
@@ -76,12 +80,8 @@ defineProps({
 
   .adopt {
     background-color: $primary-color;
+    @include primary-button;
     cursor: pointer;
-    font-size: 20px;
-    padding: 10px;
-    font-weight: 700;
-    border: none;
-    color: $white-color;
     margin: 10px;
     border-radius: 8px;
 

@@ -5,6 +5,7 @@
         v-for="cat in displayedCats"
         :key="cat.id"
         :cat="cat"
+        @open-modal="openModal(cat)"
       />
     </ul>
     <button
@@ -15,14 +16,35 @@
       SEE MORE
     </button>
   </div>
+
+  <modal-for-confirmation
+    :cat-info="catInfo"
+    :show-modal="showModal"
+    @close-modal="closeModal"
+  />
 </template>
 
 <script lang="ts" setup>
 import { ref, computed } from "vue";
 import CatListingsCard from "@/components/CatResults/CatListings/CatListingsCard.vue";
+import ModalForConfirmation from "@/components/Modals/ModalForConfirmation.vue";
 
 import { useCatsStore } from "@/stores/cats";
 import { useUserStore } from "@/stores/user";
+import type { Cat } from "@/api/types";
+
+const showModal = ref(false);
+const catInfo = ref({});
+
+const openModal = (cat: Cat) => {
+  catInfo.value = cat;
+  showModal.value = true;
+};
+
+const closeModal = () => {
+  catInfo.value = {};
+  showModal.value = false;
+};
 
 const catsStore = useCatsStore();
 const FILTERED_CATS = computed(() => catsStore.FILTERED_CATS);
@@ -53,7 +75,7 @@ const displayedCats = computed(() => {
     border-radius: 8px;
 
     &:hover {
-      background-color: #00007b;
+      background-color: $secondary-color-hover;
     }
   }
 
