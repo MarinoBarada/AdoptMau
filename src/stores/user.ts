@@ -26,11 +26,17 @@ export const useUserStore = defineStore("user", () => {
 
   const seeMore = ref(1);
 
+  const adminIsLogin = ref(false);
+
+  const LOGIN_TO_ADMIN = () => {
+    adminIsLogin.value = !adminIsLogin.value;
+  };
+
   const CLICK_SEE_MORE = () => {
     HANDLE_CHANGE_SORTBY("Age");
     HANDLE_CHANGE_SORTBY_TYPE("Ascending");
     seeMore.value++;
-  }
+  };
 
   const HANDLE_CHANGE_SORTBY = (selectedValue: string) => {
     sortBy.value.forEach((obj) => {
@@ -62,6 +68,8 @@ export const useUserStore = defineStore("user", () => {
     filterCats,
     nameSearch,
     seeMore,
+    adminIsLogin,
+    LOGIN_TO_ADMIN,
     CLICK_SEE_MORE,
     HANDLE_CHANGE_SORTBY,
     HANDLE_CHANGE_SORTBY_TYPE,

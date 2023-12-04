@@ -5,12 +5,15 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faAngleLeft,
   faAngleRight,
+  faAngleDown,
+  faAngleUp,
   faSearch,
   faCircleUser,
   faXmark,
   faFilter,
   faCircleExclamation,
-  faCircleCheck
+  faCircleCheck,
+  faLock
 } from "@fortawesome/free-solid-svg-icons";
 
 import router from "@/router";
@@ -20,11 +23,15 @@ import App from './App.vue'
 library.add(faSearch);
 library.add(faAngleLeft);
 library.add(faAngleRight);
+library.add(faAngleDown);
+library.add(faAngleUp);
 library.add(faCircleUser);
 library.add(faXmark);
 library.add(faFilter);
 library.add(faCircleExclamation);
 library.add(faCircleCheck);
+library.add(faLock);
+
 
 const pinia = createPinia();
 
