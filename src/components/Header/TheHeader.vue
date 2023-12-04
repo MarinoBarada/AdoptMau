@@ -15,7 +15,7 @@
           Admin <font-awesome-icon :icon="caretIcon" class="icon" />
         </button>
         <ul v-if="isOpen" class="dropdown-content">
-          <li>Add Animal</li>
+          <li @click="goToAddCat">Add Animal</li>
           <li @click="userStore.LOGIN_TO_ADMIN">Log Out</li>
         </ul>
       </div>
@@ -26,6 +26,7 @@
 <script lang="ts" setup>
 import { ref, computed } from "vue";
 import { useUserStore } from "@/stores/user";
+import { useRouter } from "vue-router";
 
 const userStore = useUserStore();
 
@@ -40,6 +41,12 @@ const open = () => {
 const caretIcon = computed(() =>
   isOpen.value ? ["fas", "angle-up"] : ["fas", "angle-down"]
 );
+
+const router = useRouter();
+
+const goToAddCat = () => {
+  router.push({ name: "add-cat" });
+};
 </script>
 
 <style lang="scss" scoped>

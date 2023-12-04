@@ -3,6 +3,9 @@ import { defineStore } from "pinia";
 
 import getCats from "@/api/getCats";
 import adoptCat from "@/api/adoptCat";
+import createNewCat from "@/api/createNewCat";
+import editCat from "@/api/editCat";
+
 import type { Cat } from "@/api/types";
 import { useUserStore } from "@/stores/user";
 
@@ -70,6 +73,22 @@ export const useCatsStore = defineStore("cats", () => {
   const ADOPT_CAT = async (id: number) => {
     await adoptCat(id);
     await FETCH_CATS();
+  };
+
+  const CREATE_NEW_CAT = async (cat: Partial<Cat>) => {
+    await createNewCat(cat);
+    await FETCH_CATS();
+  };
+
+  const GET_SPECIFIC_CAT = (catID: number) => {
+    const result = cats.value.find((cat) => cat.id === catID);
+    if (result !== undefined) return result;
+    else return <Cat>{};
+  };
+
+  const EDIT_CAT = async (id: number, cat: Partial<Cat>) => {
+    await editCat(id, cat);
+    await FETCH_CATS();
   }
 
   return {
@@ -82,6 +101,9 @@ export const useCatsStore = defineStore("cats", () => {
     INCLUDE_CATS_YOUNGER_THEN_12,
     INCLUDE_CATS_COLOR_BLACK,
     INCLUDE_CATS_BY_NAME,
-    ADOPT_CAT
+    ADOPT_CAT,
+    CREATE_NEW_CAT,
+    GET_SPECIFIC_CAT,
+    EDIT_CAT
   }
 });
