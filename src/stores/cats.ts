@@ -69,7 +69,7 @@ export const useCatsStore = defineStore("cats", () => {
 
   const ADOPT_CAT = async (id: number) => {
     await adoptCat(id);
-    FETCH_CATS();
+    await FETCH_CATS();
   }
 
   return {

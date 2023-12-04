@@ -8,6 +8,7 @@ import { createCat } from "../../utils/createCat";
 
 vi.mock("axios");
 const axiosGetMock = axios.get as Mock;
+const axiosPatchMock = axios.patch as Mock;
 
 describe("state", () => {
   beforeEach(() => {
@@ -34,7 +35,8 @@ describe("actions", () => {
             name: "Fluffy",
             age: 3,
             color: "gray",
-            picture: "https://cat-image"
+            picture: "https://cat-image",
+            adopted: false,
           }
         ]
       });
@@ -46,9 +48,31 @@ describe("actions", () => {
           name: "Fluffy",
           age: 3,
           color: "gray",
-          picture: "https://cat-image"
+          picture: "https://cat-image",
+          adopted: false,
         }
       ]);
+    });
+  });
+
+  describe("ADOPT_CAT", () => {
+    it("adopt cat by sending a id of a cat we wont to adopt", async () => {
+      axiosPatchMock.mockResolvedValue({
+        data: [
+          {
+            id: 1,
+            name: "Fluffy",
+            age: 3,
+            color: "gray",
+            picture: "https://cat-image",
+            adopted: false,
+          }
+        ]
+      });
+      const store = useCatsStore();
+      await store.ADOPT_CAT(1);
+      expect(axios.patch).toHaveBeenCalledWith("http://myfakeapi.com/cats/1", { adopted: true, });
+      //pitati petra kako ovo da provjerava baš
     });
   });
 });
