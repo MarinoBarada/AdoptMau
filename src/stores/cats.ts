@@ -5,6 +5,7 @@ import getCats from "@/api/getCats";
 import adoptCat from "@/api/adoptCat";
 import createNewCat from "@/api/createNewCat";
 import editCat from "@/api/editCat";
+import deleteCat from "@/api/deleteCat";
 
 import type { Cat } from "@/api/types";
 import { useUserStore } from "@/stores/user";
@@ -89,6 +90,11 @@ export const useCatsStore = defineStore("cats", () => {
   const EDIT_CAT = async (id: number, cat: Partial<Cat>) => {
     await editCat(id, cat);
     await FETCH_CATS();
+  };
+
+  const DELETE_CAT = async (id: number) => {
+    await deleteCat(id);
+    await FETCH_CATS();
   }
 
   return {
@@ -104,6 +110,7 @@ export const useCatsStore = defineStore("cats", () => {
     ADOPT_CAT,
     CREATE_NEW_CAT,
     GET_SPECIFIC_CAT,
-    EDIT_CAT
+    EDIT_CAT,
+    DELETE_CAT
   }
 });

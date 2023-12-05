@@ -13,7 +13,9 @@ import {
   faFilter,
   faCircleExclamation,
   faCircleCheck,
-  faLock
+  faLock,
+  faPenToSquare,
+  faTrash
 } from "@fortawesome/free-solid-svg-icons";
 
 import router from "@/router";
@@ -31,6 +33,8 @@ library.add(faFilter);
 library.add(faCircleExclamation);
 library.add(faCircleCheck);
 library.add(faLock);
+library.add(faPenToSquare);
+library.add(faTrash);
 
 
 const pinia = createPinia();

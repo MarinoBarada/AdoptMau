@@ -28,7 +28,7 @@ export const useUserStore = defineStore("user", () => {
 
   const adminIsLogin = ref(false);
 
-  const LOGIN_TO_ADMIN = () => {
+  const ADMIN_LOGIN_LOGOUT = () => {
     adminIsLogin.value = !adminIsLogin.value;
   };
 
@@ -69,7 +69,7 @@ export const useUserStore = defineStore("user", () => {
     nameSearch,
     seeMore,
     adminIsLogin,
-    LOGIN_TO_ADMIN,
+    ADMIN_LOGIN_LOGOUT,
     CLICK_SEE_MORE,
     HANDLE_CHANGE_SORTBY,
     HANDLE_CHANGE_SORTBY_TYPE,

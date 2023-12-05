@@ -36,7 +36,10 @@
   <modal-for-confirmation
     :cat-info="catInfo"
     :show-modal="showModalConfirmation"
+    modal-type="adopted"
+    :all-modals="true"
     @close-modal="closeModalConfirmation"
+    @close-all-modals="closeAllModals"
   />
 </template>
 
@@ -78,6 +81,12 @@ const openModalConfirmation = () => {
 
 const closeModalConfirmation = () => {
   showModalConfirmation.value = false;
+};
+
+const closeAllModals = () => {
+  catInfo.value = {};
+  showModalConfirmation.value = false;
+  showModal.value = false;
 };
 
 // End of modal

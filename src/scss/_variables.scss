@@ -12,3 +12,25 @@ $light-gray-color: #d3d3d3;
 $mobile-max-size: 768px;
 $tablet-max-size: 1024px;
 $computer-max-size: 1900px;
+
+@keyframes Shake {
+  0% {
+    transform: rotate(5deg);
+  }
+
+  25% {
+    transform: rotate(-6deg);
+  }
+
+  50% {
+    transform: rotate(5deg);
+  }
+
+  75% {
+    transform: rotate(-6deg);
+  }
+
+  100% {
+    transform: rotate(5deg);
+  }
+}

@@ -5,7 +5,8 @@
         v-for="cat in displayedCats"
         :key="cat.id"
         :cat="cat"
-        @open-modal="openModal(cat)"
+        @open-adopt-modal="openAdoptModal(cat)"
+        @open-delete-modal="openDeleteModal(cat)"
       />
     </ul>
     <button
@@ -19,8 +20,16 @@
 
   <modal-for-confirmation
     :cat-info="catInfo"
-    :show-modal="showModal"
-    @close-modal="closeModal"
+    :show-modal="showAdoptModal"
+    modal-type="adopted"
+    @close-modal="closeAdoptModal"
+  />
+
+  <modal-for-confirmation
+    :cat-info="catInfo"
+    :show-modal="showDeleteModal"
+    modal-type="delete"
+    @close-modal="closeDeleteModal"
   />
 </template>
 
@@ -33,17 +42,27 @@ import { useCatsStore } from "@/stores/cats";
 import { useUserStore } from "@/stores/user";
 import type { Cat } from "@/api/types";
 
-const showModal = ref(false);
+const showAdoptModal = ref(false);
+const showDeleteModal = ref(false);
 const catInfo = ref({});
 
-const openModal = (cat: Cat) => {
+const openAdoptModal = (cat: Cat) => {
   catInfo.value = cat;
-  showModal.value = true;
+  showAdoptModal.value = true;
 };
 
-const closeModal = () => {
+const closeAdoptModal = () => {
   catInfo.value = {};
-  showModal.value = false;
+  showAdoptModal.value = false;
+};
+const openDeleteModal = (cat: Cat) => {
+  catInfo.value = cat;
+  showDeleteModal.value = true;
+};
+
+const closeDeleteModal = () => {
+  catInfo.value = {};
+  showDeleteModal.value = false;
 };
 
 const catsStore = useCatsStore();

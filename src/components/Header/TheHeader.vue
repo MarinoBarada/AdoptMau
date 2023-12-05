@@ -16,7 +16,7 @@
         </button>
         <ul v-if="isOpen" class="dropdown-content">
           <li @click="goToAddCat">Add Animal</li>
-          <li @click="userStore.LOGIN_TO_ADMIN">Log Out</li>
+          <li @click="userStore.ADMIN_LOGIN_LOGOUT">Log Out</li>
         </ul>
       </div>
     </div>
@@ -100,28 +100,6 @@ header {
 
     img:hover {
       animation: Shake 0.5s linear infinite;
-    }
-
-    @keyframes Shake {
-      0% {
-        transform: rotate(5deg);
-      }
-
-      25% {
-        transform: rotate(-6deg);
-      }
-
-      50% {
-        transform: rotate(5deg);
-      }
-
-      75% {
-        transform: rotate(-6deg);
-      }
-
-      100% {
-        transform: rotate(5deg);
-      }
     }
   }
 

@@ -8,13 +8,30 @@
       <p><span>Age:</span> {{ cat.age }} months</p>
       <p><span>Color:</span> {{ cat.color }}</p>
     </div>
-    <button class="adopt" @click="openModal">ADOPT</button>
+    <div v-if="adminIsLogin" class="edit-delete">
+      <router-link :to="`/edit-cat/${cat.id}`" class="edit">
+        <font-awesome-icon :icon="['fas', 'pen-to-square']" />
+        EDIT
+      </router-link>
+      <button class="delete" @click="openDeleteModal">
+        <font-awesome-icon :icon="['fas', 'trash']" />
+        DELETE
+      </button>
+    </div>
+    <button v-else class="adopt" @click="openAdoptModal">ADOPT</button>
   </li>
 </template>
 
 <script lang="ts" setup>
 import type { PropType } from "vue";
+import { computed } from "vue";
+
+import { useUserStore } from "@/stores/user";
 import type { Cat } from "@/api/types";
+
+const userStore = useUserStore();
+
+const adminIsLogin = computed(() => userStore.adminIsLogin);
 
 defineProps({
   cat: {
@@ -23,10 +40,14 @@ defineProps({
   }
 });
 
-const emit = defineEmits(["openModal"]);
+const emit = defineEmits(["openAdoptModal", "openDeleteModal"]);
 
-const openModal = () => {
-  emit("openModal");
+const openAdoptModal = () => {
+  emit("openAdoptModal");
+};
+
+const openDeleteModal = () => {
+  emit("openDeleteModal");
 };
 </script>
 
@@ -54,6 +75,21 @@ const openModal = () => {
     width: calc(100% - 20px);
   }
 
+  .edit-delete {
+    padding: 10px;
+    @include flex(row, start, center);
+    gap: 10px;
+
+    .edit {
+      @include button-style($secondary-color, 0px);
+      padding: 6px 10px;
+    }
+
+    .delete {
+      @include button-style(red, 0px);
+    }
+  }
+
   .img {
     height: 300px;
 
@@ -79,11 +115,8 @@ const openModal = () => {
   }
 
   .adopt {
-    background-color: $primary-color;
-    @include primary-button;
-    cursor: pointer;
+    @include button-style($primary-color, 8px);
     margin: 10px;
-    border-radius: 8px;
 
     &:hover {
       background-color: $primary-color-hover;

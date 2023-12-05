@@ -58,7 +58,7 @@ const loginAction = () => {
   warning.value = false;
   if (username.value != "" && password.value != "") {
     if (username.value == "admin" && password.value == "12345") {
-      userStore.LOGIN_TO_ADMIN();
+      userStore.ADMIN_LOGIN_LOGOUT();
       router.push({ name: "home" });
     } else {
       errorMessage.value = "Incorrect username or password!";
@@ -133,28 +133,7 @@ onBeforeMount(() => {
 
       img:hover {
         animation: Shake 0.5s linear infinite;
-      }
-
-      @keyframes Shake {
-        0% {
-          transform: rotate(5deg);
-        }
-
-        25% {
-          transform: rotate(-6deg);
-        }
-
-        50% {
-          transform: rotate(5deg);
-        }
-
-        75% {
-          transform: rotate(-6deg);
-        }
-
-        100% {
-          transform: rotate(5deg);
-        }
+        cursor: pointer;
       }
     }
 
@@ -207,9 +186,7 @@ onBeforeMount(() => {
 
       .login-button {
         width: 100%;
-        @include primary-button;
-        background-color: $secondary-color;
-        border-radius: 15px;
+        @include button-style($secondary-color, 15px);
       }
 
       .warning {

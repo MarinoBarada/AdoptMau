@@ -5,17 +5,85 @@
   align-items: $align-items;
 }
 
-@mixin primary-button {
+@mixin button-style($bg-color, $border-rad) {
   cursor: pointer;
   font-size: 20px;
   padding: 10px;
   font-weight: 700;
   border: none;
   color: $white-color;
+  background-color: $bg-color;
+  border-radius: $border-rad;
+  text-decoration: none;
 }
 
 @mixin image {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+@mixin modal-overlay($bg-color, $z-index) {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  @include flex(row, center, center);
+  background-color: $bg-color;
+  z-index: $z-index;
+}
+
+@mixin checkbox-style {
+  .check-box {
+    font-size: 16px;
+    @include flex(row, center, center);
+    gap: 0.5em;
+  }
+
+  .check-box + .check-box {
+    margin-top: 1em;
+  }
+
+  input[type="checkbox"] {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+
+    font: inherit;
+    color: currentColor;
+    width: 1.2em;
+    height: 1.2em;
+    border: 0.1em solid $light-gray-color;
+    border-radius: 0.15em;
+    transform: translateY(-0.075em);
+    cursor: pointer;
+
+    display: grid;
+    place-content: center;
+
+    &:hover {
+      background-color: $light-gray-color;
+    }
+  }
+
+  input[type="checkbox"]::before {
+    content: "";
+    width: 0.65em;
+    height: 0.65em;
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+    transform: scale(0);
+    transform-origin: bottom left;
+    transition: 120ms transform ease-in-out;
+    box-shadow: inset 1em 1em var(--form-control-color);
+    background-color: $white-color;
+  }
+
+  input[type="checkbox"]:checked::before {
+    transform: scale(1);
+  }
+
+  input[type="checkbox"]:checked {
+    background-color: $secondary-color;
+  }
 }
