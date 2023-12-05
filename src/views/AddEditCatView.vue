@@ -5,7 +5,7 @@
       <h3>Go Back</h3>
     </router-link>
     <form @submit.prevent="addCat">
-      <h1>Add Cat</h1>
+      <h1>{{ submitMessage }}</h1>
       <div class="input-container">
         <label for="input">*Name:</label>
         <input
@@ -22,7 +22,6 @@
           </li>
         </ul>
       </div>
-
       <div class="input-container">
         <label for="input">*Age:</label>
         <input
@@ -70,7 +69,21 @@
           </li>
         </ul>
       </div>
-      <button type="submit" class="submit">ADD CAT</button>
+      <div class="input-container" v-if="editCat">
+        <label for="adopted" class="check-box">
+          <input
+            type="checkbox"
+            name="adopted"
+            :checked="cat.adopted"
+            id="adopted"
+            v-model="cat.adopted"
+          />
+          Adopted</label
+        >
+      </div>
+      <button type="submit" class="submit">
+        {{ submitMessage.toUpperCase() }}
+      </button>
     </form>
   </div>
 </template>
@@ -94,6 +107,10 @@ const userStore = useUserStore();
 
 const currentCatId = computed(() => +route.params.id);
 const editCat = ref(false);
+const submitMessage = computed(() => {
+  if (editCat.value) return "Edit Cat";
+  else return "Add Cat";
+});
 
 const currentCat = computed(() =>
   catsStore.GET_SPECIFIC_CAT(currentCatId.value)
@@ -220,6 +237,8 @@ onBeforeMount(() => {
       @include flex(column, start, start);
       gap: 5px;
 
+      @include checkbox-style;
+
       label {
         font-size: 20px;
         font-weight: 700;
@@ -248,9 +267,7 @@ onBeforeMount(() => {
 
     .submit {
       margin: 30px 0;
-      @include primary-button;
-      background-color: $secondary-color;
-      border-radius: 15px;
+      @include button-style($secondary-color, 15px);
     }
   }
 }

@@ -128,10 +128,6 @@ const mobileFilter = () => {
     display: block;
     font-size: 28px;
     color: $primary-color;
-
-    .visible {
-      display: none;
-    }
   }
 
   span {

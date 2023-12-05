@@ -50,14 +50,7 @@ const openModalConfirmation = () => {
 
 <style lang="scss">
 .overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 100%;
-  @include flex(row, center, center);
-  background-color: rgba(0, 0, 0, 0.6);
-  z-index: 1010;
+  @include modal-overlay(rgba(0, 0, 0, 0.6), 1010);
 
   .modal {
     max-width: $tablet-max-size;
@@ -160,8 +153,7 @@ const openModalConfirmation = () => {
       }
 
       .adopt {
-        background-color: $primary-color;
-        @include primary-button;
+        @include button-style($primary-color, 0px);
 
         @media (max-width: $mobile-max-size) {
           margin: 20px;
