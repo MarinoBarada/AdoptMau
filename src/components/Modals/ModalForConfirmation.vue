@@ -21,7 +21,9 @@
         </div>
 
         <div v-else>
-          <button v-if="allModals" class="yes" @click="closeModal">OK</button>
+          <button v-if="allModals" class="yes" @click="closeAllModals">
+            OK
+          </button>
           <button v-else class="yes" @click="closeModal">OK</button>
         </div>
       </div>
@@ -40,7 +42,7 @@
           <button class="cancel" @click="closeModal">Cancel</button>
         </div>
 
-        <button v-else class="yes" @click="closeAllModals">OK</button>
+        <button v-else class="yes" @click="closeModal">OK</button>
       </div>
     </div>
   </div>

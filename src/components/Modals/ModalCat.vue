@@ -19,13 +19,25 @@
           <p><span>Age:</span> {{ catInfo.age }} months</p>
           <p><span>Color:</span> {{ catInfo.color }}</p>
         </div>
-        <button class="adopt" @click="openModalConfirmation">ADOPT</button>
+        <button
+          v-if="!adminIsLogin"
+          class="adopt"
+          @click="openModalConfirmation"
+        >
+          ADOPT
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { computed } from "vue";
+import { useUserStore } from "@/stores/user";
+
+const userStore = useUserStore();
+const adminIsLogin = computed(() => userStore.adminIsLogin);
+
 defineProps({
   catInfo: {
     type: Object,

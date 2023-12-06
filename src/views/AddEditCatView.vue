@@ -258,6 +258,7 @@ onBeforeMount(() => {
       }
 
       select {
+        margin-top: 2px;
         width: 60%;
         padding: 5px 10px;
         font-size: 18px;

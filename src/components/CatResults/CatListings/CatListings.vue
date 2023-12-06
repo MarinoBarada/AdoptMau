@@ -16,6 +16,11 @@
     >
       SEE MORE
     </button>
+    <div v-if="FILTERED_CATS.length == 0" class="empty-filter">
+      <p>Unfortunately the cat you were looking for does not exist!</p>
+      <p>Try changing the filters!</p>
+      <img src="cat.ico" alt="cat" />
+    </div>
   </div>
 
   <modal-for-confirmation
@@ -82,6 +87,22 @@ const displayedCats = computed(() => {
 .cat-listings {
   width: 100%;
   @include flex(column, start, stretch);
+
+  .empty-filter {
+    @include flex(column, center, center);
+    margin-top: 30px;
+    gap: 15px;
+
+    p {
+      font-size: 20px;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    img:hover {
+      animation: Shake 0.5s linear infinite;
+    }
+  }
 
   .see-more {
     background-color: $secondary-color;
