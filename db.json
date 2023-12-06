@@ -3,7 +3,7 @@
     {
       "id": 1,
       "name": "Fluffy",
-      "age": 3,
+      "age": 6,
       "color": "gray",
       "picture": "https://images.pexels.com/photos/774731/pexels-photo-774731.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       "adopted": false
@@ -75,7 +75,7 @@
     {
       "id": 10,
       "name": "Felix",
-      "age": 3,
+      "age": 6,
       "color": "black",
       "picture": "https://images.pexels.com/photos/1510543/pexels-photo-1510543.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       "adopted": false
@@ -91,7 +91,7 @@
     {
       "id": 12,
       "name": "Fred",
-      "age": 3,
+      "age": 2,
       "color": "gray",
       "picture": "https://images.pexels.com/photos/2194261/pexels-photo-2194261.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       "adopted": false
@@ -99,7 +99,7 @@
     {
       "id": 13,
       "name": "Drake",
-      "age": 3,
+      "age": 2,
       "color": "gray",
       "picture": "https://images.pexels.com/photos/669015/pexels-photo-669015.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       "adopted": false
@@ -131,7 +131,7 @@
     {
       "id": 17,
       "name": "Luna",
-      "age": 5,
+      "age": 3,
       "color": "white",
       "picture": "https://images.pexels.com/photos/416160/pexels-photo-416160.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       "adopted": false
@@ -171,7 +171,7 @@
     {
       "id": 22,
       "name": "Tommy",
-      "age": 2,
+      "age": 5,
       "color": "black",
       "picture": "https://images.pexels.com/photos/1438649/pexels-photo-1438649.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       "adopted": false
