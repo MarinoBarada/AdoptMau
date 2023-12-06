@@ -41,6 +41,11 @@ describe("state", () => {
     const store = useUserStore();
     expect(store.seeMore).toBe(1);
   });
+
+  it("stores if user is login or not", () => {
+    const store = useUserStore();
+    expect(store.adminIsLogin).toBe(false);
+  });
 });
 
 describe("actions", () => {
@@ -138,6 +143,22 @@ describe("actions", () => {
           { name: "Descending", value: false },
         ]);
       });
+    });
+  });
+
+  describe("ADMIN_LOGIN_LOGOUT", () => {
+    it("change adminIsLogin from false to true when admin login", () => {
+      const store = useUserStore();
+      store.adminIsLogin = false;
+      store.ADMIN_LOGIN_LOGOUT();
+      expect(store.adminIsLogin).toBe(true);
+    });
+
+    it("change adminIsLogin from true to false when admin logout", () => {
+      const store = useUserStore();
+      store.adminIsLogin = true;
+      store.ADMIN_LOGIN_LOGOUT();
+      expect(store.adminIsLogin).toBe(false);
     });
   });
 });

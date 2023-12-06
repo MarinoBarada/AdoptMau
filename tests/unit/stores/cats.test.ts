@@ -9,6 +9,9 @@ import { createCat } from "../../utils/createCat";
 vi.mock("axios");
 const axiosGetMock = axios.get as Mock;
 const axiosPatchMock = axios.patch as Mock;
+const axiosPostMock = axios.post as Mock;
+const axiosDeleteMock = axios.delete as Mock;
+const axiosPutMock = axios.put as Mock;
 
 describe("state", () => {
   beforeEach(() => {
@@ -72,7 +75,99 @@ describe("actions", () => {
       const store = useCatsStore();
       await store.ADOPT_CAT(1);
       expect(axios.patch).toHaveBeenCalledWith("http://myfakeapi.com/cats/1", { adopted: true, });
-      //pitati petra kako ovo da provjerava baš
+    });
+  });
+
+  describe("CREATE_NEW_CAT", () => {
+    it("creates new cat and store it to mock backend", async () => {
+      axiosPostMock.mockRejectedValue;
+      const cat = {
+        id: 1,
+        name: "Fluffy The III",
+        age: 3,
+        color: "black",
+        picture: "https://cat-url",
+        adopted: false,
+      };
+
+      const store = useCatsStore();
+      await store.CREATE_NEW_CAT(cat);
+      expect(axios.post).toHaveBeenCalledWith("http://myfakeapi.com/cats", cat);
+    });
+  });
+
+  describe("DELETE_CAT", () => {
+    it("delete cat with id we provide and remove it from mock backend", async () => {
+      axiosDeleteMock.mockRejectedValue;
+
+      const store = useCatsStore();
+      await store.DELETE_CAT(1);
+      expect(axios.delete).toHaveBeenCalledWith("http://myfakeapi.com/cats/1");
+    });
+  });
+
+  describe("EDIT_CAT", () => {
+    it("edit cat with id we provide and object with new information and edit it in mock backend", async () => {
+      axiosPutMock.mockRejectedValue;
+      const cat = {
+        id: 1,
+        name: "Fluffy The III",
+        age: 3,
+        color: "black",
+        picture: "https://cat-url",
+        adopted: false,
+      };
+
+      const store = useCatsStore();
+      await store.EDIT_CAT(1, cat);
+      expect(axios.put).toHaveBeenCalledWith("http://myfakeapi.com/cats/1", cat);
+    });
+  });
+
+  describe("GET_SPECIFIC_CAT", () => {
+    describe("when cat we are looking for exist", () => {
+      it("return a object of a cat with id we provide", () => {
+        const store = useCatsStore();
+        store.cats = [
+          {
+            id: 1,
+            name: "Fluffy The III",
+            age: 3,
+            color: "black",
+            picture: "https://cat-url",
+            adopted: false,
+          }
+        ];
+
+        const catWithId1 = store.GET_SPECIFIC_CAT(1);
+        expect(catWithId1).toEqual({
+          id: 1,
+          name: "Fluffy The III",
+          age: 3,
+          color: "black",
+          picture: "https://cat-url",
+          adopted: false,
+        });
+      });
+    });
+
+    describe("when cat we are looking for do not exist", () => {
+      it("return a empty object", () => {
+        const store = useCatsStore();
+        store.cats = [
+          {
+            id: 1,
+            name: "Fluffy The III",
+            age: 3,
+            color: "black",
+            picture: "https://cat-url",
+            adopted: false,
+          }
+        ];
+
+        const catWithId2 = store.GET_SPECIFIC_CAT(2);
+        expect(catWithId2).toEqual({});
+      });
     });
   });
 });
