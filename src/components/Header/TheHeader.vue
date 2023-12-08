@@ -5,7 +5,7 @@
         <img src="cat.ico" alt="cat" />
         <h1>AdoptMau</h1>
       </router-link>
-      <div v-if="!adminIsLogin" class="user-info">
+      <div v-if="!adminIsLogin" class="user-info" title="user-info">
         <router-link :to="{ name: 'login' }">
           <font-awesome-icon :icon="['fas', 'circle-user']" class="user-icon" />
         </router-link>
