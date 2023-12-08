@@ -119,6 +119,7 @@ const rightButton = () => {
 };
 
 const leftButton = () => {
+  infiniteScroll();
   scrollCarousel("left");
   direction.value = "left";
   activeIndex.value--;
@@ -254,6 +255,7 @@ onMounted(mobileSlider);
     scroll-behavior: smooth;
     scrollbar-width: 0;
     touch-action: none;
+    scroll-margin: 0;
 
     &.hoverEffect {
       pointer-events: none;
