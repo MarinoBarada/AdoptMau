@@ -1,11 +1,5 @@
 <template>
-  <div
-    class="overlay"
-    v-if="showModal"
-    @click.self="closeModal"
-    role="modal"
-    title="cardModal"
-  >
+  <div class="overlay" v-if="showModal" @click.self="closeModal" role="modal">
     <div class="modal">
       <div class="img">
         <img :src="catInfo.picture" :alt="catInfo.name" />
@@ -20,7 +14,7 @@
           <p><span>Color:</span> {{ catInfo.color }}</p>
         </div>
         <button
-          v-if="!adminIsLogin"
+          v-if="!userStore.adminIsLogin"
           class="adopt"
           @click="openModalConfirmation"
         >
@@ -32,11 +26,9 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from "vue";
 import { useUserStore } from "@/stores/user";
 
 const userStore = useUserStore();
-const adminIsLogin = computed(() => userStore.adminIsLogin);
 
 defineProps({
   catInfo: {

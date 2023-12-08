@@ -1,14 +1,18 @@
 import { render, screen } from "@testing-library/vue";
+import { createTestingPinia } from "@pinia/testing";
 
 import ModalCat from "@/components/Modals/ModalCat.vue";
+import { useUserStore } from "@/stores/user";
 
 describe("ModalCat", () => {
   const renderModalCat = (config = {}) => {
+    const pinia = createTestingPinia();
     render(ModalCat, {
       global: {
         stubs: {
           FontAwesomeIcon: true
-        }
+        },
+        plugins: [pinia],
       },
       props: {
         catInfo: {
@@ -23,38 +27,71 @@ describe("ModalCat", () => {
     });
   };
 
-  it("not displays modal when showModal is false", async () => {
-    const props = {
-      catInfo: {
-        name: "Fluffy",
-        age: 3,
-        color: "gray",
-        picture: "https://images.pexels.com/photos/1438649/pexels-photo-1438649.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-      },
-      showModal: false
-    };
-    const config = { props };
-    renderModalCat(config);
+  describe("when showModal is true", () => {
+    it("displays modal", () => {
+      const props = {
+        catInfo: {
+          name: "Fluffy",
+          age: 3,
+          color: "gray",
+          picture: "https://images.pexels.com/photos/1438649/pexels-photo-1438649.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+        },
+        showModal: true
+      };
+      const config = { props };
+      renderModalCat(config);
 
-    const cardModal = screen.queryByTitle("cardModal");
-    expect(cardModal).not.toBeInTheDocument();
+      const cardModal = screen.queryByRole("modal");
+      expect(cardModal).toBeInTheDocument;
+    });
+
+    it("render button for adoption", () => {
+      renderModalCat();
+      const userStore = useUserStore();
+      userStore.adminIsLogin = false;
+
+      const adoptButton = screen.findByRole("button", { name: /adopt/i });
+      expect(adoptButton).toBeInTheDocument;
+    });
+
+    describe("when admin is login", () => {
+      it("do not render button for adoption", () => {
+        const props = {
+          catInfo: {
+            name: "Fluffy",
+            age: 3,
+            color: "gray",
+            picture: "https://images.pexels.com/photos/1438649/pexels-photo-1438649.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          },
+          showModal: true
+        };
+        const config = { props };
+        renderModalCat(config);
+        const userStore = useUserStore();
+        userStore.adminIsLogin = false;
+
+        const adoptButton = screen.getByRole("button", { name: /adopt/i });
+        expect(adoptButton).not.toBeInTheDocument;
+      });
+    });
+
   });
+  describe("when showModal is false", () => {
+    it("not displays modal", async () => {
+      const props = {
+        catInfo: {
+          name: "Fluffy",
+          age: 3,
+          color: "gray",
+          picture: "https://images.pexels.com/photos/1438649/pexels-photo-1438649.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+        },
+        showModal: false
+      };
+      const config = { props };
+      renderModalCat(config);
 
-  it("displays modal when showModal is true", () => {
-    const props = {
-      catInfo: {
-        name: "Fluffy",
-        age: 3,
-        color: "gray",
-        picture: "https://images.pexels.com/photos/1438649/pexels-photo-1438649.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-      },
-      showModal: true
-    };
-    const config = { props };
-    renderModalCat(config);
-
-    const cardModal = screen.queryByRole("modal");
-    expect(cardModal).toBeInTheDocument();
+      const cardModal = screen.queryByRole("modal");
+      expect(cardModal).not.toBeInTheDocument();
+    });
   });
-
 });

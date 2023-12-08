@@ -1,12 +1,17 @@
 <template>
-  <div class="overlay-modal" v-if="props.showModal" @click.self="closeModal">
+  <div
+    class="overlay-modal"
+    v-if="props.showModal"
+    @click.self="closeModal"
+    role="modal"
+  >
     <div class="modal-alert">
       <font-awesome-icon
         v-if="!confirmation"
         :icon="['fas', 'circle-exclamation']"
         class="exclamation"
       />
-      <font-awesome-icon :icon="['fas', 'circle-check']" class="check" v-else />
+      <font-awesome-icon v-else :icon="['fas', 'circle-check']" class="check" />
 
       <div v-if="props.modalType == 'adopted'" class="change">
         <h1 v-if="!confirmation">Are you sure you want to adopt this cat?</h1>
