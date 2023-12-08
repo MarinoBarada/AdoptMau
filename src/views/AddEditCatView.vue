@@ -40,7 +40,7 @@
       </div>
       <div class="input-container">
         <label for="select">*Color:</label>
-        <select name="colors" v-model="cat.color">
+        <select name="colors" v-model="cat.color" data-testid="colorSelector">
           <option value="" selected disabled hidden>Select an Option</option>
           <option
             v-for="(color, index) in catColors.sort((a, b) => (a > b ? 1 : -1))"
@@ -105,7 +105,7 @@ const route = useRoute();
 const catsStore = useCatsStore();
 const userStore = useUserStore();
 
-const currentCatId = computed(() => +route.params.id);
+const currentCatId = computed<number | undefined>(() => +route.params.id);
 const editCat = ref(false);
 const submitMessage = computed(() => {
   if (editCat.value) return "Edit Cat";
@@ -113,7 +113,7 @@ const submitMessage = computed(() => {
 });
 
 const currentCat = computed(() =>
-  catsStore.GET_SPECIFIC_CAT(currentCatId.value)
+  catsStore.GET_SPECIFIC_CAT(currentCatId.value as number)
 );
 
 const editOrAdd = () => {
@@ -158,7 +158,7 @@ const addCat = () => {
     URLValidation.value
   ) {
     if (editCat.value) {
-      catsStore.EDIT_CAT(currentCatId.value, cat.value);
+      catsStore.EDIT_CAT(currentCatId.value as number, cat.value);
     } else {
       catsStore.CREATE_NEW_CAT(cat.value);
     }
