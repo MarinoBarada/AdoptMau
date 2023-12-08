@@ -10,6 +10,7 @@ describe("CarouselCard", () => {
           name: "Fluffy",
           age: 3,
           color: "gray",
+          adopted: false,
           picture: "https://images.pexels.com/photos/1438649/pexels-photo-1438649.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
         },
         blurred: true
@@ -24,6 +25,7 @@ describe("CarouselCard", () => {
         name: "Fluffy",
         age: 3,
         color: "gray",
+        adopted: false,
         picture: "https://images.pexels.com/photos/1438649/pexels-photo-1438649.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
       },
       blurred: false
