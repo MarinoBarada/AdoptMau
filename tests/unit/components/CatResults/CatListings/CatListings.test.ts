@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/vue";
 import { createTestingPinia } from "@pinia/testing";
+import { RouterLinkStub } from "@vue/test-utils";
 
 import CatListings from "@/components/CatResults/CatListings/CatListings.vue";
 import { useCatsStore } from "@/stores/cats";
@@ -17,7 +18,8 @@ describe("CatListings", () => {
     render(CatListings, {
       global: {
         stubs: {
-          FontAwesomeIcon: true
+          FontAwesomeIcon: true,
+          RouterLink: RouterLinkStub
         },
         plugins: [pinia],
       }
@@ -49,6 +51,17 @@ describe("CatListings", () => {
       });
 
       expect(seeMoreButton).toBeInTheDocument();
+    });
+  });
+
+  describe("when a FILTERED_CATS array length is 0", () => {
+    it("displays a div that warn user that cat with that filters do not exist", () => {
+      const { catStore } = renderCatListings();
+
+      /// @ts-expect-error
+      catStore.FILTERED_CATS = Array(0).fill({});
+      expect(screen.findByText("Unfortunately the cat you were looking for does not exist!")).toBeInTheDocument;
+      expect(screen.findByText("Try changing the filters!")).toBeInTheDocument;
     });
   });
 });
