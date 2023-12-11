@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/vue";
-import { createTestingPinia } from "@pinia/testing";
+import { createPinia, setActivePinia } from "pinia";
 import { RouterLinkStub } from "@vue/test-utils";
 
 import { useUserStore } from "@/stores/user";
@@ -9,43 +9,43 @@ vi.mock("vue-router");
 
 describe("TheHeader", () => {
   const renderTheHeader = () => {
-    const pinia = createTestingPinia();
+    setActivePinia(createPinia());
 
     render(TheHeader, {
       global: {
         stubs: {
           FontAwesomeIcon: true,
           RouterLink: RouterLinkStub
-        },
-        plugins: [pinia],
+        }
       }
     });
   };
 
   it("renders company name", () => {
     renderTheHeader();
-    expect(screen.getByText("AdoptMau")).toBeInTheDocument;
+    expect(screen.getByText("AdoptMau")).toBeInTheDocument();
   });
 
   describe("when admin is login", () => {
-    it("renders a dropdown for admin where he can logout and add new cat", () => {
-      const userStore = useUserStore();
+    it("renders a dropdown for admin where he can logout and add new cat", async () => {
+      renderTheHeader();
 
+      const userStore = useUserStore();
       userStore.adminIsLogin = true;
-      const dropdown = screen.findByRole("button", {
-        name: /admin/i
-      });
-      expect(dropdown).toBeInTheDocument;
-      expect(screen.findByTitle("user-info")).not.toBeInTheDocument;
+
+      const dropdown = await screen.findByTestId("dropdown");
+      expect(dropdown).toBeInTheDocument();
+      expect(await screen.queryByTestId("user-info")).not.toBeInTheDocument();
     });
   });
 
   describe("when admin is not login", () => {
     it("renders a user icon to alow admin to login when he click that icon", () => {
-      const userStore = useUserStore();
+      renderTheHeader();
 
+      const userStore = useUserStore();
       userStore.adminIsLogin = false;
-      expect(screen.findByTitle("user-info")).toBeInTheDocument;
+      expect(screen.queryByTestId("user-info")).toBeInTheDocument();
     });
   });
 

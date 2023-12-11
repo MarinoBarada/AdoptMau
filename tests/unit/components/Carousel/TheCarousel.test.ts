@@ -27,11 +27,11 @@ describe("TheCarousel", () => {
   });
 
   it("decreases  activeIndex and set direction to left when click on left arrow and activate function leftButton", async () => {
-    wrapper.vm.activeIndex = 3;
+    wrapper.vm.activeIndex = 2;
     wrapper.vm.direction = "right";
     wrapper.vm.leftButton();
 
-    expect(wrapper.vm.activeIndex).toBe(2);
+    expect(wrapper.vm.activeIndex).toBe(1);
     expect(wrapper.vm.direction).toBe("left");
   });
 });

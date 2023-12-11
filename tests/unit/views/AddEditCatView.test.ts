@@ -34,24 +34,24 @@ describe("AddEditCatView", () => {
         renderAddEditCatView();
 
         const submitButton = screen.getByRole("button");
-        expect(submitButton).toBeInTheDocument;
+        expect(submitButton).toBeInTheDocument();
 
         const nameInput = screen.getByPlaceholderText<HTMLInputElement>("e.g. Oreo, Fluffy Po IV");
-        expect(nameInput).toBeInTheDocument;
+        expect(nameInput).toBeInTheDocument();
 
         await userEvent.type(nameInput, " ");
         await userEvent.click(submitButton);
-        expect(await screen.queryByText("Name must be entered!")).toBeInTheDocument;
+        expect(await screen.queryByText("Name must be entered!")).toBeInTheDocument();
       });
 
       it("display error message when name input is not valid", async () => {
         renderAddEditCatView();
 
         const submitButton = screen.getByRole("button");
-        expect(submitButton).toBeInTheDocument;
+        expect(submitButton).toBeInTheDocument();
 
         const nameInput = screen.getByPlaceholderText<HTMLInputElement>("e.g. Oreo, Fluffy Po IV");
-        expect(nameInput).toBeInTheDocument;
+        expect(nameInput).toBeInTheDocument();
 
         await userEvent.type(nameInput, " Fluffy p ");
         await userEvent.click(submitButton);
@@ -62,15 +62,15 @@ describe("AddEditCatView", () => {
         renderAddEditCatView();
 
         const submitButton = screen.getByRole("button");
-        expect(submitButton).toBeInTheDocument;
+        expect(submitButton).toBeInTheDocument();
 
         const nameInput = screen.getByPlaceholderText<HTMLInputElement>("e.g. Oreo, Fluffy Po IV");
-        expect(nameInput).toBeInTheDocument;
+        expect(nameInput).toBeInTheDocument();
 
         await userEvent.type(nameInput, " Fluffy Po IV ");
         await userEvent.click(submitButton);
         expect(await screen.queryByText("Each word in the name must be a minimum of two letters and the first must be capitalized!")).not.toBeInTheDocument;
-        expect(await screen.queryByText("Name must be entered!")).not.toBeInTheDocument;
+        expect(await screen.queryByText("Name must be entered!")).not.toBeInTheDocument();
       });
     });
 
@@ -79,10 +79,10 @@ describe("AddEditCatView", () => {
         renderAddEditCatView();
 
         const submitButton = screen.getByRole("button");
-        expect(submitButton).toBeInTheDocument;
+        expect(submitButton).toBeInTheDocument();
 
         const ageInput = screen.getByPlaceholderText<HTMLInputElement>("e.g. 3");
-        expect(ageInput).toBeInTheDocument;
+        expect(ageInput).toBeInTheDocument();
 
         await userEvent.type(ageInput, "0");
         await userEvent.click(submitButton);
@@ -93,10 +93,10 @@ describe("AddEditCatView", () => {
         renderAddEditCatView();
 
         const submitButton = screen.getByRole("button");
-        expect(submitButton).toBeInTheDocument;
+        expect(submitButton).toBeInTheDocument();
 
         const ageInput = screen.getByPlaceholderText("e.g. 3");
-        expect(ageInput).toBeInTheDocument;
+        expect(ageInput).toBeInTheDocument();
 
         await userEvent.type(ageInput, "365");
         await userEvent.click(submitButton);
@@ -107,10 +107,10 @@ describe("AddEditCatView", () => {
         renderAddEditCatView();
 
         const submitButton = screen.getByRole("button");
-        expect(submitButton).toBeInTheDocument;
+        expect(submitButton).toBeInTheDocument();
 
         const ageInput = screen.getByPlaceholderText<HTMLInputElement>("e.g. 3");
-        expect(ageInput).toBeInTheDocument;
+        expect(ageInput).toBeInTheDocument();
 
         await userEvent.type(ageInput, "12");
         await userEvent.click(submitButton);
@@ -123,26 +123,26 @@ describe("AddEditCatView", () => {
         renderAddEditCatView();
 
         const submitButton = screen.getByRole("button");
-        expect(submitButton).toBeInTheDocument;
+        expect(submitButton).toBeInTheDocument();
 
         const colorSelect = screen.getByText("Select an Option");
-        expect(colorSelect).toBeInTheDocument;
+        expect(colorSelect).toBeInTheDocument();
 
         await userEvent.click(submitButton);
-        expect(await screen.queryByText("Color must be selected!")).toBeInTheDocument;
+        expect(await screen.queryByText("Color must be selected!")).toBeInTheDocument();
       });
 
       it("do not display error message when color is selected", async () => {
         renderAddEditCatView();
 
         const submitButton = screen.getByRole("button");
-        expect(submitButton).toBeInTheDocument;
+        expect(submitButton).toBeInTheDocument();
 
         const colorSelect = await screen.findByTestId<HTMLSelectElement>("colorSelector");
-        expect(colorSelect).toBeInTheDocument;
+        expect(colorSelect).toBeInTheDocument();
 
         await userEvent.selectOptions(colorSelect, "gray");
-        expect(await screen.queryByText("Color must be selected!")).not.toBeInTheDocument;
+        expect(await screen.queryByText("Color must be selected!")).not.toBeInTheDocument();
       });
     });
 
@@ -151,43 +151,44 @@ describe("AddEditCatView", () => {
         renderAddEditCatView();
 
         const submitButton = screen.getByRole("button");
-        expect(submitButton).toBeInTheDocument;
+        expect(submitButton).toBeInTheDocument();
 
         const urlInput = screen.getByPlaceholderText<HTMLInputElement>("e.g. https//cat-picture-url");
-        expect(urlInput).toBeInTheDocument;
+        expect(urlInput).toBeInTheDocument();
 
         await userEvent.type(urlInput, " ");
         await userEvent.click(submitButton);
-        expect(await screen.queryByText("Picture URL must be entered!")).toBeInTheDocument;
+        expect(await screen.queryByText("Picture URL must be entered!")).toBeInTheDocument();
       });
 
       it("display error message when URL input is not valid", async () => {
         renderAddEditCatView();
 
         const submitButton = screen.getByRole("button");
-        expect(submitButton).toBeInTheDocument;
+        expect(submitButton).toBeInTheDocument();
 
         const urlInput = screen.getByPlaceholderText<HTMLInputElement>("e.g. https//cat-picture-url");
-        expect(urlInput).toBeInTheDocument;
+        expect(urlInput).toBeInTheDocument();
 
-        await userEvent.type(urlInput, " htps//cat-picture-url");
         await userEvent.click(submitButton);
-        expect(await screen.queryByText("URL must look like e.g. https//cat-picture-url")).toBeInTheDocument;
+        await userEvent.type(urlInput, "not valid URL");
+        expect(urlInput).toHaveValue("not valid URL");
+        expect(await screen.queryByText("URL is not valid!")).toBeInTheDocument();
       });
 
       it("do not display error messages when URL input is valid", async () => {
         renderAddEditCatView();
 
         const submitButton = screen.getByRole("button");
-        expect(submitButton).toBeInTheDocument;
+        expect(submitButton).toBeInTheDocument();
 
         const urlInput = screen.getByPlaceholderText<HTMLInputElement>("e.g. https//cat-picture-url");
-        expect(urlInput).toBeInTheDocument;
+        expect(urlInput).toBeInTheDocument();
 
         await userEvent.type(urlInput, "https://images.pexels.com/photos/774731/pexels-photo-774731.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
         await userEvent.click(submitButton);
-        expect(await screen.queryByText("URL must look like e.g. https//cat-picture-url")).not.toBeInTheDocument;
-        expect(await screen.queryByText("Picture URL must be entered!")).not.toBeInTheDocument;
+        expect(await screen.queryByText("URL is not valid!")).not.toBeInTheDocument();
+        expect(await screen.queryByText("Picture URL must be entered!")).not.toBeInTheDocument();
       });
     });
   });

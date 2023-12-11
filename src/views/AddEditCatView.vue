@@ -65,7 +65,7 @@
         <ul v-if="warnings" class="warnings">
           <li v-if="cat.picture == ''">Picture URL must be entered!</li>
           <li v-if="!isValidURLInput(cat.picture as string)">
-            URL must look like e.g. https//cat-picture-url
+            URL is not valid!
           </li>
         </ul>
       </div>

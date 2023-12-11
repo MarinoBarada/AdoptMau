@@ -5,12 +5,12 @@
         <img src="cat.ico" alt="cat" />
         <h1>AdoptMau</h1>
       </router-link>
-      <div v-if="!adminIsLogin" class="user-info" title="user-info">
+      <div v-if="!adminIsLogin" class="user-info" data-testid="user-info">
         <router-link :to="{ name: 'login' }">
           <font-awesome-icon :icon="['fas', 'circle-user']" class="user-icon" />
         </router-link>
       </div>
-      <div v-else class="dropdown">
+      <div v-else class="dropdown" data-testid="dropdown">
         <button class="dropdown-button" @click="open">
           Admin <font-awesome-icon :icon="caretIcon" class="icon" />
         </button>

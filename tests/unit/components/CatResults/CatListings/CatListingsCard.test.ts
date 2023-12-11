@@ -1,16 +1,20 @@
 import { render, screen } from "@testing-library/vue";
-import { createTestingPinia } from "@pinia/testing";
 import { RouterLinkStub } from "@vue/test-utils";
 
 import type { Cat } from "@/api/types";
 import CatListingsCard from "@/components/CatResults/CatListings/CatListingsCard.vue";
+import { createTestingPinia } from "@pinia/testing";
+
 import { useUserStore } from "@/stores/user";
 
 import { createCat } from "../../../../utils/createCat";
 
 describe("CatListingsCard", () => {
-  const renderCatListingsCard = (cat: Cat) => {
+
+  const renderCatListingsCard = (cat: Cat, admin: boolean) => {
     const pinia = createTestingPinia();
+    const userStore = useUserStore();
+    userStore.adminIsLogin = admin;
 
     render(CatListingsCard, {
       global: {
@@ -26,60 +30,61 @@ describe("CatListingsCard", () => {
         }
       }
     });
+    return { userStore };
   };
 
   it("renders cat name", () => {
     const catProps = createCat({ name: "Pumpkin" });
-    renderCatListingsCard(catProps);
+    renderCatListingsCard(catProps, false);
 
-    expect(screen.getByText("Pumpkin")).toBeInTheDocument;
+    expect(screen.getByText("Pumpkin")).toBeInTheDocument();
   });
 
   it("renders cat age", () => {
     const catProps = createCat({ age: 1 });
-    renderCatListingsCard(catProps);
+    renderCatListingsCard(catProps, false);
 
-    expect(screen.getByText("1 months")).toBeInTheDocument;
+    expect(screen.getByText("1 months")).toBeInTheDocument();
   });
 
   it("renders cat color", () => {
     const catProps = createCat({ color: "orange" });
-    renderCatListingsCard(catProps);
+    renderCatListingsCard(catProps, false);
 
-    expect(screen.getByText("orange")).toBeInTheDocument;
+    expect(screen.getByText("orange")).toBeInTheDocument();
   });
 
   describe("when admin has not logged in", () => {
-    it("do not render edit and delete buttons", () => {
-      const userStore = useUserStore();
+    it("do not render edit and delete buttons", async () => {
+      const catProps = createCat({ name: "Pumpkin" });
+      renderCatListingsCard(catProps, false);
 
-      userStore.adminIsLogin = false;
-      expect(screen.findByText("EDIT")).not.toBeInTheDocument;
-      expect(screen.findByText("DELETE")).not.toBeInTheDocument;
+      expect(screen.queryByText("EDIT")).not.toBeInTheDocument();
+      expect(screen.queryByText("DELETE")).not.toBeInTheDocument();
     });
 
     it("render a adopt button", () => {
-      const userStore = useUserStore();
+      const catProps = createCat({ name: "Pumpkin" });
+      renderCatListingsCard(catProps, false);
 
-      userStore.adminIsLogin = false;
-      expect(screen.findByText("ADOPT")).toBeInTheDocument;
+      expect(screen.queryByText("ADOPT")).toBeInTheDocument();
     })
   });
 
   describe("when admin has logged in", () => {
     it("render edit and delete buttons", () => {
-      const userStore = useUserStore();
+      const catProps = createCat({ name: "Pumpkin" });
+      renderCatListingsCard(catProps, true);
 
-      userStore.adminIsLogin = true;
-      expect(screen.findByText("EDIT")).toBeInTheDocument;
-      expect(screen.findByText("DELETE")).toBeInTheDocument;
+      expect(screen.queryByText("EDIT")).toBeInTheDocument();
+      expect(screen.queryByText("DELETE")).toBeInTheDocument();
     });
 
     it("do not render a adopt button", () => {
-      const userStore = useUserStore();
+      const catProps = createCat({ name: "Pumpkin" });
+      renderCatListingsCard(catProps, true);
 
-      userStore.adminIsLogin = true;
-      expect(screen.findByText("ADOPT")).not.toBeInTheDocument;
-    })
+      expect(screen.queryByText("ADOPT")).not.toBeInTheDocument();
+    });
   });
 });

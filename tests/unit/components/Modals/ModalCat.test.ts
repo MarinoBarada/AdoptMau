@@ -42,20 +42,30 @@ describe("ModalCat", () => {
       renderModalCat(config);
 
       const cardModal = screen.queryByRole("modal");
-      expect(cardModal).toBeInTheDocument;
+      expect(cardModal).toBeInTheDocument();
     });
 
-    it("render button for adoption", () => {
-      renderModalCat();
+    it("render button for adoption", async () => {
+      const props = {
+        catInfo: {
+          name: "Fluffy",
+          age: 3,
+          color: "gray",
+          picture: "https://images.pexels.com/photos/1438649/pexels-photo-1438649.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+        },
+        showModal: true
+      };
+      const config = { props };
+      renderModalCat(config);
       const userStore = useUserStore();
       userStore.adminIsLogin = false;
 
-      const adoptButton = screen.findByRole("button", { name: /adopt/i });
-      expect(adoptButton).toBeInTheDocument;
+      const adoptButton = await screen.queryByRole("button", { name: /adopt/i });
+      expect(adoptButton).toBeInTheDocument();
     });
 
     describe("when admin is login", () => {
-      it("do not render button for adoption", () => {
+      it("do not render button for adoption", async () => {
         const props = {
           catInfo: {
             name: "Fluffy",
@@ -68,10 +78,10 @@ describe("ModalCat", () => {
         const config = { props };
         renderModalCat(config);
         const userStore = useUserStore();
-        userStore.adminIsLogin = false;
+        userStore.adminIsLogin = true;
 
-        const adoptButton = screen.getByRole("button", { name: /adopt/i });
-        expect(adoptButton).not.toBeInTheDocument;
+        const adoptButton = await screen.queryByRole("button", { name: /adopt/i });
+        expect(adoptButton).not.toBeInTheDocument();
       });
     });
 
@@ -90,7 +100,7 @@ describe("ModalCat", () => {
       const config = { props };
       renderModalCat(config);
 
-      const cardModal = screen.queryByRole("modal");
+      const cardModal = await screen.queryByRole("modal");
       expect(cardModal).not.toBeInTheDocument();
     });
   });
