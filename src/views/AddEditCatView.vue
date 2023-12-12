@@ -86,10 +86,21 @@
       </button>
     </form>
   </div>
+  <the-loader
+    v-if="loadingAdd"
+    message="Cat Added Successfully!"
+    destination="home"
+  />
+  <the-loader
+    v-if="loadingEdit"
+    message="Cat Edited Successfully!"
+    destination="home"
+  />
 </template>
 
 <script lang="ts" setup>
 import { ref, computed, onBeforeMount, onMounted } from "vue";
+import TheLoader from "@/components/Loader/TheLoader.vue";
 import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
 
@@ -105,6 +116,8 @@ const route = useRoute();
 const catsStore = useCatsStore();
 const userStore = useUserStore();
 
+const loadingAdd = ref(false);
+const loadingEdit = ref(false);
 const currentCatId = computed<number | undefined>(() => +route.params.id);
 const editCat = ref(false);
 const submitMessage = computed(() => {
@@ -159,17 +172,11 @@ const addCat = () => {
   ) {
     if (editCat.value) {
       catsStore.EDIT_CAT(currentCatId.value as number, cat.value);
+      loadingEdit.value = true;
     } else {
       catsStore.CREATE_NEW_CAT(cat.value);
+      loadingAdd.value = true;
     }
-    cat.value = {
-      name: "",
-      age: 1,
-      color: "",
-      picture: "",
-      adopted: false
-    };
-    router.push({ name: "home" });
   }
 };
 
@@ -210,6 +217,7 @@ onBeforeMount(() => {
     @include flex(row, center, center);
     gap: 10px;
     transition: transform 0.3s ease;
+    @include box-shadow;
 
     h3 {
       color: $secondary-color;
@@ -228,6 +236,12 @@ onBeforeMount(() => {
     max-width: 500px;
     width: 100%;
     gap: 20px;
+    @include box-shadow;
+
+    @media (max-width: $mobile-max-size) {
+      margin-top: 100px;
+      padding: 10px 20px;
+    }
 
     h1 {
       text-align: center;
@@ -238,6 +252,10 @@ onBeforeMount(() => {
       gap: 5px;
 
       @include checkbox-style;
+
+      .check-box {
+        font-size: 20px;
+      }
 
       label {
         font-size: 20px;

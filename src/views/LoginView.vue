@@ -39,6 +39,8 @@
       </form>
     </div>
   </div>
+
+  <the-loader v-if="loading" message="Login Successful!" destination="home" />
 </template>
 
 <script lang="ts" setup>
@@ -46,11 +48,14 @@ import { ref, onBeforeMount } from "vue";
 import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/user";
 
+import TheLoader from "@/components/Loader/TheLoader.vue";
+
 const username = ref("");
 const password = ref("");
 const warning = ref(false);
 const errorMessage = ref("");
 const router = useRouter();
+const loading = ref(false);
 
 const userStore = useUserStore();
 
@@ -59,7 +64,7 @@ const loginAction = () => {
   if (username.value != "" && password.value != "") {
     if (username.value == "admin" && password.value == "12345") {
       userStore.ADMIN_LOGIN_LOGOUT();
-      router.push({ name: "home" });
+      loading.value = true;
     } else {
       errorMessage.value = "Incorrect username or password!";
       warning.value = true;
@@ -96,6 +101,7 @@ onBeforeMount(() => {
     @include flex(row, center, center);
     gap: 10px;
     transition: transform 0.3s ease;
+    @include box-shadow;
 
     h3 {
       color: $secondary-color;
@@ -114,6 +120,7 @@ onBeforeMount(() => {
     height: 100%;
     border-radius: 10px;
     @include flex(row, start, center);
+    @include box-shadow;
 
     @media (max-width: $mobile-max-size) {
       @include flex(row, center, center);
@@ -146,7 +153,7 @@ onBeforeMount(() => {
       @media (max-width: $mobile-max-size) {
         margin: 0;
         max-width: 500px;
-        width: 80%;
+        width: 90%;
       }
 
       h1 {
@@ -176,6 +183,7 @@ onBeforeMount(() => {
           font-size: 18px;
           border: none;
           padding: 5px;
+          width: 100%;
 
           &:focus {
             border: none;
