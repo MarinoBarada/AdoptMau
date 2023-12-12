@@ -1,6 +1,6 @@
 <template>
   <div class="loader-wrapper">
-    <span class="loader" ref="loader"></span>
+    <span class="loader" ref="loader" data-testid="loader"></span>
     <div class="message" ref="messages">
       <font-awesome-icon :icon="['fas', 'circle-check']" class="check" />
       <h1>{{ props.message }}</h1>
@@ -38,7 +38,8 @@ const loadingView = () => {
 onMounted(loadingView);
 
 onBeforeUnmount(() => {
-  clearTimeout(timeoutToGo.value), clearTimeout(timeout.value);
+  clearTimeout(timeoutToGo.value);
+  clearTimeout(timeout.value);
 });
 
 const toGo = () => {
