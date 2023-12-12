@@ -69,6 +69,8 @@ header {
 
     @media (max-width: $mobile-max-size) {
       padding: 3px 7px;
+      padding-left: 0px;
+      flex-wrap: wrap;
     }
   }
 
@@ -105,6 +107,10 @@ header {
 
   .dropdown {
     position: relative;
+
+    @media (max-width: 285px) {
+      margin-left: 50%;
+    }
 
     .dropdown-button {
       outline: none;

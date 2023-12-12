@@ -136,7 +136,11 @@ const closeAllModals = () => {
     h1 {
       text-align: center;
       font-size: 30px;
-      width: 80%;
+      width: 90%;
+    }
+
+    p {
+      text-align: center;
     }
 
     .adoption {

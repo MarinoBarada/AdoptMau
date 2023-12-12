@@ -98,7 +98,7 @@ const direction = ref<"right" | "left">("right");
 
 const scrollCarousel = (direction: string) => {
   if (carousel.value != null) {
-    if (carousel.value.offsetWidth < 768) {
+    if (carousel.value.offsetWidth <= 768) {
       if (direction == "left")
         carousel.value.scrollLeft -= carousel.value.offsetWidth;
       else {
@@ -195,7 +195,7 @@ const infiniteScroll = () => {
 
 const mobileSlider = () => {
   if (carousel.value != null) {
-    if (carousel.value.offsetWidth < 768) {
+    if (carousel.value.offsetWidth <= 768) {
       activeIndex.value = 0;
     }
   }
