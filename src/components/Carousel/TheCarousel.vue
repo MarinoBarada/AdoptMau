@@ -256,6 +256,7 @@ onMounted(mobileSlider);
     scrollbar-width: 0;
     touch-action: none;
     scroll-margin: 0;
+    overflow-y: hidden;
 
     &.hoverEffect {
       pointer-events: none;

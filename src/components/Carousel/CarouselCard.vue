@@ -57,6 +57,7 @@ defineProps({
     padding-top: 10px;
     z-index: 10;
     font-size: 30px;
+    line-height: 50px;
     background-image: linear-gradient(
       to bottom,
       rgba(255, 255, 255, 0),
@@ -64,9 +65,15 @@ defineProps({
       rgba(255, 255, 255, 0.8),
       rgba(255, 255, 255, 1)
     );
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    max-width: 100%;
 
     @media (max-width: $tablet-max-size) {
       font-size: 25px;
+      line-height: 40px;
     }
   }
 

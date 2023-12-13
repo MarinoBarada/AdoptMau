@@ -319,6 +319,14 @@
       "color": "gray",
       "picture": "https://images.pexels.com/photos/1275451/pexels-photo-1275451.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       "adopted": false
+    },
+    {
+      "name": "Fluff The Great III",
+      "age": 13,
+      "color": "black",
+      "picture": "https://images.pexels.com/photos/14527985/pexels-photo-14527985.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      "adopted": false,
+      "id": 41
     }
   ]
 }
