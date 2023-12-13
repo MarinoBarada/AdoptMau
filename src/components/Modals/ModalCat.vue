@@ -10,7 +10,7 @@
         </div>
         <div class="cat-info">
           <h1>{{ catInfo.name }}</h1>
-          <p><span>Age:</span> {{ catInfo.age }} months</p>
+          <p><span>Age:</span> {{ ageDisplay(catInfo.age) }}</p>
           <p><span>Color:</span> {{ catInfo.color }}</p>
         </div>
         <button
@@ -27,6 +27,7 @@
 
 <script lang="ts" setup>
 import { useUserStore } from "@/stores/user";
+import ageDisplay from "@/utils/ageDisplay";
 
 const userStore = useUserStore();
 

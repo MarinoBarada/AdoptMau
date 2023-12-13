@@ -5,7 +5,7 @@
     </div>
     <div class="info">
       <h1>{{ cat.name }}</h1>
-      <p><span>Age:</span> {{ cat.age }} months</p>
+      <p><span>Age:</span> {{ ageDisplay(cat.age) }}</p>
       <p><span>Color:</span> {{ cat.color }}</p>
     </div>
     <div v-if="adminIsLogin" class="edit-delete">
@@ -25,6 +25,7 @@
 <script lang="ts" setup>
 import type { PropType } from "vue";
 import { computed } from "vue";
+import ageDisplay from "@/utils/ageDisplay";
 
 import { useUserStore } from "@/stores/user";
 import type { Cat } from "@/api/types";
@@ -103,6 +104,11 @@ const openDeleteModal = () => {
 
     h1 {
       font-size: 30px;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      max-width: 90%;
     }
 
     p {
