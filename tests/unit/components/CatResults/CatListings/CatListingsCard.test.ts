@@ -44,7 +44,7 @@ describe("CatListingsCard", () => {
     const catProps = createCat({ age: 1 });
     renderCatListingsCard(catProps, false);
 
-    expect(screen.getByText("1 months")).toBeInTheDocument();
+    expect(screen.getByText("1 month")).toBeInTheDocument();
   });
 
   it("renders cat color", () => {
