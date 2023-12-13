@@ -15,6 +15,13 @@ describe("state", () => {
     ]);
   });
 
+  it("stores user's filter choice by adopted", () => {
+    const store = useUserStore();
+    expect(store.filterByAdopted).toEqual([
+      { name: "Adopted", value: false },
+    ]);
+  });
+
   it("stores user's sort choice by type ascending and descending", () => {
     const store = useUserStore();
     expect(store.sortByType).toEqual([
@@ -100,6 +107,19 @@ describe("actions", () => {
     });
   });
 
+  describe("HANDLE_CHANGE_FILTER_BY_ADOPTED", () => {
+    it("keeps track of user filter choices by adopted", () => {
+      const store = useUserStore();
+      store.filterByAdopted = [
+        { name: "Adopted", value: false },
+      ];
+      store.HANDLE_CHANGE_FILTER_BY_ADOPTED("Adopted");
+      expect(store.filterByAdopted).toEqual([
+        { name: "Adopted", value: true },
+      ]);
+    });
+  });
+
   describe("UPDATE_NAME_SEARCH", () => {
     it("receives search term for cats name the user has entered", () => {
       const store = useUserStore();
@@ -149,16 +169,20 @@ describe("actions", () => {
   describe("ADMIN_LOGIN_LOGOUT", () => {
     it("change adminIsLogin from false to true when admin login", () => {
       const store = useUserStore();
+      store.filterByAdopted[0].value = false;
       store.adminIsLogin = false;
       store.ADMIN_LOGIN_LOGOUT();
       expect(store.adminIsLogin).toBe(true);
+      expect(store.filterByAdopted[0].value).toBe(false);
     });
 
     it("change adminIsLogin from true to false when admin logout", () => {
       const store = useUserStore();
+      store.filterByAdopted[0].value = true;
       store.adminIsLogin = true;
       store.ADMIN_LOGIN_LOGOUT();
       expect(store.adminIsLogin).toBe(false);
+      expect(store.filterByAdopted[0].value).toBe(false);
     });
   });
 });
