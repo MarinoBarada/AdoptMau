@@ -1,4 +1,4 @@
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { defineStore } from "pinia";
 
 import type { SortBy } from "@/api/types";
@@ -9,6 +9,10 @@ export const useUserStore = defineStore("user", () => {
   const sortBy = ref<SortBy[]>([
     { name: "Age", value: true },
     { name: "Name", value: false },
+  ]);
+
+  const filterByAdopted = ref<SortBy[]>([
+    { name: "Adopted", value: false },
   ]);
 
   const sortByType = ref<SortBy[]>([
@@ -30,6 +34,7 @@ export const useUserStore = defineStore("user", () => {
 
   const ADMIN_LOGIN_LOGOUT = () => {
     adminIsLogin.value = !adminIsLogin.value;
+    filterByAdopted.value[0].value = false;
   };
 
   const CLICK_SEE_MORE = () => {
@@ -42,6 +47,12 @@ export const useUserStore = defineStore("user", () => {
     sortBy.value.forEach((obj) => {
       if (obj.name === selectedValue) obj.value = true;
       else obj.value = false;
+    })
+  };
+
+  const HANDLE_CHANGE_FILTER_BY_ADOPTED = (selectedValue: string) => {
+    filterByAdopted.value.forEach((obj) => {
+      if (obj.name === selectedValue) obj.value = !obj.value;
     })
   };
 
@@ -64,6 +75,7 @@ export const useUserStore = defineStore("user", () => {
 
   return {
     sortBy,
+    filterByAdopted,
     sortByType,
     filterCats,
     nameSearch,
@@ -72,6 +84,7 @@ export const useUserStore = defineStore("user", () => {
     ADMIN_LOGIN_LOGOUT,
     CLICK_SEE_MORE,
     HANDLE_CHANGE_SORTBY,
+    HANDLE_CHANGE_FILTER_BY_ADOPTED,
     HANDLE_CHANGE_SORTBY_TYPE,
     HANDLE_FILTERS,
     UPDATE_NAME_SEARCH

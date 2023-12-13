@@ -101,6 +101,7 @@ const displayedCats = computed(() => {
 
     img:hover {
       animation: Shake 0.5s linear infinite;
+      cursor: pointer;
     }
   }
 

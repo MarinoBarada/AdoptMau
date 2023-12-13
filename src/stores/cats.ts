@@ -62,13 +62,21 @@ export const useCatsStore = defineStore("cats", () => {
     return cat.name.toLowerCase().includes(userStore.nameSearch.toLowerCase());
   }
 
+  const INCLUDE_CATS_BY_ADOPTED = (cat: Cat) => {
+    const userStore = useUserStore();
+
+    if (userStore.filterByAdopted[0].value) return cat.adopted == true;
+    return cat.adopted == false;
+  }
+
+
   const FILTERED_CATS = computed(() => {
     return SORTED_CATS.value
       .filter((cat) => INCLUDE_CATS_YOUNGER_THEN_12(cat))
       .filter((cat) => INCLUDE_CATS_YOUNGER_THEN_6(cat))
       .filter((cat) => INCLUDE_CATS_COLOR_BLACK(cat))
       .filter((cat) => INCLUDE_CATS_BY_NAME(cat))
-      .filter((cat) => cat.adopted == false);
+      .filter((cat) => INCLUDE_CATS_BY_ADOPTED(cat))
   });
 
   const ADOPT_CAT = async (id: number) => {
@@ -107,6 +115,7 @@ export const useCatsStore = defineStore("cats", () => {
     INCLUDE_CATS_YOUNGER_THEN_12,
     INCLUDE_CATS_COLOR_BLACK,
     INCLUDE_CATS_BY_NAME,
+    INCLUDE_CATS_BY_ADOPTED,
     ADOPT_CAT,
     CREATE_NEW_CAT,
     GET_SPECIFIC_CAT,

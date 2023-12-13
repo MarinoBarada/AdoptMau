@@ -1,6 +1,12 @@
 <template>
   <div class="cat-filters-sidebar" ref="filter">
     <cat-side-bar-search-names />
+    <side-bar-fieldset v-if="userStore.adminIsLogin" header="Adopted:">
+      <cat-side-bar-check-box
+        :sorts="filterByAdopted"
+        :action="HANDLE_CHANGE_FILTER_BY_ADOPTED"
+      />
+    </side-bar-fieldset>
     <side-bar-fieldset header="Sort By:">
       <cat-side-bar-radio-box
         :sorts="sortBy"
@@ -43,6 +49,11 @@ const filterText = ref<HTMLDivElement | null>(null);
 const visibleFilter = ref(true);
 
 const userStore = useUserStore();
+
+const filterByAdopted = computed(() => userStore.filterByAdopted);
+const HANDLE_CHANGE_FILTER_BY_ADOPTED = computed(
+  () => userStore.HANDLE_CHANGE_FILTER_BY_ADOPTED
+);
 
 const sortBy = computed(() => userStore.sortBy);
 const HANDLE_CHANGE_SORTBY = computed(() => userStore.HANDLE_CHANGE_SORTBY);
