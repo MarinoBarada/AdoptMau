@@ -42,6 +42,7 @@ const nameSearchTerm = computed({
     font-size: 16px;
     line-height: 24px;
     margin-bottom: 2px;
+    margin-top: 2px;
   }
 }
 </style>

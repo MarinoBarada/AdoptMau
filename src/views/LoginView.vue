@@ -6,7 +6,7 @@
     </router-link>
     <div class="login-container">
       <div class="image">
-        <img src="/cat.ico" alt="logo" />
+        <img src="../../public/cat.ico" alt="logo" />
       </div>
       <form @submit.prevent="loginAction">
         <h1>Admin Login</h1>

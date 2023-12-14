@@ -19,7 +19,7 @@
     <div v-if="FILTERED_CATS.length == 0" class="empty-filter">
       <p>Unfortunately the cat you were looking for does not exist!</p>
       <p>Try changing the filters!</p>
-      <img src="cat.ico" alt="cat" />
+      <img src="../../../../public/cat.ico" alt="cat" />
     </div>
   </div>
 

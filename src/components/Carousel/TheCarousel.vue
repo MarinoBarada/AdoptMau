@@ -253,10 +253,17 @@ onMounted(mobileSlider);
     padding: 20px 0;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
-    scrollbar-width: 0;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
     touch-action: none;
     scroll-margin: 0;
     overflow-y: hidden;
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none; /* For Edge */
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
 
     &.hoverEffect {
       pointer-events: none;

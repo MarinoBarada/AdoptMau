@@ -2,7 +2,7 @@
   <header>
     <div class="wrapper">
       <router-link :to="{ name: 'home' }" class="logo">
-        <img src="cat.ico" alt="cat" />
+        <img src="../../../public/cat.ico" alt="cat" />
         <h1>AdoptMau</h1>
       </router-link>
       <div v-if="!adminIsLogin" class="user-info" data-testid="user-info">
