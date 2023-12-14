@@ -1,7 +1,16 @@
 <template>
   <div class="loader-wrapper">
-    <span class="loader" ref="loader" data-testid="loader"></span>
-    <div class="message" ref="messages">
+    <span
+      v-if="showLoader"
+      class="loader"
+      ref="loader"
+      data-testid="loader"
+    ></span>
+    <div
+      v-if="!showLoader && showSuccessMessage"
+      class="message"
+      ref="messages"
+    >
       <font-awesome-icon :icon="['fas', 'circle-check']" class="check" />
       <h1>{{ props.message }}</h1>
     </div>
@@ -12,11 +21,12 @@
 import { onMounted, ref, onBeforeUnmount } from "vue";
 import { useRouter } from "vue-router";
 
-const loader = ref<HTMLSpanElement | null>(null);
-const messages = ref<HTMLDivElement | null>(null);
-const timeout = ref<ReturnType<typeof setTimeout>>();
+const timeoutShowMessage = ref<ReturnType<typeof setTimeout>>();
 const timeoutToGo = ref<ReturnType<typeof setTimeout>>();
 const router = useRouter();
+
+const showLoader = ref(true);
+const showSuccessMessage = ref(false);
 
 const props = defineProps({
   message: {
@@ -29,40 +39,28 @@ const props = defineProps({
   }
 });
 
+const showMessage = () => {
+  showLoader.value = false;
+  showSuccessMessage.value = true;
+};
+
+const navigateToDestination = () => {
+  router.push({ name: props.destination });
+};
+
 const loadingView = () => {
-  timeout.value = setTimeout(showMessage, 3000);
-  toGo();
-  restartAll();
+  timeoutShowMessage.value = setTimeout(() => {
+    showMessage();
+    timeoutToGo.value = setTimeout(navigateToDestination, 1500);
+  }, 3000);
 };
 
 onMounted(loadingView);
 
 onBeforeUnmount(() => {
   clearTimeout(timeoutToGo.value);
-  clearTimeout(timeout.value);
+  clearTimeout(timeoutShowMessage.value);
 });
-
-const toGo = () => {
-  timeoutToGo.value = setTimeout(() => {
-    router.push({ name: props.destination });
-    clearTimeout(timeoutToGo.value);
-  }, 4500);
-};
-
-const showMessage = () => {
-  if (loader.value != null && messages.value != null) {
-    loader.value.classList.add("display-none");
-    messages.value.classList.add("display-block");
-    clearTimeout(timeout.value);
-  }
-};
-
-const restartAll = () => {
-  if (loader.value != null && messages.value != null) {
-    loader.value.classList.remove("display-none");
-    messages.value.classList.remove("display-block");
-  }
-};
 </script>
 
 <style lang="scss">
@@ -74,7 +72,6 @@ const restartAll = () => {
   .message {
     @include flex(column, center, center);
     gap: 10px;
-    display: none;
     animation: animatebottom 2s ease-in;
 
     .check {
@@ -94,10 +91,6 @@ const restartAll = () => {
       @media (max-width: $mobile-max-size) {
         font-size: 30px;
       }
-    }
-
-    &.display-block {
-      display: flex;
     }
   }
 
@@ -126,10 +119,6 @@ const restartAll = () => {
 
     @media (max-width: $mobile-max-size) {
       font-size: 20px;
-    }
-
-    &.display-none {
-      display: none;
     }
   }
 

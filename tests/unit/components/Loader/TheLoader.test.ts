@@ -14,6 +14,7 @@ describe("TheLoader", () => {
   });
 
   afterEach(() => {
+    vi.runOnlyPendingTimers();
     vi.useRealTimers();
   });
 
@@ -47,17 +48,26 @@ describe("TheLoader", () => {
     expect(mock).toHaveBeenCalled();
   });
 
-  it("display loader then message after 3s", () => {
+  it("displays loader then message after 3s", async () => {
     const props = {
       message: "Successful!",
       destination: "home"
     };
-    const config = { props };
-    renderTheLoader(config);
+    const { getByTestId, getByText } = render(TheLoader, {
+      global: {
+        stubs: {
+          FontAwesomeIcon: true
+        }
+      },
+      props
+    });
 
-    expect(screen.getByTestId("loader")).toBeInTheDocument();
+    expect(getByTestId("loader")).toBeInTheDocument();
 
     vi.advanceTimersByTime(3000);
-    expect(screen.getByText("Successful!")).toBeInTheDocument();
+
+    await screen.findByText("Successful!");
+
+    expect(getByText("Successful!")).toBeInTheDocument();
   });
 });
