@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper-carousel" ref="wrapperCarousel">
+  <div class="wrapper-carousel" ref="wrapperCarousel" :key="keyToForceUpdate">
     <font-awesome-icon
       :icon="['fas', 'angle-left']"
       class="commands left"
@@ -44,7 +44,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, computed, onBeforeUnmount } from "vue";
+import { ref, onMounted, computed, onBeforeUnmount, watch } from "vue";
 
 import ModalCat from "@/components/Modals/ModalCat.vue";
 import ModalForConfirmation from "@/components/Modals/ModalForConfirmation.vue";
@@ -192,6 +192,26 @@ const infiniteScroll = () => {
     }
   }
 };
+
+const windowWidth = ref(window.innerWidth);
+const keyToForceUpdate = ref(0);
+
+const handleResize = () => {
+  if (window.innerWidth !== windowWidth.value) {
+    windowWidth.value = window.innerWidth;
+    keyToForceUpdate.value++;
+  }
+};
+
+onMounted(() => {
+  window.addEventListener("resize", handleResize);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("resize", handleResize);
+});
+
+watch(keyToForceUpdate, () => {});
 
 const mobileSlider = () => {
   if (carousel.value != null) {
