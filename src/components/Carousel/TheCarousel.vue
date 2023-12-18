@@ -215,7 +215,7 @@ onBeforeUnmount(() => {
 
 const handleVisibilityChange = () => {
   if (document.hidden) {
-    pause();
+    clearInterval(interval.value);
     // console.log("Goodbye, world!");
   } else {
     moveSlider();
