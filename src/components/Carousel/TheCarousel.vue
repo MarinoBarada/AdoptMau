@@ -44,7 +44,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, computed, onBeforeUnmount, watch } from "vue";
+import { ref, onMounted, computed, onBeforeUnmount } from "vue";
 
 import ModalCat from "@/components/Modals/ModalCat.vue";
 import ModalForConfirmation from "@/components/Modals/ModalForConfirmation.vue";
@@ -205,18 +205,30 @@ const handleResize = () => {
 
 onMounted(() => {
   window.addEventListener("resize", handleResize);
+  document.addEventListener("visibilitychange", handleVisibilityChange);
 });
 
 onBeforeUnmount(() => {
   window.removeEventListener("resize", handleResize);
+  document.removeEventListener("visibilitychange", handleVisibilityChange);
 });
 
-watch(keyToForceUpdate, () => {});
+const handleVisibilityChange = () => {
+  if (document.hidden) {
+    pause();
+    // console.log("Goodbye, world!");
+  } else {
+    moveSlider();
+    // console.log("Welcome back!");
+  }
+};
 
 const mobileSlider = () => {
   if (carousel.value != null) {
     if (carousel.value.offsetWidth <= 768) {
       activeIndex.value = 0;
+    } else {
+      activeIndex.value = 1;
     }
   }
 };
