@@ -2,13 +2,13 @@
   <div class="wrapper-carousel" ref="wrapperCarousel" :key="keyToForceUpdate">
     <font-awesome-icon
       :icon="['fas', 'angle-left']"
-      class="commands left"
+      :class="{ commands: true, left: true, disabled: isDisabled }"
       @click="leftButton"
       @mouseover="pause"
     />
     <font-awesome-icon
       :icon="['fas', 'angle-right']"
-      class="commands right"
+      :class="{ commands: true, right: true, disabled: isDisabled }"
       @click="rightButton"
       @mouseover="pause"
     />
@@ -112,17 +112,30 @@ const scrollCarousel = (direction: string) => {
   }
 };
 
+const isDisabled = ref(false);
+const timeoutDisabled = ref<ReturnType<typeof setTimeout>>();
+
 const rightButton = () => {
+  disableArrows();
   scrollCarousel("right");
   direction.value = "right";
   activeIndex.value++;
 };
 
 const leftButton = () => {
+  disableArrows();
   infiniteScroll();
   scrollCarousel("left");
   direction.value = "left";
   activeIndex.value--;
+};
+
+const disableArrows = async () => {
+  isDisabled.value = true;
+  timeoutDisabled.value = await setTimeout(() => {
+    isDisabled.value = false;
+    clearTimeout(timeoutDisabled.value);
+  }, 600);
 };
 
 const moveLeftRight = (direction: string) => {
@@ -141,7 +154,10 @@ const moveSlider = () => {
   }, 2000);
 };
 
-onBeforeUnmount(() => clearInterval(interval.value));
+onBeforeUnmount(() => {
+  clearInterval(interval.value);
+  clearTimeout(timeoutDisabled.value);
+});
 
 const pauseSlider = (index: number) => {
   if (index == activeIndex.value) pause();
@@ -216,7 +232,7 @@ onBeforeUnmount(() => {
 const handleVisibilityChange = () => {
   if (document.hidden) {
     clearInterval(interval.value);
-    // console.log("Goodbye, world!");
+    // console.log("Goodbye, user!");
   } else {
     moveSlider();
     // console.log("Welcome back!");
@@ -274,6 +290,11 @@ onMounted(mobileSlider);
       @media (max-width: $mobile-max-size) {
         left: 3%;
       }
+    }
+
+    &.disabled {
+      pointer-events: none;
+      background-color: transparent;
     }
   }
 
