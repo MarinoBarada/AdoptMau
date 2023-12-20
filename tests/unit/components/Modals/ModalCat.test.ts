@@ -20,8 +20,7 @@ describe("ModalCat", () => {
           age: 3,
           color: "gray",
           picture: "https://images.pexels.com/photos/1438649/pexels-photo-1438649.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        },
-        showModal: false
+        }
       },
       ...config
     });
@@ -35,13 +34,12 @@ describe("ModalCat", () => {
           age: 3,
           color: "gray",
           picture: "https://images.pexels.com/photos/1438649/pexels-photo-1438649.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        },
-        showModal: true
+        }
       };
       const config = { props };
       renderModalCat(config);
 
-      const cardModal = screen.queryByRole("modal");
+      const cardModal = screen.queryByTestId("modal");
       expect(cardModal).toBeInTheDocument();
     });
 
@@ -52,8 +50,7 @@ describe("ModalCat", () => {
           age: 3,
           color: "gray",
           picture: "https://images.pexels.com/photos/1438649/pexels-photo-1438649.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        },
-        showModal: true
+        }
       };
       const config = { props };
       renderModalCat(config);
@@ -72,8 +69,7 @@ describe("ModalCat", () => {
             age: 3,
             color: "gray",
             picture: "https://images.pexels.com/photos/1438649/pexels-photo-1438649.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          },
-          showModal: true
+          }
         };
         const config = { props };
         renderModalCat(config);
@@ -94,8 +90,7 @@ describe("ModalCat", () => {
           age: 3,
           color: "gray",
           picture: "https://images.pexels.com/photos/1438649/pexels-photo-1438649.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        },
-        showModal: false
+        }
       };
       const config = { props };
       renderModalCat(config);

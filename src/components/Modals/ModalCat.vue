@@ -1,5 +1,5 @@
 <template>
-  <div class="overlay" @click.self="closeModal" role="modal">
+  <div class="overlay" @click.self="closeModal" data-testid="modal">
     <div class="modal">
       <div class="img">
         <img :src="catInfo.picture" :alt="catInfo.name" />
