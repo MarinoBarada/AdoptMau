@@ -26,28 +26,13 @@
     </ul>
   </div>
 
-  <modal-cat
-    :cat-info="catInfo"
-    :show-modal="showModal"
-    @close-modal="closeModal"
-    @open-modal-confirmation="openModalConfirmation"
-  />
-
-  <modal-for-confirmation
-    :cat-info="catInfo"
-    :show-modal="showModalConfirmation"
-    modal-type="adopted"
-    :all-modals="true"
-    @close-modal="closeModalConfirmation"
-    @close-all-modals="closeAllModals"
-  />
+  <modal-cat v-if="showModal" :cat-info="catInfo" @close-modal="closeModal" />
 </template>
 
 <script lang="ts" setup>
 import { ref, onMounted, computed, onBeforeUnmount } from "vue";
 
 import ModalCat from "@/components/Modals/ModalCat.vue";
-import ModalForConfirmation from "@/components/Modals/ModalForConfirmation.vue";
 
 import CarouselCard from "@/components/Carousel/CarouselCard.vue";
 import { useCatsStore } from "@/stores/cats";
@@ -70,22 +55,6 @@ const openModal = (cat: Cat, index: number) => {
 
 const closeModal = () => {
   catInfo.value = {};
-  showModal.value = false;
-};
-
-const showModalConfirmation = ref(false);
-
-const openModalConfirmation = () => {
-  showModalConfirmation.value = true;
-};
-
-const closeModalConfirmation = () => {
-  showModalConfirmation.value = false;
-};
-
-const closeAllModals = () => {
-  catInfo.value = {};
-  showModalConfirmation.value = false;
   showModal.value = false;
 };
 

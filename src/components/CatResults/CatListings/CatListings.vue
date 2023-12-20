@@ -5,8 +5,8 @@
         v-for="cat in displayedCats"
         :key="cat.id"
         :cat="cat"
-        @open-adopt-modal="openAdoptModal(cat)"
-        @open-delete-modal="openDeleteModal(cat)"
+        @open-modal="openModal(cat)"
+        @modal-type="modalType"
       />
     </ul>
     <button
@@ -23,51 +23,39 @@
     </div>
   </div>
 
-  <modal-for-confirmation
+  <confirmation-modal
+    v-if="showModal"
     :cat-info="catInfo"
-    :show-modal="showAdoptModal"
-    modal-type="adopted"
-    @close-modal="closeAdoptModal"
-  />
-
-  <modal-for-confirmation
-    :cat-info="catInfo"
-    :show-modal="showDeleteModal"
-    modal-type="delete"
-    @close-modal="closeDeleteModal"
+    :modal-type="typeOfModal"
+    @close-modal="closeModal"
   />
 </template>
 
 <script lang="ts" setup>
 import { ref, computed } from "vue";
 import CatListingsCard from "@/components/CatResults/CatListings/CatListingsCard.vue";
-import ModalForConfirmation from "@/components/Modals/ModalForConfirmation.vue";
+import ConfirmationModal from "@/components/Modals/ConfirmationModal.vue";
 
 import { useCatsStore } from "@/stores/cats";
 import { useUserStore } from "@/stores/user";
 import type { Cat } from "@/api/types";
 
-const showAdoptModal = ref(false);
-const showDeleteModal = ref(false);
+const showModal = ref(false);
+
 const catInfo = ref({});
+const typeOfModal = ref("");
 
-const openAdoptModal = (cat: Cat) => {
+const openModal = (cat: Cat) => {
   catInfo.value = cat;
-  showAdoptModal.value = true;
+  showModal.value = true;
 };
 
-const closeAdoptModal = () => {
+const closeModal = () => {
   catInfo.value = {};
-  showAdoptModal.value = false;
+  showModal.value = false;
 };
-const openDeleteModal = (cat: Cat) => {
-  catInfo.value = cat;
-  showDeleteModal.value = true;
-};
-
-const closeDeleteModal = () => {
-  catInfo.value = {};
-  showDeleteModal.value = false;
+const modalType = (type: string) => {
+  typeOfModal.value = type;
 };
 
 const catsStore = useCatsStore();

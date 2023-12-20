@@ -1,5 +1,5 @@
 <template>
-  <div class="overlay" v-if="showModal" @click.self="closeModal" role="modal">
+  <div class="overlay" @click.self="closeModal" role="modal">
     <div class="modal">
       <div class="img">
         <img :src="catInfo.picture" :alt="catInfo.name" />
@@ -13,31 +13,43 @@
           <p><span>Age:</span> {{ ageDisplay(catInfo.age) }}</p>
           <p><span>Color:</span> {{ catInfo.color }}</p>
         </div>
-        <button
-          v-if="!userStore.adminIsLogin"
-          class="adopt"
-          @click="openModalConfirmation"
-        >
+        <button v-if="!userStore.adminIsLogin" class="adopt" @click="openModal">
           ADOPT
         </button>
       </div>
     </div>
   </div>
+
+  <confirmation-modal
+    v-if="showModal"
+    :cat-info="catInfo"
+    modal-type="adopt"
+    :all-modals="true"
+    @close-modal="closeAdoptModal"
+    @close-cat-modal="closeModal"
+  />
 </template>
 
 <script lang="ts" setup>
+import { ref } from "vue";
 import { useUserStore } from "@/stores/user";
 import ageDisplay from "@/utils/ageDisplay";
+import ConfirmationModal from "@/components/Modals/ConfirmationModal.vue";
 
 const userStore = useUserStore();
+const showModal = ref(false);
+
+const openModal = () => {
+  showModal.value = true;
+};
+
+const closeAdoptModal = () => {
+  showModal.value = false;
+};
 
 defineProps({
   catInfo: {
     type: Object,
-    required: true
-  },
-  showModal: {
-    type: Boolean,
     required: true
   }
 });
@@ -46,10 +58,6 @@ const emit = defineEmits(["closeModal", "openModalConfirmation"]);
 
 const closeModal = () => {
   emit("closeModal");
-};
-
-const openModalConfirmation = () => {
-  emit("openModalConfirmation");
 };
 </script>
 

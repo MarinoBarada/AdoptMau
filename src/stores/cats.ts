@@ -79,9 +79,12 @@ export const useCatsStore = defineStore("cats", () => {
       .filter((cat) => INCLUDE_CATS_BY_ADOPTED(cat))
   });
 
-  const ADOPT_CAT = async (id: number) => {
-    await adoptCat(id);
-    await FETCH_CATS();
+  const ADOPT_CAT = async (id: number): Promise<boolean> => {
+    const confirmation = await adoptCat(id);
+    if (confirmation) {
+      await FETCH_CATS();
+    }
+    return confirmation;
   };
 
   const CREATE_NEW_CAT = async (cat: Partial<Cat>) => {
@@ -100,9 +103,12 @@ export const useCatsStore = defineStore("cats", () => {
     await FETCH_CATS();
   };
 
-  const DELETE_CAT = async (id: number) => {
-    await deleteCat(id);
-    await FETCH_CATS();
+  const DELETE_CAT = async (id: number): Promise<boolean> => {
+    const confirmation = await deleteCat(id);
+    if (confirmation) {
+      await FETCH_CATS();
+    }
+    return confirmation;
   }
 
   return {

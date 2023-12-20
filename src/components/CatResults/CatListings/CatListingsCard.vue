@@ -13,12 +13,12 @@
         <font-awesome-icon :icon="['fas', 'pen-to-square']" />
         EDIT
       </router-link>
-      <button class="delete" @click="openDeleteModal">
+      <button class="delete" @click="openModal('delete')">
         <font-awesome-icon :icon="['fas', 'trash']" />
         DELETE
       </button>
     </div>
-    <button v-else class="adopt" @click="openAdoptModal">ADOPT</button>
+    <button v-else class="adopt" @click="openModal('adopt')">ADOPT</button>
   </li>
 </template>
 
@@ -41,14 +41,11 @@ defineProps({
   }
 });
 
-const emit = defineEmits(["openAdoptModal", "openDeleteModal"]);
+const emit = defineEmits(["openModal", "modalType"]);
 
-const openAdoptModal = () => {
-  emit("openAdoptModal");
-};
-
-const openDeleteModal = () => {
-  emit("openDeleteModal");
+const openModal = (type: string) => {
+  emit("openModal");
+  emit("modalType", type);
 };
 </script>
 
