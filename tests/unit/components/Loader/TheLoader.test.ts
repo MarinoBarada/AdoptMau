@@ -29,7 +29,8 @@ describe("TheLoader", () => {
       },
       props: {
         message: "Successful!",
-        destination: "home"
+        destination: "home",
+        status: true
       },
       ...config
     });
@@ -40,7 +41,8 @@ describe("TheLoader", () => {
     vi.stubGlobal("setTimeout", mock);
     const props = {
       message: "Successful!",
-      destination: "home"
+      destination: "home",
+      status: true
     };
     const config = { props };
     renderTheLoader(config);
@@ -48,10 +50,11 @@ describe("TheLoader", () => {
     expect(mock).toHaveBeenCalled();
   });
 
-  it("displays loader then message after 3s", async () => {
+  it("displays loader then message after 3s when status of CRUD function is successful (true)", async () => {
     const props = {
       message: "Successful!",
-      destination: "home"
+      destination: "home",
+      status: true
     };
     const { getByTestId, getByText } = render(TheLoader, {
       global: {
@@ -69,5 +72,29 @@ describe("TheLoader", () => {
     await screen.findByText("Successful!");
 
     expect(getByText("Successful!")).toBeInTheDocument();
+  });
+
+  it("displays loader then message after 3s when status of CRUD function is unsuccessful (false)", async () => {
+    const props = {
+      message: "Unsuccessful!",
+      destination: "home",
+      status: false
+    };
+    const { getByTestId, getByText } = render(TheLoader, {
+      global: {
+        stubs: {
+          FontAwesomeIcon: true
+        }
+      },
+      props
+    });
+
+    expect(getByTestId("loader")).toBeInTheDocument();
+
+    vi.advanceTimersByTime(3000);
+
+    await screen.findByText("Unsuccessful!");
+
+    expect(getByText("Unsuccessful!")).toBeInTheDocument();
   });
 });
