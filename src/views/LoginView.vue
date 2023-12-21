@@ -40,7 +40,12 @@
     </div>
   </div>
 
-  <the-loader v-if="loading" message="Login Successful!" destination="home" />
+  <the-loader
+    v-if="loading"
+    message="Login Successful!"
+    destination="home"
+    :status="true"
+  />
 </template>
 
 <script lang="ts" setup>

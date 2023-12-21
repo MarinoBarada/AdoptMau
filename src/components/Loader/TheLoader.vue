@@ -1,24 +1,18 @@
 <template>
   <div class="loader-wrapper">
-    <span
-      v-if="showLoader"
-      class="loader"
-      ref="loader"
-      data-testid="loader"
-    ></span>
-    <div
-      v-if="!showLoader && showSuccessMessage"
-      class="message"
-      ref="messages"
-    >
-      <font-awesome-icon :icon="['fas', 'circle-check']" class="check" />
+    <span v-if="showLoader" class="loader" data-testid="loader"></span>
+    <div v-if="!showLoader && showSuccessMessage" class="message">
+      <font-awesome-icon
+        :icon="typeOfIcon"
+        :class="!props.status ? 't-exclamation' : 'check'"
+      />
       <h1>{{ props.message }}</h1>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, onBeforeUnmount } from "vue";
+import { onMounted, ref, onBeforeUnmount, computed } from "vue";
 import { useRouter } from "vue-router";
 
 const timeoutShowMessage = ref<ReturnType<typeof setTimeout>>();
@@ -36,6 +30,10 @@ const props = defineProps({
   destination: {
     type: String,
     required: true
+  },
+  status: {
+    type: null,
+    required: true
   }
 });
 
@@ -52,7 +50,7 @@ const loadingView = () => {
   timeoutShowMessage.value = setTimeout(() => {
     showMessage();
     timeoutToGo.value = setTimeout(navigateToDestination, 1500);
-  }, 3000);
+  }, 2000);
 };
 
 onMounted(loadingView);
@@ -61,6 +59,10 @@ onBeforeUnmount(() => {
   clearTimeout(timeoutToGo.value);
   clearTimeout(timeoutShowMessage.value);
 });
+
+const typeOfIcon = computed(() =>
+  !props.status ? ["fas", "triangle-exclamation"] : ["fas", "circle-check"]
+);
 </script>
 
 <style lang="scss">
@@ -77,6 +79,15 @@ onBeforeUnmount(() => {
     .check {
       font-size: 100px;
       color: green;
+
+      @media (max-width: $mobile-max-size) {
+        font-size: 80px;
+      }
+    }
+
+    .t-exclamation {
+      font-size: 100px;
+      color: red;
 
       @media (max-width: $mobile-max-size) {
         font-size: 80px;

@@ -87,13 +87,9 @@
     </form>
   </div>
   <the-loader
-    v-if="loadingAdd"
-    message="Cat Added Successfully!"
-    destination="home"
-  />
-  <the-loader
-    v-if="loadingEdit"
-    message="Cat Edited Successfully!"
+    v-if="loadingAdd || loadingEdit"
+    :message="message"
+    :status="passCRUD"
     destination="home"
   />
 </template>
@@ -161,6 +157,12 @@ const URLValidation = computed(
 );
 
 const warnings = ref(false);
+const passCRUD = ref<unknown>(false);
+const message = computed(() => {
+  return `Cat ${loadingAdd.value ? "Added" : "Edited"}  ${
+    passCRUD.value ? "Successfully" : "Unsuccessfully"
+  }!`;
+});
 
 const addCat = () => {
   warnings.value = true;
@@ -171,10 +173,13 @@ const addCat = () => {
     URLValidation.value
   ) {
     if (editCat.value) {
-      catsStore.EDIT_CAT(currentCatId.value as number, cat.value);
+      passCRUD.value = catsStore.EDIT_CAT(
+        currentCatId.value as number,
+        cat.value
+      );
       loadingEdit.value = true;
     } else {
-      catsStore.CREATE_NEW_CAT(cat.value);
+      passCRUD.value = catsStore.CREATE_NEW_CAT(cat.value);
       loadingAdd.value = true;
     }
   }

@@ -88,8 +88,11 @@ export const useCatsStore = defineStore("cats", () => {
   };
 
   const CREATE_NEW_CAT = async (cat: Partial<Cat>) => {
-    await createNewCat(cat);
-    await FETCH_CATS();
+    const confirmation = await createNewCat(cat);
+    if (confirmation) {
+      await FETCH_CATS();
+    }
+    return confirmation;
   };
 
   const GET_SPECIFIC_CAT = (catID: number) => {
@@ -99,8 +102,11 @@ export const useCatsStore = defineStore("cats", () => {
   };
 
   const EDIT_CAT = async (id: number, cat: Partial<Cat>) => {
-    await editCat(id, cat);
-    await FETCH_CATS();
+    const confirmation = await editCat(id, cat);
+    if (confirmation) {
+      await FETCH_CATS();
+    }
+    return confirmation;
   };
 
   const DELETE_CAT = async (id: number): Promise<boolean> => {

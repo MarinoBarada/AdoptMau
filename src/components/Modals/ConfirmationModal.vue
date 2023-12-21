@@ -51,13 +51,11 @@ const modalAction = () => {
 const adoptCat = async () => {
   passCRUD.value = await catsStore.ADOPT_CAT(props.catInfo.id);
   confirmation.value = true;
-  console.log(passCRUD.value);
 };
 
 const deleteCat = async () => {
   passCRUD.value = await (catsStore.DELETE_CAT(props.catInfo.id) as unknown);
   confirmation.value = true;
-  console.log(passCRUD.value);
 };
 
 const emit = defineEmits(["closeModal", "closeCatModal"]);
