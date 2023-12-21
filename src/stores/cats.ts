@@ -17,8 +17,13 @@ export const useCatsStore = defineStore("cats", () => {
 
   const FETCH_CATS = async () => {
     const receiveCats = await getCats();
-    cats.value = receiveCats.sort((a, b) => a.age - b.age);
-    carouselCats.value = [...cats.value.filter((cat) => cat.adopted == false).slice(0, 4), ...cats.value.filter((cat) => cat.adopted == false).slice(0, 4)];
+    if (receiveCats) {
+      cats.value = receiveCats.sort((a, b) => a.age - b.age);
+      const nonAdoptedCats = cats.value.filter((cat) => !cat.adopted);
+      const nonAdoptedCatsSlice = nonAdoptedCats.slice(0, 4);
+
+      carouselCats.value = [...nonAdoptedCatsSlice, ...nonAdoptedCatsSlice];
+    }
   };
 
   const SORTED_CATS = computed(() => {

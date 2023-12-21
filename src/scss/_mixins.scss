@@ -40,6 +40,23 @@
     rgba(0, 0, 0, 0.22) 0px 15px 12px;
 }
 
+@mixin loader {
+  display: block;
+  color: #fff;
+  font-size: 25px;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  position: relative;
+  text-indent: -9999em;
+  animation: mulShdSpin 1.3s infinite linear;
+  transform: translateZ(0);
+
+  @media (max-width: $mobile-max-size) {
+    font-size: 20px;
+  }
+}
+
 @mixin checkbox-style {
   .check-box {
     font-size: 16px;
