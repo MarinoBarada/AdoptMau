@@ -44,10 +44,7 @@ export const useUserStore = defineStore("user", () => {
   };
 
   const HANDLE_CHANGE_SORTBY = (selectedValue: string) => {
-    sortBy.value.forEach((obj) => {
-      if (obj.name === selectedValue) obj.value = true;
-      else obj.value = false;
-    })
+    sortBy.value.forEach((obj) => obj.value = (obj.name === selectedValue));
   };
 
   const HANDLE_CHANGE_FILTER_BY_ADOPTED = (selectedValue: string) => {
@@ -57,11 +54,7 @@ export const useUserStore = defineStore("user", () => {
   };
 
   const HANDLE_CHANGE_SORTBY_TYPE = (selectedValue: string) => {
-    sortByType.value.forEach((obj) => {
-      if (obj.name === selectedValue) obj.value = true;
-      else obj.value = false;
-    })
-
+    sortByType.value.forEach((obj) => obj.value = (obj.name === selectedValue));
   };
   const HANDLE_FILTERS = (selectedValue: string) => {
     filterCats.value.forEach((obj) => {
