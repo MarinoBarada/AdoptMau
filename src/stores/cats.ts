@@ -8,12 +8,64 @@ import editCat from "@/api/editCat";
 import deleteCat from "@/api/deleteCat";
 
 import type { Cat } from "@/api/types";
-import { useUserStore } from "@/stores/user";
-
+import type { SortBy } from "@/api/types";
 
 export const useCatsStore = defineStore("cats", () => {
   const cats = ref<Cat[]>([]);
   const carouselCats = ref<Cat[]>([]);
+
+  const sortBy = ref<SortBy[]>([
+    { name: "Age", value: true },
+    { name: "Name", value: false },
+  ]);
+
+  const filterByAdopted = ref<SortBy[]>([
+    { name: "Adopted", value: false },
+  ]);
+
+  const sortByOrder = ref<SortBy[]>([
+    { name: "Ascending", value: true },
+    { name: "Descending", value: false },
+  ]);
+
+  const filterCats = ref<SortBy[]>([
+    { name: "Younger than 6 months", value: false },
+    { name: "Younger than 12 months", value: false },
+    { name: "Black for color", value: false }
+  ]);
+
+  const nameSearch = ref("");
+
+  const seeMore = ref(1);
+
+  const CLICK_SEE_MORE = () => {
+    HANDLE_CHANGE_SORTBY("Age");
+    HANDLE_CHANGE_SORTBY_ORDER("Ascending");
+    seeMore.value++;
+  };
+
+  const HANDLE_CHANGE_SORTBY = (selectedValue: string) => {
+    sortBy.value.forEach((obj) => obj.value = (obj.name === selectedValue));
+  };
+
+  const HANDLE_CHANGE_FILTER_BY_ADOPTED = (selectedValue: string) => {
+    filterByAdopted.value.forEach((obj) => {
+      if (obj.name === selectedValue) obj.value = !obj.value;
+    })
+  };
+
+  const HANDLE_CHANGE_SORTBY_ORDER = (selectedValue: string) => {
+    sortByOrder.value.forEach((obj) => obj.value = (obj.name === selectedValue));
+  };
+  const HANDLE_FILTERS = (selectedValue: string) => {
+    filterCats.value.forEach((obj) => {
+      if (obj.name === selectedValue) obj.value = !obj.value;
+    })
+  };
+
+  const UPDATE_NAME_SEARCH = (name: string) => {
+    nameSearch.value = name;
+  }
 
   const FETCH_CATS = async () => {
     const receiveCats = await getCats();
@@ -27,14 +79,13 @@ export const useCatsStore = defineStore("cats", () => {
   };
 
   const SORTED_CATS = computed(() => {
-    const userStore = useUserStore();
-    if (userStore.sortBy[0].value) {
-      if (userStore.sortByType[0].value)
+    if (sortBy.value[0].value) {
+      if (sortByOrder.value[0].value)
         return cats.value.sort((a, b) => a.age - b.age);
       else
         return cats.value.sort((a, b) => b.age - a.age);
     } else {
-      if (userStore.sortByType[0].value)
+      if (sortByOrder.value[0].value)
         return cats.value.sort((a, b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1);
       else
         return cats.value.sort((a, b) => a.name.toLowerCase() < b.name.toLowerCase() ? 1 : -1);
@@ -42,35 +93,26 @@ export const useCatsStore = defineStore("cats", () => {
   });
 
   const INCLUDE_CATS_YOUNGER_THEN_6 = (cat: Cat) => {
-    const userStore = useUserStore();
-
-    if (userStore.filterCats[0].value) return cat.age <= 6;
+    if (filterCats.value[0].value) return cat.age <= 6;
     return true;
   }
 
   const INCLUDE_CATS_YOUNGER_THEN_12 = (cat: Cat) => {
-    const userStore = useUserStore();
-
-    if (userStore.filterCats[1].value) return cat.age <= 12;
+    if (filterCats.value[1].value) return cat.age <= 12;
     return true;
   }
 
   const INCLUDE_CATS_COLOR_BLACK = (cat: Cat) => {
-    const userStore = useUserStore();
-
-    if (userStore.filterCats[2].value) return cat.color.toLowerCase().includes("black");
+    if (filterCats.value[2].value) return cat.color.toLowerCase().includes("black");
     return true;
   }
 
   const INCLUDE_CATS_BY_NAME = (cat: Cat) => {
-    const userStore = useUserStore();
-    return cat.name.toLowerCase().includes(userStore.nameSearch.toLowerCase());
+    return cat.name.toLowerCase().includes(nameSearch.value.toLowerCase());
   }
 
   const INCLUDE_CATS_BY_ADOPTED = (cat: Cat) => {
-    const userStore = useUserStore();
-
-    if (userStore.filterByAdopted[0].value) return cat.adopted == true;
+    if (filterByAdopted.value[0].value) return cat.adopted == true;
     return cat.adopted == false;
   }
 
@@ -119,6 +161,18 @@ export const useCatsStore = defineStore("cats", () => {
   return {
     cats,
     carouselCats,
+    sortBy,
+    filterByAdopted,
+    sortByOrder,
+    filterCats,
+    nameSearch,
+    seeMore,
+    CLICK_SEE_MORE,
+    HANDLE_CHANGE_SORTBY,
+    HANDLE_CHANGE_FILTER_BY_ADOPTED,
+    HANDLE_CHANGE_SORTBY_ORDER,
+    HANDLE_FILTERS,
+    UPDATE_NAME_SEARCH,
     FETCH_CATS,
     SORTED_CATS,
     FILTERED_CATS,
@@ -131,6 +185,6 @@ export const useCatsStore = defineStore("cats", () => {
     CREATE_NEW_CAT,
     GET_SPECIFIC_CAT,
     EDIT_CAT,
-    DELETE_CAT
+    DELETE_CAT,
   }
 });

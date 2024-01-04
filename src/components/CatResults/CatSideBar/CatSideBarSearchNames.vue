@@ -12,16 +12,16 @@
 
 <script lang="ts" setup>
 import { computed } from "vue";
-import { useUserStore } from "@/stores/user";
+import { useCatsStore } from "@/stores/cats";
 
-const userStore = useUserStore();
+const catsStore = useCatsStore();
 
 const nameSearchTerm = computed({
   get() {
-    return userStore.nameSearch;
+    return catsStore.nameSearch;
   },
   set(value: string) {
-    userStore.UPDATE_NAME_SEARCH(value);
+    catsStore.UPDATE_NAME_SEARCH(value);
   }
 });
 </script>

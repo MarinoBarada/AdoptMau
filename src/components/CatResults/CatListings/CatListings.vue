@@ -37,7 +37,6 @@ import CatListingsCard from "@/components/CatResults/CatListings/CatListingsCard
 import ConfirmationModal from "@/components/Modals/ConfirmationModal.vue";
 
 import { useCatsStore } from "@/stores/cats";
-import { useUserStore } from "@/stores/user";
 import type { Cat } from "@/api/types";
 
 const showModal = ref(false);
@@ -61,9 +60,8 @@ const modalType = (type: string) => {
 const catsStore = useCatsStore();
 const FILTERED_CATS = computed(() => catsStore.FILTERED_CATS);
 
-const userStore = useUserStore();
-const seeMore = computed(() => userStore.seeMore);
-const CLICK_SEE_MORE = computed(() => userStore.CLICK_SEE_MORE);
+const seeMore = computed(() => catsStore.seeMore);
+const CLICK_SEE_MORE = computed(() => catsStore.CLICK_SEE_MORE);
 const maxDisplayedCats = ref(20);
 
 const displayedCats = computed(() => {
