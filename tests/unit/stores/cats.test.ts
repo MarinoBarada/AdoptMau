@@ -3,7 +3,6 @@ import type { Mock } from "vitest";
 import axios from "axios";
 
 import { useCatsStore } from "@/stores/cats";
-import { useUserStore } from "@/stores/user";
 import { createCat } from "../../utils/createCat";
 
 vi.mock("axios");
@@ -22,11 +21,159 @@ describe("state", () => {
     const store = useCatsStore();
     expect(store.cats).toEqual([]);
   });
+
+  it("stores user's sort choice by age and name", () => {
+    const store = useCatsStore();
+    expect(store.sortBy).toEqual([
+      { name: "Age", value: true },
+      { name: "Name", value: false },
+    ]);
+  });
+
+  it("stores user's filter choice by adopted", () => {
+    const store = useCatsStore();
+    expect(store.filterByAdopted).toEqual([
+      { name: "Adopted", value: false },
+    ]);
+  });
+
+  it("stores user's sort choice by type ascending and descending", () => {
+    const store = useCatsStore();
+    expect(store.sortByOrder).toEqual([
+      { name: "Ascending", value: true },
+      { name: "Descending", value: false },
+    ]);
+  });
+
+  it("stores user's filters choice", () => {
+    const store = useCatsStore();
+    expect(store.filterCats).toEqual([
+      { name: "Younger than 6 months", value: false },
+      { name: "Younger than 12 months", value: false },
+      { name: "Black for color", value: false }
+    ]);
+  });
+
+  it("stores user's search term for name of cat", () => {
+    const store = useCatsStore();
+    expect(store.nameSearch).toBe("");
+  });
+
+  it("stores user's click on see more button", () => {
+    const store = useCatsStore();
+    expect(store.seeMore).toBe(1);
+  });
 });
 
 describe("actions", () => {
   beforeEach(() => {
     setActivePinia(createPinia());
+  });
+
+  describe("HANDLE_CHANGE_SORTBY", () => {
+    it("keeps track of user sort by age and name choice", () => {
+      const store = useCatsStore();
+      store.sortBy = [
+        { name: "Age", value: true },
+        { name: "Name", value: false },
+      ];
+      store.HANDLE_CHANGE_SORTBY("Name");
+      expect(store.sortBy).toEqual([
+        { name: "Age", value: false },
+        { name: "Name", value: true },
+      ]);
+    });
+  });
+
+  describe("HANDLE_CHANGE_SORTBY_ORDER", () => {
+    it("keeps track of user sort by type choice, ascending and descending", () => {
+      const store = useCatsStore();
+      store.sortByOrder = [
+        { name: "Ascending", value: true },
+        { name: "Descending", value: false },
+      ];
+      store.HANDLE_CHANGE_SORTBY_ORDER("Descending");
+      expect(store.sortByOrder).toEqual([
+        { name: "Ascending", value: false },
+        { name: "Descending", value: true },
+      ]);
+    });
+  });
+
+  describe("HANDLE_FILTERS", () => {
+    it("keeps track of user filter choices", () => {
+      const store = useCatsStore();
+      store.filterCats = [
+        { name: "Younger than 6 months", value: false },
+        { name: "Younger than 12 months", value: false },
+        { name: "Black for color", value: false }
+      ];
+      store.HANDLE_FILTERS("Black for color");
+      expect(store.filterCats).toEqual([
+        { name: "Younger than 6 months", value: false },
+        { name: "Younger than 12 months", value: false },
+        { name: "Black for color", value: true }
+      ]);
+    });
+  });
+
+  describe("HANDLE_CHANGE_FILTER_BY_ADOPTED", () => {
+    it("keeps track of user filter choices by adopted", () => {
+      const store = useCatsStore();
+      store.filterByAdopted = [
+        { name: "Adopted", value: false },
+      ];
+      store.HANDLE_CHANGE_FILTER_BY_ADOPTED("Adopted");
+      expect(store.filterByAdopted).toEqual([
+        { name: "Adopted", value: true },
+      ]);
+    });
+  });
+
+  describe("UPDATE_NAME_SEARCH", () => {
+    it("receives search term for cats name the user has entered", () => {
+      const store = useCatsStore();
+      store.nameSearch = "";
+      store.UPDATE_NAME_SEARCH("Chewbacca");
+      expect(store.nameSearch).toBe("Chewbacca");
+    });
+  });
+
+  describe("CLICK_SEE_MORE", () => {
+    describe("when user click on see more button", () => {
+      it("increment seeMore variable in store", () => {
+        const store = useCatsStore();
+        store.seeMore = 1;
+        store.CLICK_SEE_MORE();
+        expect(store.seeMore).toBe(2);
+      });
+
+      it("set sort by age and name to be sorted by age", () => {
+        const store = useCatsStore();
+        store.sortBy = [
+          { name: "Age", value: false },
+          { name: "Name", value: true },
+        ];
+        store.CLICK_SEE_MORE();
+        expect(store.sortBy).toEqual([
+          { name: "Age", value: true },
+          { name: "Name", value: false },
+        ]);
+      });
+
+      it("set sort by type ascending and descending to be sorted by ascending", () => {
+        const store = useCatsStore();
+        store.sortBy = [
+          { name: "Ascending", value: false },
+          { name: "Descending", value: true },
+        ];
+        store.CLICK_SEE_MORE();
+        expect(store.sortByOrder).toEqual([
+          { name: "Ascending", value: true },
+          { name: "Descending", value: false },
+        ]);
+      });
+    });
   });
 
   describe("FETCH_CATS", () => {
@@ -180,13 +327,12 @@ describe("getters", () => {
   describe("INCLUDE_CATS_YOUNGER_THEN_6", () => {
     describe("when the user has not selected any filter 'Younger than 6 months'", () => {
       it("includes cat", () => {
-        const userStore = useUserStore();
-        userStore.filterCats = [
+        const store = useCatsStore();
+        store.filterCats = [
           { name: "Younger than 6 months", value: false },
           { name: "Younger than 12 months", value: false },
           { name: "Black for color", value: false }
         ];
-        const store = useCatsStore();
         const cat = createCat({ age: 7 });
 
         const result = store.INCLUDE_CATS_YOUNGER_THEN_6(cat);
@@ -195,13 +341,12 @@ describe("getters", () => {
     });
 
     it("identifies if cat is younger than 6 months (age <= 6)", () => {
-      const userStore = useUserStore();
-      userStore.filterCats = [
+      const store = useCatsStore();
+      store.filterCats = [
         { name: "Younger than 6 months", value: true },
         { name: "Younger than 12 months", value: false },
         { name: "Black for color", value: false }
       ];
-      const store = useCatsStore();
       const cat = createCat({ age: 5 });
 
       const result = store.INCLUDE_CATS_YOUNGER_THEN_6(cat);
@@ -212,13 +357,12 @@ describe("getters", () => {
   describe("INCLUDE_CATS_YOUNGER_THEN_12", () => {
     describe("when the user has not selected any filter 'Younger than 12 months'", () => {
       it("includes cat", () => {
-        const userStore = useUserStore();
-        userStore.filterCats = [
+        const store = useCatsStore();
+        store.filterCats = [
           { name: "Younger than 6 months", value: false },
           { name: "Younger than 12 months", value: false },
           { name: "Black for color", value: false }
         ];
-        const store = useCatsStore();
         const cat = createCat({ age: 20 });
 
         const result = store.INCLUDE_CATS_YOUNGER_THEN_12(cat);
@@ -227,13 +371,12 @@ describe("getters", () => {
     });
 
     it("identifies if cat is younger than 12 months (age <= 12)", () => {
-      const userStore = useUserStore();
-      userStore.filterCats = [
+      const store = useCatsStore();
+      store.filterCats = [
         { name: "Younger than 6 months", value: false },
         { name: "Younger than 12 months", value: true },
         { name: "Black for color", value: false }
       ];
-      const store = useCatsStore();
       const cat = createCat({ age: 10 });
 
       const result = store.INCLUDE_CATS_YOUNGER_THEN_12(cat);
@@ -244,13 +387,12 @@ describe("getters", () => {
   describe("INCLUDE_CATS_COLOR_BLACK", () => {
     describe("when the user has not selected any filter 'Black for color'", () => {
       it("includes cat", () => {
-        const userStore = useUserStore();
-        userStore.filterCats = [
+        const store = useCatsStore();
+        store.filterCats = [
           { name: "Younger than 6 months", value: false },
           { name: "Younger than 12 months", value: false },
           { name: "Black for color", value: false }
         ];
-        const store = useCatsStore();
         const cat = createCat({ color: "gray" });
 
         const result = store.INCLUDE_CATS_COLOR_BLACK(cat);
@@ -259,13 +401,12 @@ describe("getters", () => {
     });
 
     it("identifies if cat is black color", () => {
-      const userStore = useUserStore();
-      userStore.filterCats = [
+      const store = useCatsStore();
+      store.filterCats = [
         { name: "Younger than 6 months", value: false },
         { name: "Younger than 12 months", value: false },
         { name: "Black for color", value: true }
       ];
-      const store = useCatsStore();
       const cat = createCat({ color: "black" });
 
       const result = store.INCLUDE_CATS_COLOR_BLACK(cat);
@@ -275,9 +416,8 @@ describe("getters", () => {
 
   describe("INCLUDE_CATS_BY_NAME", () => {
     it("includes if cat name matches user's entry", () => {
-      const userStore = useUserStore();
-      userStore.nameSearch = "Ore"
       const store = useCatsStore();
+      store.nameSearch = "Ore"
       const cat = createCat({ name: "Oreo" });
 
       const result = store.INCLUDE_CATS_BY_NAME(cat);
@@ -285,9 +425,8 @@ describe("getters", () => {
     });
 
     it("handles inconsistent character casing", () => {
-      const userStore = useUserStore();
-      userStore.nameSearch = "orE"
       const store = useCatsStore();
+      store.nameSearch = "orE"
       const cat = createCat({ name: "Oreo" });
 
       const result = store.INCLUDE_CATS_BY_NAME(cat);
@@ -296,9 +435,8 @@ describe("getters", () => {
 
     describe("when the user has not entered any name", () => {
       it("includes cat", () => {
-        const userStore = useUserStore();
-        userStore.nameSearch = ""
         const store = useCatsStore();
+        store.nameSearch = ""
         const cat = createCat({ name: "Oreo" });
 
         const result = store.INCLUDE_CATS_BY_NAME(cat);
