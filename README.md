@@ -33,6 +33,12 @@ npm install
 npm run dev
 ```
 
+### Run Mock Backend API
+
+```sh
+npm run backend
+```
+
 ### Type-Check, Compile and Minify for Production
 
 ```sh
