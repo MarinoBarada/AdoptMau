@@ -63,6 +63,11 @@ describe("state", () => {
     const store = useCatsStore();
     expect(store.seeMore).toBe(1);
   });
+
+  it("stores data if fetch is successful", () => {
+    const store = useCatsStore();
+    expect(store.fetchSuccessful).toBe(true);
+  });
 });
 
 describe("actions", () => {

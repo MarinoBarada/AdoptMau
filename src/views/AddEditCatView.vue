@@ -198,7 +198,7 @@ const isValidURLInput = (url: string) => {
 };
 
 onBeforeMount(() => {
-  if (!userStore.adminIsLogin) {
+  if (!userStore.adminIsLogin || !catsStore.fetchSuccessful) {
     router.push({ name: "login" });
   }
 });

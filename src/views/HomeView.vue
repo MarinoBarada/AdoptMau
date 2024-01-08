@@ -3,7 +3,7 @@
     <span class="loader"></span>
   </div>
   <div v-else>
-    <div v-if="fetchSuccessful">
+    <div v-if="catsStore.fetchSuccessful">
       <the-header />
       <the-carousel />
 
@@ -35,13 +35,9 @@ import { useCatsStore } from "@/stores/cats";
 
 const catsStore = useCatsStore();
 const showLoader = ref(true);
-const fetchSuccessful = ref(true);
 onMounted(async () => {
   await catsStore.FETCH_CATS();
   showLoader.value = false;
-  if (catsStore.cats.length == 0) {
-    fetchSuccessful.value = false;
-  }
 });
 </script>
 

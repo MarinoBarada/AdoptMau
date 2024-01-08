@@ -38,6 +38,8 @@ export const useCatsStore = defineStore("cats", () => {
 
   const seeMore = ref(1);
 
+  const fetchSuccessful = ref(true);
+
   const CLICK_SEE_MORE = () => {
     HANDLE_CHANGE_SORTBY("Age");
     HANDLE_CHANGE_SORTBY_ORDER("Ascending");
@@ -75,6 +77,9 @@ export const useCatsStore = defineStore("cats", () => {
       const nonAdoptedCatsSlice = nonAdoptedCats.slice(0, 4);
 
       carouselCats.value = [...nonAdoptedCatsSlice, ...nonAdoptedCatsSlice];
+    }
+    else {
+      fetchSuccessful.value = false;
     }
   };
 
@@ -167,6 +172,7 @@ export const useCatsStore = defineStore("cats", () => {
     filterCats,
     nameSearch,
     seeMore,
+    fetchSuccessful,
     CLICK_SEE_MORE,
     HANDLE_CHANGE_SORTBY,
     HANDLE_CHANGE_FILTER_BY_ADOPTED,

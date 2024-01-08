@@ -52,6 +52,7 @@
 import { ref, onBeforeMount } from "vue";
 import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/user";
+import { useCatsStore } from "@/stores/cats";
 
 import TheLoader from "@/components/Loader/TheLoader.vue";
 
@@ -63,6 +64,8 @@ const router = useRouter();
 const loading = ref(false);
 
 const userStore = useUserStore();
+
+const catsStore = useCatsStore();
 
 const loginAction = () => {
   warning.value = false;
@@ -81,7 +84,7 @@ const loginAction = () => {
 };
 
 onBeforeMount(() => {
-  if (userStore.adminIsLogin) {
+  if (userStore.adminIsLogin || !catsStore.fetchSuccessful) {
     router.push({ name: "home" });
   }
 });
