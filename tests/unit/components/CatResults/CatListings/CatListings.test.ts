@@ -4,16 +4,14 @@ import { RouterLinkStub } from "@vue/test-utils";
 
 import CatListings from "@/components/CatResults/CatListings/CatListings.vue";
 import { useCatsStore } from "@/stores/cats";
-import { useUserStore } from "@/stores/user";
 
 describe("CatListings", () => {
   const renderCatListings = (number: number) => {
     const pinia = createTestingPinia();
     const catStore = useCatsStore();
-    const userStore = useUserStore();
     /// @ts-expect-error
     catStore.FILTERED_CATS = Array(number).fill({});
-    userStore.seeMore = 1;
+    catStore.seeMore = 1;
 
     render(CatListings, {
       global: {
