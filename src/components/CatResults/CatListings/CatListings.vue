@@ -23,12 +23,14 @@
     </div>
   </div>
 
-  <confirmation-modal
-    v-if="showModal"
-    :cat-info="catInfo"
-    :modal-type="typeOfModal"
-    @close-modal="closeModal"
-  />
+  <transition name="fade" appear>
+    <confirmation-modal
+      v-if="showModal"
+      :cat-info="catInfo"
+      :modal-type="typeOfModal"
+      @close-modal="closeModal"
+    />
+  </transition>
 </template>
 
 <script lang="ts" setup>

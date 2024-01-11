@@ -1,19 +1,21 @@
 <template>
   <div class="overlay-modal" @click.self="closeModal" role="modal">
-    <div class="modal-alert">
-      <adopt-delete-modal
-        v-if="!confirmation"
-        :modal-type="props.modalType"
-        @close-modal="closeModal"
-        @action="modalAction"
-      />
-      <status-modal
-        v-else
-        :modal-type="props.modalType"
-        :status="passCRUD"
-        @close-modal="closeAllModals"
-      />
-    </div>
+    <transition name="pop" appear>
+      <div class="modal-alert">
+        <adopt-delete-modal
+          v-if="!confirmation"
+          :modal-type="props.modalType"
+          @close-modal="closeModal"
+          @action="modalAction"
+        />
+        <status-modal
+          v-else
+          :modal-type="props.modalType"
+          :status="passCRUD"
+          @close-modal="closeAllModals"
+        />
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -74,17 +76,19 @@ const closeAllModals = () => {
 <style lang="scss">
 .overlay-modal {
   @include modal-overlay(rgba(0, 0, 0, 0.4), 1200);
+}
+</style>
 
-  .modal-alert {
-    max-width: 450px;
-    max-height: 400px;
-    width: 100%;
-    height: 100%;
-    background-color: $white-color;
-    border-radius: 15px;
-    @include flex(column, center, center);
-    overflow: hidden;
-    gap: 10px;
-  }
+<style lang="scss" scoped>
+.modal-alert {
+  max-width: 450px;
+  max-height: 400px;
+  width: 100%;
+  height: 100%;
+  background-color: $white-color;
+  border-radius: 15px;
+  @include flex(column, center, center);
+  overflow: hidden;
+  gap: 10px;
 }
 </style>

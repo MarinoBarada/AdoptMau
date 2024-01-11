@@ -25,8 +25,9 @@
       />
     </ul>
   </div>
-
-  <modal-cat v-if="showModal" :cat-info="catInfo" @close-modal="closeModal" />
+  <transition name="fade" appear>
+    <modal-cat v-if="showModal" :cat-info="catInfo" @close-modal="closeModal" />
+  </transition>
 </template>
 
 <script lang="ts" setup>
@@ -41,24 +42,6 @@ import type { Cat } from "@/api/types";
 const catsStore = useCatsStore();
 
 const displaysCats = computed(() => [...catsStore.carouselCats]);
-
-// Modals
-const showModal = ref(false);
-const catInfo = ref({});
-
-const openModal = (cat: Cat, index: number) => {
-  if (index == activeIndex.value) {
-    catInfo.value = cat;
-    showModal.value = true;
-  }
-};
-
-const closeModal = () => {
-  catInfo.value = {};
-  showModal.value = false;
-};
-
-// End of modal
 
 const activeIndex = ref(1);
 const carousel = ref<HTMLDivElement | null>(null);
@@ -219,6 +202,26 @@ const mobileSlider = () => {
 };
 
 onMounted(mobileSlider);
+
+// Modals
+const showModal = ref(false);
+const catInfo = ref({});
+
+const openModal = (cat: Cat, index: number) => {
+  if (index == activeIndex.value) {
+    clearInterval(interval.value);
+
+    catInfo.value = cat;
+    showModal.value = true;
+  }
+};
+
+const closeModal = () => {
+  catInfo.value = {};
+  showModal.value = false;
+};
+
+// End of modal
 </script>
 
 <style lang="scss" scoped>
